@@ -158,6 +158,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Batupan_OpenGL_3D.cpp" />
+    <ClCompile Include="Engine\Engine.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../pch.h</PrecompiledHeaderFile>
+    </ClCompile>
     <ClCompile Include="Loader\Loader.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../pch.h</PrecompiledHeaderFile>
@@ -182,6 +186,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Engine.hpp" />
     <ClInclude Include="Loader\Loader.hpp" />
     <ClInclude Include="Model\BaseModel.hpp" />
     <ClInclude Include="pch.h" />
