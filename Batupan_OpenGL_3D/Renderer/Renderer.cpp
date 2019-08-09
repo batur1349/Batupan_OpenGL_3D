@@ -12,7 +12,7 @@ void Renderer::Render(BaseModel* model)
 {
 	glBindVertexArray(model->GetVaoID());
 	glEnableVertexAttribArray(0);
-	glDrawArrays(GL_TRIANGLES, 0, model->GetVertexCount());
+	glDrawElements(GL_TRIANGLES, model->GetVertexCount(), GL_UNSIGNED_INT, 0);
 	glDisableVertexAttribArray(0);
 	glBindVertexArray(0);
 }

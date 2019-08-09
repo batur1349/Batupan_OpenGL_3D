@@ -17,13 +17,14 @@ Loader::~Loader()
 		glDeleteBuffers(1, &m_vbos.at(i));
 }
 
-BaseModel* Loader::LoadToVAO(const GLfloat positions[], const int& numberOfVertices)
+BaseModel* Loader::LoadToVAO(const std::vector<GLfloat>& positions, const std::vector<GLuint>& indices)
 {
 	GLuint vaoID = CreateVAOID();
-	LoadDataToAttributeList(0, positions, numberOfVertices);
+	LoadDataToAttributeList(0, positions.data(), positions.size());
+	LoadIndicesToGPU(indices.data(), indices.size());
 	UnbindVAO();
 
-	return new BaseModel(vaoID, numberOfVertices / 3);
+	return new BaseModel(vaoID, indices.size());
 }
 
 GLuint Loader::CreateVAOID()
@@ -44,6 +45,15 @@ void Loader::LoadDataToAttributeList(const int& attributeNumber, const GLfloat d
 	glBufferData(GL_ARRAY_BUFFER, numberOfData * sizeof(GLfloat), data, GL_STATIC_DRAW);
 	glVertexAttribPointer(attributeNumber, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+void Loader::LoadIndicesToGPU(const GLuint indices[], const int& count)
+{
+	GLuint vboID;
+	glGenBuffers(1, &vboID);
+	m_vbos.push_back(vboID);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vboID);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices) * count, indices, GL_STATIC_DRAW);
 }
 
 void Loader::UnbindVAO()
