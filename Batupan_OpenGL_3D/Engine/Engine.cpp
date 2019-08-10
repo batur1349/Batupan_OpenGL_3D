@@ -1,5 +1,6 @@
 #include "../pch.h"
 #include "Engine.hpp"
+#include "../Shader/BasicShader.hpp"
 
 
 Engine::Engine()
@@ -50,6 +51,7 @@ void Engine::Run()
 
 	Loader loader;
 	Renderer renderer;
+	BasicShader shader;
 	std::vector<GLfloat> vertices = {
 		-0.5f, 0.5f, 0.0f,  // V0
 		-0.5f, -0.5f, 0.0f, // V1
@@ -74,11 +76,14 @@ void Engine::Run()
 	{
 		// Update the deltaTime 
 		UpdateDeltatime();
+		renderer.Prepare();
 
 		// Update the game
 
 		// Render the game
+		shader.Start();
 		renderer.Render(model);
+		shader.Stop();
 		renderer.Render(model2);
 
 		// Update the window
