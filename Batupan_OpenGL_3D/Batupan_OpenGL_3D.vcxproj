@@ -162,6 +162,14 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../pch.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="Entity\Camera.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="Entity\Entity.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../pch.h</PrecompiledHeaderFile>
+    </ClCompile>
     <ClCompile Include="Loader\Loader.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../pch.h</PrecompiledHeaderFile>
@@ -196,6 +204,10 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../pch.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="Toolbox\Maths.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../pch.h</PrecompiledHeaderFile>
+    </ClCompile>
     <ClCompile Include="Window\Window.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../pch.h</PrecompiledHeaderFile>
@@ -203,6 +215,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine.hpp" />
+    <ClInclude Include="Entity\Camera.hpp" />
+    <ClInclude Include="Entity\Entity.hpp" />
     <ClInclude Include="Loader\Loader.hpp" />
     <ClInclude Include="Model\BaseModel.hpp" />
     <ClInclude Include="Model\TexturedModel.hpp" />
@@ -211,6 +225,7 @@
     <ClInclude Include="Shader\BasicShader.hpp" />
     <ClInclude Include="Shader\ShaderProgram.hpp" />
     <ClInclude Include="Texture\ModelTexture.hpp" />
+    <ClInclude Include="Toolbox\Maths.hpp" />
     <ClInclude Include="Window\Window.hpp" />
   </ItemGroup>
   <ItemGroup>

@@ -9,7 +9,7 @@ public:
 	Loader();
 	~Loader();
 
-	BaseModel* LoadToVAO(const std::vector<GLfloat>& positions, const std::vector<GLfloat>& textureCoordinates, const std::vector<GLuint>& indices);
+	BaseModel LoadToVAO(const std::vector<GLfloat>& positions, const std::vector<GLfloat>& textureCoordinates, const std::vector<GLuint>& indices);
 	GLuint LoadTexture2D(const std::string& fileName);
 private:
 	GLuint CreateVAOID();

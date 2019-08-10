@@ -1,8 +1,5 @@
 #include "../pch.h"
 #include "Engine.hpp"
-#include "../Shader/BasicShader.hpp"
-#include "../Texture/ModelTexture.hpp"
-#include "../Model/TexturedModel.hpp"
 
 
 Engine::Engine()
@@ -43,6 +40,7 @@ Engine::~Engine()
 {
 	// Delete the window 
 	delete m_window;
+
 	// Cleanup the GLFW stuff
 	glfwTerminate();
 }
@@ -52,34 +50,91 @@ void Engine::Run()
 	std::cout << "Engine::Run() loop is now running!" << "\n";
 
 	Loader loader;
-	Renderer renderer;
 	BasicShader shader;
+	Renderer renderer(shader);
+
 	std::vector<GLfloat> vertices = {
-		-0.5f, 0.5f, 0.0f,  // V0
-		-0.5f, -0.5f, 0.0f, // V1
-		0.5f, -0.5f, 0.0f,  // V2
-		0.5f, 0.5f, 0.0f    // V3
+		-0.5f,0.5f,-0.5f,
+		-0.5f,-0.5f,-0.5f,
+		0.5f,-0.5f,-0.5f,
+		0.5f,0.5f,-0.5f,
+
+		-0.5f,0.5f,0.5f,
+		-0.5f,-0.5f,0.5f,
+		0.5f,-0.5f,0.5f,
+		0.5f,0.5f,0.5f,
+
+		0.5f,0.5f,-0.5f,
+		0.5f,-0.5f,-0.5f,
+		0.5f,-0.5f,0.5f,
+		0.5f,0.5f,0.5f,
+
+		-0.5f,0.5f,-0.5f,
+		-0.5f,-0.5f,-0.5f,
+		-0.5f,-0.5f,0.5f,
+		-0.5f,0.5f,0.5f,
+
+		-0.5f,0.5f,0.5f,
+		-0.5f,0.5f,-0.5f,
+		0.5f,0.5f,-0.5f,
+		0.5f,0.5f,0.5f,
+
+		-0.5f,-0.5f,0.5f,
+		-0.5f,-0.5f,-0.5f,
+		0.5f,-0.5f,-0.5f,
+		0.5f,-0.5f,0.5f
+
 	};
-	std::vector<GLuint> indices = {
-		0, 1, 3, // Top left triangle
-		3, 1, 2  // Bottom right triangle
-	};
-	std::vector<GLfloat> verts = {
-		-1.0f, 1.0f, 0.0f,  // V0
-		-1.0f, 0.9f, 0.0f,  // V2
-		-0.9f, 0.9f, 0.0f,    // V3
-		-0.9f, 1.0f, 0.0f // V1
-	};
+
 	std::vector<GLfloat> textureCoords = {
-		0, 0,     // V0
-		0, 1,     // V1
-		1, 1,     // V2
-		1, 0      // V3
+		0,0,
+		0,1,
+		1,1,
+		1,0,
+		0,0,
+		0,1,
+		1,1,
+		1,0,
+		0,0,
+		0,1,
+		1,1,
+		1,0,
+		0,0,
+		0,1,
+		1,1,
+		1,0,
+		0,0,
+		0,1,
+		1,1,
+		1,0,
+		0,0,
+		0,1,
+		1,1,
+		1,0
 	};
-	BaseModel* model = loader.LoadToVAO(vertices, textureCoords, indices);
-	BaseModel* model2 = loader.LoadToVAO(verts, textureCoords, indices);
+
+	std::vector<GLuint> indices = {
+		0,1,3,
+		3,1,2,
+		4,5,7,
+		7,5,6,
+		8,9,11,
+		11,9,10,
+		12,13,15,
+		15,13,14,
+		16,17,19,
+		19,17,18,
+		20,21,23,
+		23,21,22
+	};
+
+	BaseModel model = loader.LoadToVAO(vertices, textureCoords, indices);
 	ModelTexture texture = loader.LoadTexture2D("test");
-	TexturedModel modelObj(*model, texture);
+	TexturedModel modelObj(model, texture);
+
+	Entity entity(modelObj, glm::vec3(0, 0, -5), glm::vec3(0), glm::vec3(1));
+
+	Camera camera;
 
 	m_lastFrame = glfwGetTime();
 	while (m_window->IsOpen())
@@ -89,12 +144,14 @@ void Engine::Run()
 		renderer.Prepare();
 
 		// Update the game
+		entity.Rotate(glm::vec3(0.3f, 0.3f, 0.0f));
+		camera.Move();
 
 		// Render the game
 		shader.Start();
-		renderer.Render(&modelObj);
+		shader.LoadViewMatrix(&camera);
+		renderer.Render(entity, shader);
 		shader.Stop();
-		renderer.Render(model2);
 
 		// Update the window
 		m_window->Update();
@@ -102,9 +159,6 @@ void Engine::Run()
 		if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_ESCAPE) == GLFW_PRESS)
 			m_window->Close();
 	}
-
-	delete model;
-	delete model2;
 }
 
 const float& Engine::GetDeltaTime() const

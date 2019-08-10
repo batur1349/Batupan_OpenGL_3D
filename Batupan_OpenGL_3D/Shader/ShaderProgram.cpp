@@ -60,6 +60,53 @@ void ShaderProgram::BindAttribute(int attribute, const std::string& variableName
 	glBindAttribLocation(m_programID, attribute, variableName.c_str());
 }
 
+GLuint ShaderProgram::GetUniformLocation(const std::string& uniformName)
+{
+	return glGetUniformLocation(m_programID, uniformName.c_str());
+}
+
+void ShaderProgram::LoadFloat(GLuint location, const float& value)
+{
+	glUniform1f(location, value);
+}
+
+void ShaderProgram::LoadVector3F(GLuint location, const glm::vec3& vector)
+{
+	glUniform3f(location, vector.x, vector.y, vector.z);
+}
+
+void ShaderProgram::LoadBool(GLuint location, const bool& value)
+{
+	float toLoad = 0;
+	if (value)
+		toLoad = 1;
+
+	glUniform1f(location, toLoad);
+}
+
+void ShaderProgram::LoadMatrix4f(GLuint location, const glm::mat4& matrix, const bool& transpose)
+{
+	if (transpose)
+		glUniformMatrix4fv(location, 1, GL_TRUE, glm::value_ptr(matrix));
+	else
+		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
+}
+
+void ShaderProgram::LoadInt(GLuint location, const int& value)
+{
+	glUniform1i(location, value);
+}
+
+void ShaderProgram::LoadVector2f(GLuint location, const glm::vec2& vector)
+{
+	glUniform2f(location, vector.x, vector.y);
+}
+
+void ShaderProgram::LoadVector4f(GLuint location, const glm::vec4& vector)
+{
+	glUniform4f(location, vector.x, vector.y, vector.z, vector.w);
+}
+
 GLuint ShaderProgram::LoadShader(const std::string& file, const GLenum& typeOfShader)
 {
 	// 1. Retrieve the vertex/fragment source code from filePath

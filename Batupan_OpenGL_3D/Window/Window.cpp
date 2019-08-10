@@ -74,7 +74,7 @@ void Window::Update()
 void Window::ShowFps()
 {
 	// Initialized for once and this will be size of the fps counter array
-	const static int SIZE = 10;
+	const static int SIZE = 5000;
 
 	// Array of doubles to count the current fps ratio
 	// And initialize it with zeros
@@ -111,7 +111,7 @@ void Window::ShowFps()
 void Window::ShowFps(const bool& windowTitle)
 {
 	// Initialized for once and this will be size of the fps counter array
-	const static int SIZE = 10;
+	const static int SIZE = 1000;
 
 	// Array of doubles to count the current fps ratio
 	// And initialize it with zeros

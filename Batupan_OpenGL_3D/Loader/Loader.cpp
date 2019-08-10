@@ -21,7 +21,7 @@ Loader::~Loader()
 		glDeleteBuffers(1, &m_textures.at(i));
 }
 
-BaseModel* Loader::LoadToVAO(const std::vector<GLfloat>& positions, const std::vector<GLfloat>& textureCoordinates, const std::vector<GLuint>& indices)
+BaseModel Loader::LoadToVAO(const std::vector<GLfloat>& positions, const std::vector<GLfloat>& textureCoordinates, const std::vector<GLuint>& indices)
 {
 	GLuint vaoID = CreateVAOID();
 	LoadDataToAttributeList(0, 3, positions.data(), positions.size());
@@ -29,7 +29,7 @@ BaseModel* Loader::LoadToVAO(const std::vector<GLfloat>& positions, const std::v
 	LoadIndicesToGPU(indices.data(), indices.size());
 	UnbindVAO();
 
-	return new BaseModel(vaoID, indices.size());
+	return BaseModel(vaoID, indices.size());
 }
 
 GLuint Loader::LoadTexture2D(const std::string& fileName)
