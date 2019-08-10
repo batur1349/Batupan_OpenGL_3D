@@ -16,3 +16,18 @@ void Renderer::Render(BaseModel* model)
 	glDisableVertexAttribArray(0);
 	glBindVertexArray(0);
 }
+
+void Renderer::Render(TexturedModel* model)
+{
+	BaseModel tempModel = model->GetBaseModel();
+	ModelTexture tempTexture = model->GetModelTexture();
+	glBindVertexArray(tempModel.GetVaoID());
+	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, tempTexture.GetID());
+	glDrawElements(GL_TRIANGLES, tempModel.GetVertexCount(), GL_UNSIGNED_INT, 0);
+	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
+	glBindVertexArray(0);
+}

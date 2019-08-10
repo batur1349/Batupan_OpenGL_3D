@@ -1,6 +1,8 @@
 #include "../pch.h"
 #include "Engine.hpp"
 #include "../Shader/BasicShader.hpp"
+#include "../Texture/ModelTexture.hpp"
+#include "../Model/TexturedModel.hpp"
 
 
 Engine::Engine()
@@ -62,14 +64,22 @@ void Engine::Run()
 		0, 1, 3, // Top left triangle
 		3, 1, 2  // Bottom right triangle
 	};
-	BaseModel* model = loader.LoadToVAO(vertices, indices);
 	std::vector<GLfloat> verts = {
 		-1.0f, 1.0f, 0.0f,  // V0
 		-1.0f, 0.9f, 0.0f,  // V2
 		-0.9f, 0.9f, 0.0f,    // V3
 		-0.9f, 1.0f, 0.0f // V1
 	};
-	BaseModel* model2 = loader.LoadToVAO(verts, indices);
+	std::vector<GLfloat> textureCoords = {
+		0, 0,     // V0
+		0, 1,     // V1
+		1, 1,     // V2
+		1, 0      // V3
+	};
+	BaseModel* model = loader.LoadToVAO(vertices, textureCoords, indices);
+	BaseModel* model2 = loader.LoadToVAO(verts, textureCoords, indices);
+	ModelTexture texture = loader.LoadTexture2D("test");
+	TexturedModel modelObj(*model, texture);
 
 	m_lastFrame = glfwGetTime();
 	while (m_window->IsOpen())
@@ -82,7 +92,7 @@ void Engine::Run()
 
 		// Render the game
 		shader.Start();
-		renderer.Render(model);
+		renderer.Render(&modelObj);
 		shader.Stop();
 		renderer.Render(model2);
 
