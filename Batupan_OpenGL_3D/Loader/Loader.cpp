@@ -21,15 +21,26 @@ Loader::~Loader()
 		glDeleteBuffers(1, &m_textures.at(i));
 }
 
-BaseModel Loader::LoadToVAO(const std::vector<GLfloat>& positions, const std::vector<GLfloat>& textureCoordinates, const std::vector<GLuint>& indices)
+BaseModel Loader::LoadToVAO(const std::vector<glm::vec3>& vertices, const std::vector<glm::vec2>& uvs, const std::vector<int>& indices)
 {
+	// Create the vertex array object's id
 	GLuint vaoID = CreateVAOID();
-	LoadDataToAttributeList(0, 3, positions.data(), positions.size());
-	LoadDataToAttributeList(1, 2, textureCoordinates.data(), textureCoordinates.size());
-	LoadIndicesToGPU(indices.data(), indices.size());
+
+	// Send indices data to the GPU
+	int indicesSize = indices.size();
+	LoadIndicesToGPU(indices.data(), indicesSize);
+
+	// Load positions data to the attribute list 0
+	LoadDataToAttributeList(0, 3, vertices.data(), sizeof(glm::vec3) * vertices.size());
+
+	// Load the texture coordinates data to the attribute list 1
+	LoadDataToAttributeList(1, 2, uvs.data(), sizeof(glm::vec2) * uvs.size());
+
+	// Unbind the vertex array object
 	UnbindVAO();
 
-	return BaseModel(vaoID, indices.size());
+	// Return the raw model
+	return BaseModel(vaoID, indicesSize);
 }
 
 GLuint Loader::LoadTexture2D(const std::string& fileName)
@@ -82,18 +93,39 @@ GLuint Loader::CreateVAOID()
 	return vao;
 }
 
-void Loader::LoadDataToAttributeList(const int& attributeNumber, const int& attributeSize, const GLfloat data[], const int& numberOfData)
+void Loader::LoadDataToAttributeList(const int& attribNumber, const int& attribSize, const void* data, const int& dataSize)
 {
-	GLuint vbo;
-	glGenBuffers(1, &vbo);
-	m_vbos.push_back(vbo);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, numberOfData * sizeof(GLfloat), data, GL_STATIC_DRAW);
-	glVertexAttribPointer(attributeNumber, attributeSize, GL_FLOAT, GL_FALSE, 0, nullptr);
+	GLuint vboID;
+
+	// Create a new vertex buffer object
+	glGenBuffers(1, &vboID);
+
+	// Add vertex buffer object to the container
+	m_vbos.push_back(vboID);
+
+	// Bind the vertex buffer object to use it
+	glBindBuffer(GL_ARRAY_BUFFER, vboID);
+
+	// Load the data to GPU using the vertex buffer object
+	glBufferData(GL_ARRAY_BUFFER, dataSize, data, GL_STATIC_DRAW);
+
+	// Tell OpenGL how and where to store this VBO in the VAO
+	glVertexAttribPointer(attribNumber, attribSize, GL_FLOAT, GL_FALSE, 0, nullptr);
+
+	// Unbind the VBO
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 void Loader::LoadIndicesToGPU(const GLuint indices[], const int& count)
+{
+	GLuint vboID;
+	glGenBuffers(1, &vboID);
+	m_vbos.push_back(vboID);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vboID);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices) * count, indices, GL_STATIC_DRAW);
+}
+
+void Loader::LoadIndicesToGPU(const int indices[], const int& count)
 {
 	GLuint vboID;
 	glGenBuffers(1, &vboID);

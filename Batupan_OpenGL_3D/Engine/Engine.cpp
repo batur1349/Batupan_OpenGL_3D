@@ -1,5 +1,6 @@
 #include "../pch.h"
 #include "Engine.hpp"
+#include "../Loader/OBJFileLoader.hpp"
 
 
 Engine::Engine()
@@ -53,86 +54,10 @@ void Engine::Run()
 	BasicShader shader;
 	Renderer renderer(shader);
 
-	std::vector<GLfloat> vertices = {
-		-0.5f,0.5f,-0.5f,
-		-0.5f,-0.5f,-0.5f,
-		0.5f,-0.5f,-0.5f,
-		0.5f,0.5f,-0.5f,
-
-		-0.5f,0.5f,0.5f,
-		-0.5f,-0.5f,0.5f,
-		0.5f,-0.5f,0.5f,
-		0.5f,0.5f,0.5f,
-
-		0.5f,0.5f,-0.5f,
-		0.5f,-0.5f,-0.5f,
-		0.5f,-0.5f,0.5f,
-		0.5f,0.5f,0.5f,
-
-		-0.5f,0.5f,-0.5f,
-		-0.5f,-0.5f,-0.5f,
-		-0.5f,-0.5f,0.5f,
-		-0.5f,0.5f,0.5f,
-
-		-0.5f,0.5f,0.5f,
-		-0.5f,0.5f,-0.5f,
-		0.5f,0.5f,-0.5f,
-		0.5f,0.5f,0.5f,
-
-		-0.5f,-0.5f,0.5f,
-		-0.5f,-0.5f,-0.5f,
-		0.5f,-0.5f,-0.5f,
-		0.5f,-0.5f,0.5f
-
-	};
-
-	std::vector<GLfloat> textureCoords = {
-		0,0,
-		0,1,
-		1,1,
-		1,0,
-		0,0,
-		0,1,
-		1,1,
-		1,0,
-		0,0,
-		0,1,
-		1,1,
-		1,0,
-		0,0,
-		0,1,
-		1,1,
-		1,0,
-		0,0,
-		0,1,
-		1,1,
-		1,0,
-		0,0,
-		0,1,
-		1,1,
-		1,0
-	};
-
-	std::vector<GLuint> indices = {
-		0,1,3,
-		3,1,2,
-		4,5,7,
-		7,5,6,
-		8,9,11,
-		11,9,10,
-		12,13,15,
-		15,13,14,
-		16,17,19,
-		19,17,18,
-		20,21,23,
-		23,21,22
-	};
-
-	BaseModel model = loader.LoadToVAO(vertices, textureCoords, indices);
-	ModelTexture texture = loader.LoadTexture2D("test");
+	ModelTexture texture = loader.LoadTexture2D("stall");
+	BaseModel model = OBJFileLoader::LoadAssimpObjFile("stall", loader);
 	TexturedModel modelObj(model, texture);
-
-	Entity entity(modelObj, glm::vec3(0, 0, -5), glm::vec3(0), glm::vec3(1));
+	Entity entity(modelObj, glm::vec3(0, 0, -50), glm::vec3(0), glm::vec3(1));
 
 	Camera camera;
 
@@ -144,7 +69,7 @@ void Engine::Run()
 		renderer.Prepare();
 
 		// Update the game
-		entity.Rotate(glm::vec3(0.3f, 0.3f, 0.0f));
+		entity.Rotate(glm::vec3(0.0f, 0.3f, 0.0f));
 		camera.Move();
 
 		// Render the game
