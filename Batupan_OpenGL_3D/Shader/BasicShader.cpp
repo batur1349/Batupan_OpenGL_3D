@@ -31,6 +31,12 @@ const void BasicShader::LoadLight(Light& light)
 	LoadVector3F(m_location_lightPosition, light.GetPosition());
 }
 
+const void BasicShader::LoadShineVariables(const float& shineDamper, const float& reflectivity)
+{
+	LoadFloat(m_location_shineDamper, shineDamper);
+	LoadFloat(m_location_reflectivity, reflectivity);
+}
+
 void BasicShader::BindAttributes()
 {
 	BindAttribute(0, "position");
@@ -46,4 +52,6 @@ void BasicShader::GetAllUniformLocations()
 
 	m_location_lightPosition = GetUniformLocation("lightPosition");
 	m_location_lightColor = GetUniformLocation("lightColor");
+	m_location_shineDamper = GetUniformLocation("shineDamper");
+	m_location_reflectivity = GetUniformLocation("reflectivity");
 }

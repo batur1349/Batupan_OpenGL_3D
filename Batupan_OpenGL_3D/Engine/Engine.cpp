@@ -55,7 +55,7 @@ void Engine::Run()
 	BasicShader shader;
 	Renderer renderer(shader);
 
-	Entity entity("dragon", loader, glm::vec3(0, 0, -25), glm::vec3(0), glm::vec3(1));
+	Entity entity("dragon", loader, 1.0f, 0.0f, glm::vec3(0, 0, -25), glm::vec3(0), glm::vec3(1));
 	Light light(glm::vec3(0.0f, 0.0f, -20.0f), glm::vec3(1.0f));
 
 	Camera camera;

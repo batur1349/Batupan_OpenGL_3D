@@ -33,6 +33,8 @@ const void Renderer::Render(Entity& entity, BasicShader& shader) const
 	glm::mat4 transformationMatrix = Maths::CreateTransformationMatrix(entity.GetPosition(), entity.GetRotation(), entity.GetScale());
 	shader.LoadTransformationMatrix(transformationMatrix);
 
+	shader.LoadShineVariables(modelTexture.GetShineDamper(), modelTexture.GetReflectivity());
+
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, modelTexture.GetID());
 	glDrawElements(GL_TRIANGLES, baseModel.GetVertexCount(), GL_UNSIGNED_INT, 0);

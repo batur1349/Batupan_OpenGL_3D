@@ -2,9 +2,12 @@
 #include "Entity.hpp"
 
 
-Entity::Entity(const std::string& entityName, Loader& loader, const glm::vec3& position, const glm::vec3& rotation, const glm::vec3& scale)
+Entity::Entity(const std::string& entityName, Loader& loader, const float& shineDamper, const float& reflectivity, const glm::vec3& position, const glm::vec3& rotation, const glm::vec3& scale)
 	: m_texturedModel(OBJFileLoader::LoadAssimpObjFile(entityName, loader), loader.LoadTexture2D(entityName))
 {
+	SetShineDamper(shineDamper);
+	SetReflectivity(reflectivity);
+
 	m_position = position;
 	m_rotation = rotation;
 	m_scale = scale;

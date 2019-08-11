@@ -10,6 +10,9 @@ public:
 
 	const BaseModel& GetBaseModel() { return m_baseModel; }
 	const ModelTexture& GetModelTexture() { return m_texture; }
+
+	const void SetReflectivity(const float& reflectivity) { m_texture.SetReflectivity(reflectivity); }
+	const void SetShineDamper(const float& shineDamper) { m_texture.SetShineDamper(shineDamper); }
 private:
 	BaseModel m_baseModel;
 	ModelTexture m_texture;
