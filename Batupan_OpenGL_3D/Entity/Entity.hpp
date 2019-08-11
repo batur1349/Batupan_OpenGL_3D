@@ -2,10 +2,12 @@
 #define ENTITY_HPP
 
 #include "../Model/TexturedModel.hpp"
+#include "../Loader/OBJFileLoader.hpp"
 
 class Entity
 {
 public:
+	Entity(const std::string& entityName, Loader& loader, const glm::vec3& position = glm::vec3(0.0f), const glm::vec3& rotation = glm::vec3(0.0f), const glm::vec3& scale = glm::vec3(1.0f));
 	Entity(const TexturedModel& model, const glm::vec3& position, const glm::vec3& rotation, const glm::vec3& scale);
 
 	// Methods

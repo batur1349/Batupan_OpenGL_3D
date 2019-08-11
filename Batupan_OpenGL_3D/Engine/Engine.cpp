@@ -54,11 +54,7 @@ void Engine::Run()
 	BasicShader shader;
 	Renderer renderer(shader);
 
-	ModelTexture texture = loader.LoadTexture2D("stall");
-	BaseModel model = OBJFileLoader::LoadAssimpObjFile("stall", loader);
-	TexturedModel modelObj(model, texture);
-	Entity entity(modelObj, glm::vec3(0, 0, -50), glm::vec3(0), glm::vec3(1));
-
+	Entity entity("stall", loader, glm::vec3(0, 0, -50), glm::vec3(0), glm::vec3(1));
 	Camera camera;
 
 	m_lastFrame = glfwGetTime();
