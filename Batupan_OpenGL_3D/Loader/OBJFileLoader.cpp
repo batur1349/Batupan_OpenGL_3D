@@ -69,5 +69,5 @@ BaseModel OBJFileLoader::LoadAssimpObjFile(const std::string& fileName, Loader& 
 	std::printf("Load time: %dms\n", clock() - startTime);
 
 	// Return the baseModel
-	return loader.LoadToVAO(vertices, uvs, indices);
+	return loader.LoadToVAO(vertices, uvs, normals, indices);
 }

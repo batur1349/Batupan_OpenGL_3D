@@ -28,6 +28,7 @@ const void Renderer::Render(Entity& entity, BasicShader& shader) const
 	glBindVertexArray(baseModel.GetVaoID());
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
+	glEnableVertexAttribArray(2);
 
 	glm::mat4 transformationMatrix = Maths::CreateTransformationMatrix(entity.GetPosition(), entity.GetRotation(), entity.GetScale());
 	shader.LoadTransformationMatrix(transformationMatrix);
@@ -35,8 +36,10 @@ const void Renderer::Render(Entity& entity, BasicShader& shader) const
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, modelTexture.GetID());
 	glDrawElements(GL_TRIANGLES, baseModel.GetVertexCount(), GL_UNSIGNED_INT, 0);
+
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
+	glDisableVertexAttribArray(2);
 	glBindVertexArray(0);
 }
 

@@ -1,6 +1,7 @@
 #include "../pch.h"
 #include "Engine.hpp"
 #include "../Loader/OBJFileLoader.hpp"
+#include "../Entity/Light.hpp"
 
 
 Engine::Engine()
@@ -54,7 +55,9 @@ void Engine::Run()
 	BasicShader shader;
 	Renderer renderer(shader);
 
-	Entity entity("stall", loader, glm::vec3(0, 0, -50), glm::vec3(0), glm::vec3(1));
+	Entity entity("dragon", loader, glm::vec3(0, 0, -25), glm::vec3(0), glm::vec3(1));
+	Light light(glm::vec3(0.0f, 0.0f, -20.0f), glm::vec3(1.0f));
+
 	Camera camera;
 
 	m_lastFrame = glfwGetTime();
@@ -70,6 +73,7 @@ void Engine::Run()
 
 		// Render the game
 		shader.Start();
+		shader.LoadLight(light);
 		shader.LoadViewMatrix(&camera);
 		renderer.Render(entity, shader);
 		shader.Stop();

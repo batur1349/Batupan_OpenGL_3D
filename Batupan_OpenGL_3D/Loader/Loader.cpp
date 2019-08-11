@@ -21,7 +21,7 @@ Loader::~Loader()
 		glDeleteBuffers(1, &m_textures.at(i));
 }
 
-BaseModel Loader::LoadToVAO(const std::vector<glm::vec3>& vertices, const std::vector<glm::vec2>& uvs, const std::vector<int>& indices)
+BaseModel Loader::LoadToVAO(const std::vector<glm::vec3>& vertices, const std::vector<glm::vec2>& uvs, const std::vector<glm::vec3>& normals, const std::vector<int>& indices)
 {
 	// Create the vertex array object's id
 	GLuint vaoID = CreateVAOID();
@@ -35,6 +35,9 @@ BaseModel Loader::LoadToVAO(const std::vector<glm::vec3>& vertices, const std::v
 
 	// Load the texture coordinates data to the attribute list 1
 	LoadDataToAttributeList(1, 2, uvs.data(), sizeof(glm::vec2) * uvs.size());
+
+	// Load the normals data to the attribute list 2
+	LoadDataToAttributeList(2, 3, normals.data(), sizeof(glm::vec3) * normals.size());
 
 	// Unbind the vertex array object
 	UnbindVAO();
