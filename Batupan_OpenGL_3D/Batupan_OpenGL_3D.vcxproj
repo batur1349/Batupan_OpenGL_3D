@@ -200,7 +200,11 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../pch.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="Renderer\Renderer.cpp">
+    <ClCompile Include="Renderer\EntityRenderer.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="Renderer\TerrainRenderer.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../pch.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -209,6 +213,14 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="Shader\ShaderProgram.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="Shader\TerrainShader.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="Terrain\Terrain.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../pch.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -236,9 +248,12 @@
     <ClInclude Include="Model\TexturedModel.hpp" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Renderer\MasterRenderer.hpp" />
-    <ClInclude Include="Renderer\Renderer.hpp" />
+    <ClInclude Include="Renderer\EntityRenderer.hpp" />
+    <ClInclude Include="Renderer\TerrainRenderer.hpp" />
     <ClInclude Include="Shader\BasicShader.hpp" />
     <ClInclude Include="Shader\ShaderProgram.hpp" />
+    <ClInclude Include="Shader\TerrainShader.hpp" />
+    <ClInclude Include="Terrain\Terrain.hpp" />
     <ClInclude Include="Texture\ModelTexture.hpp" />
     <ClInclude Include="Toolbox\Maths.hpp" />
     <ClInclude Include="Window\Window.hpp" />
@@ -246,6 +261,8 @@
   <ItemGroup>
     <None Include="Shader\basicShader.frag" />
     <None Include="Shader\basicShader.vert" />
+    <None Include="Shader\terrainShader.frag" />
+    <None Include="Shader\terrainShader.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

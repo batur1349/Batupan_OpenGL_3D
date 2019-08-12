@@ -3,7 +3,7 @@
 
 #include "../Window/Window.hpp"
 #include "../Loader/Loader.hpp"
-#include "../Renderer/Renderer.hpp"
+#include "../Renderer/EntityRenderer.hpp"
 #include "../Shader/BasicShader.hpp"
 #include "../Texture/ModelTexture.hpp"
 #include "../Model/TexturedModel.hpp"

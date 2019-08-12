@@ -3,7 +3,7 @@
 
 
 BasicShader::BasicShader()
-	: ShaderProgram(SHADER_FILE)
+	: ShaderProgram(BASIC_SHADER_FILE)
 {
 	BindAttributes();
 	GetAllUniformLocations();

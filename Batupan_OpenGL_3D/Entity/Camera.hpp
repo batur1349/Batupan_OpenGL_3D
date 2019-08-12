@@ -7,7 +7,7 @@ public:
 	Camera();
 
 	// Methods
-	const void Move();
+	const void Update();
 
 	// Getters
 	inline glm::vec3& GetPosition() { return m_position; }

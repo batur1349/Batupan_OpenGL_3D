@@ -6,7 +6,7 @@
 #include "../Toolbox/Maths.hpp"
 #include "../Entity/Light.hpp"
 
-static const std::string SHADER_FILE = "Shader/basicShader";
+static const std::string BASIC_SHADER_FILE = "Shader/basicShader";
 
 class BasicShader : public ShaderProgram
 {

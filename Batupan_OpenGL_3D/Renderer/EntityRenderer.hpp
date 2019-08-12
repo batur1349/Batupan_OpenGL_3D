@@ -1,5 +1,5 @@
-#ifndef RENDERER_HPP
-#define RENDERER_HPP
+#ifndef ENTITYRENDERER_HPP
+#define ENTITYRENDERER_HPP
 
 #include "../Model/BaseModel.hpp"
 #include "../Model/TexturedModel.hpp"
@@ -17,23 +17,17 @@ public:
 	}
 };
 
-class Renderer
+class EntityRenderer
 {
 public:
-	Renderer(BasicShader& shader);
-	const void Prepare() const;
+	EntityRenderer(BasicShader& shader, const glm::mat4& projectionMatrix);
 	void RenderEntities(std::map<TexturedModel, std::vector<Entity>, TextureModelCompare>& entities);
-
-	inline glm::mat4& GetProjectionMatrix() { return m_projectionMatrix; }
 private:
-	const void CreateProjectionMatrix();
 	const void BindTexturedModel(TexturedModel& texturedModel);
 	const void UnbindTexturedModel();
 	const void RenderEntity(Entity& entity);
 
-	glm::mat4 m_projectionMatrix;
 	BasicShader& m_shader;
-	const static float FOV, NEAR_PLANE, FAR_PLANE;
 };
 
-#endif // !RENDERER_HPP
+#endif // !ENTITYRENDERER_HPP

@@ -54,11 +54,12 @@ void Engine::Run()
 
 	Loader loader;
 
-	Entity entity("stall", loader, 1.0f, 0.0f, glm::vec3(0, 0, -25), glm::vec3(0), glm::vec3(1));
-	Light light(glm::vec3(0.0f, 0.0f, -20.0f), glm::vec3(1.0f));
+	Entity entity("tree", loader, 1.0f, 0.0f, glm::vec3(0, 0, -25), glm::vec3(0), glm::vec3(1));
+	Light light(glm::vec3(3000.0f, 20000.0f, 2000.0f), glm::vec3(1.0f));
+	Terrain terrain(0, 0, loader, loader.LoadTexture2D("grass"));
+	Terrain terrain2(-1, 0, loader, loader.LoadTexture2D("grass"));
 
 	Camera camera;
-
 	MasterRenderer renderer;
 
 	m_lastFrame = glfwGetTime();
@@ -69,7 +70,9 @@ void Engine::Run()
 
 		// Update the game
 		entity.Rotate(glm::vec3(0.0f, 0.3f, 0.0f));
-		camera.Move();
+		camera.Update();
+		renderer.ConstructTerrain(terrain);
+		renderer.ConstructTerrain(terrain2);
 		renderer.ConstructEntity(entity);
 		renderer.Render(light, camera);
 
