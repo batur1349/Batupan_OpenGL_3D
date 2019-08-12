@@ -8,8 +8,8 @@ class TexturedModel
 public:
 	TexturedModel(const BaseModel& model, const ModelTexture& texture);
 
-	const BaseModel& GetBaseModel() { return m_baseModel; }
-	const ModelTexture& GetModelTexture() { return m_texture; }
+	inline BaseModel& GetBaseModel() { return m_baseModel; }
+	inline ModelTexture& GetModelTexture() { return m_texture; }
 	inline float& GetReflectivity() { return m_texture.GetReflectivity(); }
 	inline float& GetShineDamper() { return m_texture.GetShineDamper(); }
 

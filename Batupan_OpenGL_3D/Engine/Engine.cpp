@@ -2,6 +2,7 @@
 #include "Engine.hpp"
 #include "../Loader/OBJFileLoader.hpp"
 #include "../Entity/Light.hpp"
+#include "../Renderer/MasterRenderer.hpp"
 
 
 Engine::Engine()
@@ -52,34 +53,27 @@ void Engine::Run()
 	std::cout << "Engine::Run() loop is now running!" << "\n";
 
 	Loader loader;
-	BasicShader shader;
-	Renderer renderer(shader);
 
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
-
-	Entity entity("dragon", loader, 1.0f, 0.0f, glm::vec3(0, 0, -25), glm::vec3(0), glm::vec3(1));
+	Entity entity("stall", loader, 1.0f, 0.0f, glm::vec3(0, 0, -25), glm::vec3(0), glm::vec3(1));
 	Light light(glm::vec3(0.0f, 0.0f, -20.0f), glm::vec3(1.0f));
 
 	Camera camera;
+
+	MasterRenderer renderer;
 
 	m_lastFrame = glfwGetTime();
 	while (m_window->IsOpen())
 	{
 		// Update the deltaTime 
 		UpdateDeltatime();
-		renderer.Prepare();
 
 		// Update the game
 		entity.Rotate(glm::vec3(0.0f, 0.3f, 0.0f));
 		camera.Move();
+		renderer.ConstructEntity(entity);
+		renderer.Render(light, camera);
 
-		// Render the game
-		shader.Start();
-		shader.LoadLight(light);
-		shader.LoadViewMatrix(&camera);
-		renderer.Render(entity, shader);
-		shader.Stop();
+		// RenderEntities the game
 
 		// Update the window
 		m_window->Update();

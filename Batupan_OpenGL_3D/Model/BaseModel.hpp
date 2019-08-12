@@ -6,7 +6,7 @@ class BaseModel
 public:
 	BaseModel(const GLuint& vaoID, const int& vertexCount);
 
-	const GLuint& GetVaoID();
+	inline GLuint& GetVaoID() { return m_vaoID; }
 	const int& GetVertexCount();
 private:
 	GLuint	m_vaoID;
