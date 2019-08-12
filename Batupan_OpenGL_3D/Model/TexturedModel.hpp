@@ -10,6 +10,8 @@ public:
 
 	const BaseModel& GetBaseModel() { return m_baseModel; }
 	const ModelTexture& GetModelTexture() { return m_texture; }
+	inline float& GetReflectivity() { return m_texture.GetReflectivity(); }
+	inline float& GetShineDamper() { return m_texture.GetShineDamper(); }
 
 	const void SetReflectivity(const float& reflectivity) { m_texture.SetReflectivity(reflectivity); }
 	const void SetShineDamper(const float& shineDamper) { m_texture.SetShineDamper(shineDamper); }

@@ -11,6 +11,12 @@
 #include <istream>
 #include <sstream>
 #include <map>
+#include <cstdlib>
+#include <iostream>
+#include <numeric>
+#include <thread>
+#include <chrono>
+#include <mutex>
 
 // GLEW Includes
 #define GLEW_STATIC

@@ -21,6 +21,8 @@ public:
 	inline glm::vec3& GetPosition() { return m_position; }
 	inline glm::vec3& GetRotation() { return m_rotation; }
 	inline glm::vec3& GetScale() { return m_scale; }
+	inline float& GetReflectivity() { return m_texturedModel.GetReflectivity(); }
+	inline float& GetShineDamper() { return m_texturedModel.GetShineDamper(); }
 
 	// Setters
 	inline void SetPosition(glm::vec3 position) { m_position = position; }

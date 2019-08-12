@@ -55,6 +55,9 @@ void Engine::Run()
 	BasicShader shader;
 	Renderer renderer(shader);
 
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+
 	Entity entity("dragon", loader, 1.0f, 0.0f, glm::vec3(0, 0, -25), glm::vec3(0), glm::vec3(1));
 	Light light(glm::vec3(0.0f, 0.0f, -20.0f), glm::vec3(1.0f));
 

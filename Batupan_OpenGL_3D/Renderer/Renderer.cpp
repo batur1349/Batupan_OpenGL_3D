@@ -22,9 +22,9 @@ const void Renderer::Prepare() const
 
 const void Renderer::Render(Entity& entity, BasicShader& shader) const
 {
-	static TexturedModel texturedModel = entity.GetTexturedModel();
-	static BaseModel baseModel = texturedModel.GetBaseModel();
-	static ModelTexture modelTexture = texturedModel.GetModelTexture();
+	TexturedModel texturedModel = entity.GetTexturedModel();
+	BaseModel baseModel = texturedModel.GetBaseModel();
+	ModelTexture modelTexture = texturedModel.GetModelTexture();
 	glBindVertexArray(baseModel.GetVaoID());
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
