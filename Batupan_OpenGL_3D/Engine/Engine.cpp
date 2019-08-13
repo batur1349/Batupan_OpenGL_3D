@@ -1,8 +1,5 @@
 #include "../pch.h"
 #include "Engine.hpp"
-#include "../Loader/OBJFileLoader.hpp"
-#include "../Entity/Light.hpp"
-#include "../Renderer/MasterRenderer.hpp"
 
 
 Engine::Engine()

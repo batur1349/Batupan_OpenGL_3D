@@ -19,6 +19,7 @@ public:
 	inline const void ConstructTerrain(Terrain& terrain) { m_terrains.push_back(terrain); }
 
 	inline glm::mat4& GetProjectionMatrix() { return m_projectionMatrix; }
+	static void WindowResizeEvent(GLFWwindow* window, int width, int height);
 private:
 	const glm::mat4& CreateProjectionMatrix();
 
@@ -26,6 +27,7 @@ private:
 	EntityRenderer m_entityRenderer; TerrainRenderer m_terrainRenderer;
 	const static float FOV, NEAR_PLANE, FAR_PLANE; glm::mat4 m_projectionMatrix;
 	const static float RED, GREEN, BLUE;
+	static bool m_projectionMatrix_Changed;
 	// Container
 	std::vector<Terrain> m_terrains;
 	std::map<TexturedModel, std::vector<Entity>, TextureModelCompare> m_entities;

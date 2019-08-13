@@ -7,6 +7,9 @@
 #include "../Shader/BasicShader.hpp"
 #include "../Texture/ModelTexture.hpp"
 #include "../Model/TexturedModel.hpp"
+#include "../Loader/OBJFileLoader.hpp"
+#include "../Entity/Light.hpp"
+#include "../Renderer/MasterRenderer.hpp"
 
 class Engine
 {

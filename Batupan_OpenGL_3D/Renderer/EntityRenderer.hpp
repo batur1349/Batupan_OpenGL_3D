@@ -21,7 +21,9 @@ class EntityRenderer
 {
 public:
 	EntityRenderer(BasicShader& shader, const glm::mat4& projectionMatrix);
+
 	void RenderEntities(std::map<TexturedModel, std::vector<Entity>, TextureModelCompare>& entities);
+	inline void LoadProjectionMatrix(const glm::mat4& projectionMatrix) { m_shader.LoadProjectionMatrix(projectionMatrix); }
 private:
 	const void BindTexturedModel(TexturedModel& texturedModel);
 	const void UnbindTexturedModel();

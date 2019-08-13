@@ -9,6 +9,8 @@ const float MasterRenderer::RED = 0.5f;
 const float MasterRenderer::GREEN = 0.5f;
 const float MasterRenderer::BLUE = 0.5f;
 
+bool MasterRenderer::m_projectionMatrix_Changed = false;
+
 MasterRenderer::MasterRenderer()
 	: m_entityRenderer(m_entityShader, CreateProjectionMatrix()), m_terrainRenderer(m_terrainShader, CreateProjectionMatrix())
 {
@@ -39,6 +41,9 @@ void MasterRenderer::Render(Light& light, Camera& camera)
 	Prepare();
 	// Activate the shader
 	m_entityShader.Start();
+	// Check if projection matrix has changed and then load 
+	if (m_projectionMatrix_Changed)
+		m_entityShader.LoadProjectionMatrix(CreateProjectionMatrix());
 	// Load the skyColor
 	m_entityShader.LoadSkyColor(glm::vec3(RED, GREEN, BLUE));
 	// Load shader parameters
@@ -50,6 +55,12 @@ void MasterRenderer::Render(Light& light, Camera& camera)
 	m_entityShader.Stop();
 	// Start the terrain shader
 	m_terrainShader.Start();
+	// Check if projection matrix has changed and then load
+	if (m_projectionMatrix_Changed)
+	{
+		m_terrainShader.LoadProjectionMatrix(m_projectionMatrix);
+		m_projectionMatrix_Changed = false;
+	}
 	// Load the skyColor
 	m_terrainShader.LoadSkyColor(glm::vec3(RED, GREEN, BLUE));
 	// Load terrain shader parameters
@@ -99,4 +110,10 @@ const glm::mat4& MasterRenderer::CreateProjectionMatrix()
 	m_projectionMatrix[3][3] = 0;
 
 	return m_projectionMatrix;
+}
+
+void MasterRenderer::WindowResizeEvent(GLFWwindow* window, int width, int height)
+{
+	m_projectionMatrix_Changed = true;
+	glViewport(0, 0, width, height);
 }

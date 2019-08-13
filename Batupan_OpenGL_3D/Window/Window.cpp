@@ -1,5 +1,6 @@
 #include "../pch.h"
 #include "Window.hpp"
+#include "../Renderer/MasterRenderer.hpp"
 
 
 Window::Window(const int& width, const int& height, const std::string& title)
@@ -15,7 +16,9 @@ Window::Window(const int& width, const int& height, const std::string& title)
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_FALSE);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+	glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_TRUE);
+	glfwWindowHint(GLFW_SAMPLES, GLFW_DONT_CARE);
+	glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 
 	// Create the OpenGL window with GLFW
 	m_window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
@@ -27,6 +30,9 @@ Window::Window(const int& width, const int& height, const std::string& title)
 
 		// Set OpenGL context to the window, it is needed for the GLEW initialization
 		glfwMakeContextCurrent(m_window);
+
+		// Set OpenGL Window Resize Event
+		glfwSetWindowSizeCallback(m_window, MasterRenderer::WindowResizeEvent);
 
 		// Set OpenGL viewport to full size of the window
 		glViewport(0, 0, width, height);

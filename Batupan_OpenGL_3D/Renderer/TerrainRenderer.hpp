@@ -12,6 +12,7 @@ public:
 
 	// Functions
 	const void Render(std::vector<Terrain>& terrains);
+	inline void LoadProjectionMatrix(const glm::mat4& projectionMatrix) { m_shader.LoadProjectionMatrix(projectionMatrix); }
 private:
 	// Functions
 	void PrepareTerrain(Terrain& terrain);
