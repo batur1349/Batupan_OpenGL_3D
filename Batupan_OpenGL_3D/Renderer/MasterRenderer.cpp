@@ -1,22 +1,36 @@
 #include "../pch.h"
 #include "MasterRenderer.hpp"
 
-const float MasterRenderer::FOV = 70.0f;
+const float MasterRenderer::FOV = 60.0f;
 const float MasterRenderer::NEAR_PLANE = 0.1f;
 const float MasterRenderer::FAR_PLANE = 1000.0f;
+
+const float MasterRenderer::RED = 0.5f;
+const float MasterRenderer::GREEN = 0.5f;
+const float MasterRenderer::BLUE = 0.5f;
 
 MasterRenderer::MasterRenderer()
 	: m_entityRenderer(m_entityShader, CreateProjectionMatrix()), m_terrainRenderer(m_terrainShader, CreateProjectionMatrix())
 {
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
+	EnableCulling();
 	glEnable(GL_DEPTH_TEST);
 }
 
 inline const void MasterRenderer::Prepare() const
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(0.2f, 0.3f, 0.4f, 0.5f);
+	glClearColor(RED, GREEN, BLUE, 1.0f);
+}
+
+inline const void MasterRenderer::EnableCulling()
+{
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+}
+
+const void MasterRenderer::DisableCulling()
+{
+	glDisable(GL_CULL_FACE);
 }
 
 void MasterRenderer::Render(Light& light, Camera& camera)
@@ -25,6 +39,8 @@ void MasterRenderer::Render(Light& light, Camera& camera)
 	Prepare();
 	// Activate the shader
 	m_entityShader.Start();
+	// Load the skyColor
+	m_entityShader.LoadSkyColor(glm::vec3(RED, GREEN, BLUE));
 	// Load shader parameters
 	m_entityShader.LoadLight(light);
 	m_entityShader.LoadViewMatrix(&camera);
@@ -34,6 +50,8 @@ void MasterRenderer::Render(Light& light, Camera& camera)
 	m_entityShader.Stop();
 	// Start the terrain shader
 	m_terrainShader.Start();
+	// Load the skyColor
+	m_terrainShader.LoadSkyColor(glm::vec3(RED, GREEN, BLUE));
 	// Load terrain shader parameters
 	m_terrainShader.LoadLight(light);
 	m_terrainShader.LoadViewMatrix(camera);

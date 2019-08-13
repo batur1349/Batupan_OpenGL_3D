@@ -14,7 +14,7 @@ Engine::Engine()
 		std::cout << "GLFW initialized successfully" << std::endl;
 
 		// Create the display manager (pointers must be deleted)
-		m_window = new Window(800, 600, "Barbaros OpenGL 3D Engine");
+		m_window = new Window(1280, 720, "Barbaros OpenGL 3D Engine");
 
 		// Initialize glew using experimental
 		glewExperimental = true;
@@ -51,13 +51,39 @@ Engine::~Engine()
 void Engine::Run()
 {
 	std::cout << "Engine::Run() loop is now running!" << "\n";
-
 	Loader loader;
 
-	Entity entity("tree", loader, 1.0f, 0.0f, glm::vec3(0, 0, -25), glm::vec3(0), glm::vec3(1));
-	Light light(glm::vec3(3000.0f, 20000.0f, 2000.0f), glm::vec3(1.0f));
-	Terrain terrain(0, 0, loader, loader.LoadTexture2D("grass"));
-	Terrain terrain2(-1, 0, loader, loader.LoadTexture2D("grass"));
+	BaseModel treeModel = OBJFileLoader::LoadObjFile("tree", loader);
+	ModelTexture treeModelTexture = loader.LoadTexture2D("tree");
+	TexturedModel treeTexturedModel(treeModel, treeModelTexture);
+	BaseModel fernModel = OBJFileLoader::LoadObjFile("fern", loader);
+	ModelTexture fernModelTexture = loader.LoadTexture2D("fern");
+	fernModelTexture.SetTransparency(true);
+	TexturedModel fernTexturedModel(fernModel, fernModelTexture);
+	BaseModel grassModel = OBJFileLoader::LoadObjFile("grass", loader);
+	ModelTexture grassModelTexture = loader.LoadTexture2D("grass");
+	grassModelTexture.SetTransparency(true); grassModelTexture.SetFakeLightning(true);
+	TexturedModel grassTexturedModel(grassModel, grassModelTexture);
+
+	std::vector<Entity> entities;
+	float LO = 0, HI = 800;
+	for (size_t i = 0; i < 500; i++)
+	{
+		float rX = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
+		float ry = 0.0f;
+		float rZ = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
+		entities.emplace_back(treeTexturedModel, glm::vec3(rX, ry, rZ), glm::vec3(0.0f), glm::vec3(2.0f));
+		rX = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
+		rZ = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
+		entities.emplace_back(fernTexturedModel, glm::vec3(rX, ry, rZ), glm::vec3(0.0f), glm::vec3(0.3f));
+		rX = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
+		rZ = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
+		entities.emplace_back(grassTexturedModel, glm::vec3(rX, ry, rZ), glm::vec3(0.0f), glm::vec3(0.75f));
+	}
+
+	Light light(glm::vec3(20000.0f, 20000.0f, 2000.0f), glm::vec3(1.0f));
+	Terrain terrain(0, 0, loader, loader.LoadTexture2D("grassTerrain"));
+	Terrain terrain2(-1, 0, loader, loader.LoadTexture2D("grassTerrain"));
 
 	Camera camera;
 	MasterRenderer renderer;
@@ -69,11 +95,13 @@ void Engine::Run()
 		UpdateDeltatime();
 
 		// Update the game
-		entity.Rotate(glm::vec3(0.0f, 0.3f, 0.0f));
 		camera.Update();
 		renderer.ConstructTerrain(terrain);
 		renderer.ConstructTerrain(terrain2);
-		renderer.ConstructEntity(entity);
+
+		for (auto& entity : entities)
+			renderer.ConstructEntity(entity);
+
 		renderer.Render(light, camera);
 
 		// RenderEntities the game

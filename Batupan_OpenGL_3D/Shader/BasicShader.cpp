@@ -37,6 +37,19 @@ const void BasicShader::LoadShineVariables(const float& shineDamper, const float
 	LoadFloat(m_location_reflectivity, reflectivity);
 }
 
+const void BasicShader::LoadFakeLightning(const bool& useFakeLightning)
+{
+	if (useFakeLightning)
+		LoadFloat(m_location_fakeLightning, 1.0f);
+	else
+		LoadFloat(m_location_fakeLightning, 0.0f);
+}
+
+const void BasicShader::LoadSkyColor(const glm::vec3& skyColor)
+{
+	LoadVector3F(m_location_skyColor, skyColor);
+}
+
 void BasicShader::BindAttributes()
 {
 	BindAttribute(0, "position");
@@ -54,4 +67,7 @@ void BasicShader::GetAllUniformLocations()
 	m_location_lightColor = GetUniformLocation("lightColor");
 	m_location_shineDamper = GetUniformLocation("shineDamper");
 	m_location_reflectivity = GetUniformLocation("reflectivity");
+
+	m_location_fakeLightning = GetUniformLocation("useFakeLightning");
+	m_location_skyColor = GetUniformLocation("skyColor");
 }

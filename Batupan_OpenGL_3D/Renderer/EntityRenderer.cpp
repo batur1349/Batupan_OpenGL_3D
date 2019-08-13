@@ -1,5 +1,6 @@
 #include "../pch.h"
 #include "EntityRenderer.hpp"
+#include "MasterRenderer.hpp"
 
 
 EntityRenderer::EntityRenderer(BasicShader& shader, const glm::mat4& projectionMatrix)
@@ -39,6 +40,10 @@ const void EntityRenderer::BindTexturedModel(TexturedModel& texturedModel)
 	glEnableVertexAttribArray(2);
 	// Load shineDamper and reflectivity from the texture
 	ModelTexture texture = texturedModel.GetModelTexture();
+	// Chack if texture has transparency
+	if (texture.GetTransparency())
+		MasterRenderer::DisableCulling();
+	m_shader.LoadFakeLightning(texture.GetFakeLightning());
 	m_shader.LoadShineVariables(texture.GetShineDamper(), texture.GetReflectivity());
 	// Activate an OpenGL texture unit and tell it where the texture is
 	glActiveTexture(GL_TEXTURE0);
@@ -48,6 +53,7 @@ const void EntityRenderer::BindTexturedModel(TexturedModel& texturedModel)
 
 const void EntityRenderer::UnbindTexturedModel()
 {
+	MasterRenderer::EnableCulling();
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(2);

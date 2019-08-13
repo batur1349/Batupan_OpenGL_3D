@@ -14,19 +14,21 @@ public:
 	TerrainShader();
 
 	// Functions
-	void LoadTransformationMatrix(const glm::mat4& matrix);
-	void LoadProjectionMatrix(const glm::mat4& matrix);
-	void LoadViewMatrix(Camera& camera);
-	void LoadLight(Light& light);
-	void LoadShineVariables(const float& damper, const float& ref);
+	const void LoadTransformationMatrix(const glm::mat4& matrix);
+	const void LoadProjectionMatrix(const glm::mat4& matrix);
+	const void LoadViewMatrix(Camera& camera);
+	const void LoadLight(Light& light);
+	const void LoadShineVariables(const float& damper, const float& ref);
+	const void LoadSkyColor(const glm::vec3& skyColor);
 protected:
 	// Functions
 	void BindAttributes();
 	void GetAllUniformLocations();
 private:
 	// Variables
-	GLuint m_transformationMatrix_Location, m_projectionMatrix_Location, m_viewMatrix_Location;
-	GLuint m_lightPosition_Location, m_lightColor_Location;
-	GLuint m_shineDamper_Location, m_reflectivity_Location;
+	GLuint m_location_transformationMatrix, m_location_projectionMatrix, m_location_viewMatrix;
+	GLuint m_location_lightPosition, m_location_lightColor;
+	GLuint m_location_shineDamper, m_location_reflectivity;
+	GLuint m_location_skyColor;
 };
 #endif // !TERRAINSHADER_HPP

@@ -9,12 +9,17 @@ public:
 	const GLuint& GetID();
 	inline float& GetShineDamper() { return m_shineDamper; }
 	inline float& GetReflectivity() { return m_reflectivity; }
+	inline bool& GetTransparency() { return m_transparency; }
+	inline bool& GetFakeLightning() { return m_fakeLightning; }
 
 	inline const void SetShineDamper(const float& shineDamper) { m_shineDamper = shineDamper; }
 	inline const void SetReflectivity(const float& reflectivity) { m_reflectivity = reflectivity; }
+	inline const void SetTransparency(const bool& transparency) { m_transparency = transparency; }
+	inline const void SetFakeLightning(const bool& fakeLightning) { m_fakeLightning = fakeLightning; }
 private:
 	GLuint m_textureID;
 	float m_shineDamper = 1.0f, m_reflectivity = 0.0f;
+	bool m_transparency = false, m_fakeLightning = false;
 };
 
 #endif // !MODELTEXTURE_HPP

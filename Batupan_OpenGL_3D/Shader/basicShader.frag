@@ -4,6 +4,7 @@ in vec2 passedTextureCoords;
 in vec3 surfaceNormal;
 in vec3 toLightVector;
 in vec3 toCameraVector;
+in float visibility;
 
 out vec4 out_Color;
 
@@ -11,6 +12,7 @@ uniform sampler2D textureSampler;
 uniform vec3 lightColor;
 uniform float shineDamper;
 uniform float reflectivity;
+uniform vec3 skyColor;
 
 void main()
 {
@@ -29,5 +31,10 @@ void main()
 	float dampedFactor = pow(specularFactor, shineDamper);
 	vec3 finalSpecular = dampedFactor * reflectivity * lightColor;
 
-	out_Color = vec4(diffuseLight, 1.0f) * texture(textureSampler, passedTextureCoords) + vec4(finalSpecular, 1.0f);
+	vec4 textureColor = texture(textureSampler, passedTextureCoords);
+	if(textureColor.a < 0.5f)
+		discard;
+
+	out_Color = vec4(diffuseLight, 1.0f) * textureColor + vec4(finalSpecular, 1.0f);
+	out_Color = mix(vec4(skyColor, 1.0f), out_Color, visibility);
 }

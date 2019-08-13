@@ -9,34 +9,39 @@ TerrainShader::TerrainShader()
 	GetAllUniformLocations();
 }
 
-void TerrainShader::LoadTransformationMatrix(const glm::mat4& matrix)
+const void TerrainShader::LoadTransformationMatrix(const glm::mat4& matrix)
 {
-	LoadMatrix4f(m_transformationMatrix_Location, matrix);
+	LoadMatrix4f(m_location_transformationMatrix, matrix);
 }
 
-void TerrainShader::LoadProjectionMatrix(const glm::mat4& matrix)
+const void TerrainShader::LoadProjectionMatrix(const glm::mat4& matrix)
 {
-	LoadMatrix4f(m_projectionMatrix_Location, matrix);
+	LoadMatrix4f(m_location_projectionMatrix, matrix);
 }
 
-void TerrainShader::LoadViewMatrix(Camera& camera)
+const void TerrainShader::LoadViewMatrix(Camera& camera)
 {
 	glm::mat4 viewMatrix;
 	viewMatrix = Maths::CreateViewMatrix(camera);
 
-	LoadMatrix4f(m_viewMatrix_Location, viewMatrix);
+	LoadMatrix4f(m_location_viewMatrix, viewMatrix);
 }
 
-void TerrainShader::LoadLight(Light& light)
+const void TerrainShader::LoadLight(Light& light)
 {
-	LoadVector3F(m_lightPosition_Location, light.GetPosition());
-	LoadVector3F(m_lightColor_Location, light.GetColor());
+	LoadVector3F(m_location_lightPosition, light.GetPosition());
+	LoadVector3F(m_location_lightColor, light.GetColor());
 }
 
-void TerrainShader::LoadShineVariables(const float& damper, const float& ref)
+const void TerrainShader::LoadShineVariables(const float& damper, const float& ref)
 {
-	LoadFloat(m_shineDamper_Location, damper);
-	LoadFloat(m_reflectivity_Location, ref);
+	LoadFloat(m_location_shineDamper, damper);
+	LoadFloat(m_location_reflectivity, ref);
+}
+
+const void TerrainShader::LoadSkyColor(const glm::vec3& skyColor)
+{
+	LoadVector3F(m_location_skyColor, skyColor);
 }
 
 void TerrainShader::BindAttributes()
@@ -48,11 +53,13 @@ void TerrainShader::BindAttributes()
 
 void TerrainShader::GetAllUniformLocations()
 {
-	m_transformationMatrix_Location = GetUniformLocation("transformationMatrix");
-	m_projectionMatrix_Location = GetUniformLocation("projectionMatrix");
-	m_viewMatrix_Location = GetUniformLocation("viewMatrix");
-	m_lightPosition_Location = GetUniformLocation("lightPosition");
-	m_lightColor_Location = GetUniformLocation("lightColor");
-	m_shineDamper_Location = GetUniformLocation("shineDamper");
-	m_reflectivity_Location = GetUniformLocation("reflectivity");
+	m_location_transformationMatrix = GetUniformLocation("transformationMatrix");
+	m_location_projectionMatrix = GetUniformLocation("projectionMatrix");
+	m_location_viewMatrix = GetUniformLocation("viewMatrix");
+	m_location_lightPosition = GetUniformLocation("lightPosition");
+	m_location_lightColor = GetUniformLocation("lightColor");
+	m_location_shineDamper = GetUniformLocation("shineDamper");
+	m_location_reflectivity = GetUniformLocation("reflectivity");
+
+	m_location_skyColor = GetUniformLocation("skyColor");
 }
