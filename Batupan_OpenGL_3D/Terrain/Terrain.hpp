@@ -3,15 +3,17 @@
 
 #include "../Loader/Loader.hpp"
 #include "../Texture/ModelTexture.hpp"
+#include "../Texture/TerrainTexturePack.hpp"
 
 class Terrain
 {
 public:
-	Terrain(const int& gridX, const int& gridZ, Loader& loader, const ModelTexture& texture);
+	Terrain(const int& gridX, const int& gridZ, Loader& loader, const TerrainTexturePack& texturePack, const TerrainTexture& blendMap);
 
 	// Getters
 	inline BaseModel& GetBaseModel() { return m_model; }
-	inline ModelTexture& GetTexture() { return m_texture; }
+	inline TerrainTexture& GetBlendMap() { return m_blendMap; }
+	inline TerrainTexturePack& GetTexturePack() { return m_texturePack; }
 	inline float& GetX() { return m_x; }
 	inline float& GetZ() { return m_z; }
 private:
@@ -21,7 +23,8 @@ private:
 	const float SIZE = 800.0f;
 	const int VERTEX_COUNT = 128;
 	float m_x, m_z;
-	ModelTexture m_texture;
+	TerrainTexture m_blendMap;
+	TerrainTexturePack m_texturePack;
 	BaseModel m_model;
 };
 

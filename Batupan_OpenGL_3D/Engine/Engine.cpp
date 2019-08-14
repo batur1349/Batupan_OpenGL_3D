@@ -11,7 +11,7 @@ Engine::Engine()
 		std::cout << "GLFW initialized successfully" << std::endl;
 
 		// Create the display manager (pointers must be deleted)
-		m_window = new Window(1280, 720, "Barbaros OpenGL 3D Engine");
+		m_window = new Window(960, 540, "Barbaros OpenGL 3D Engine");
 
 		// Initialize glew using experimental
 		glewExperimental = true;
@@ -50,6 +50,17 @@ void Engine::Run()
 	std::cout << "Engine::Run() loop is now running!" << "\n";
 	Loader loader;
 
+	// TERRAIN TEXTURE //
+
+	TerrainTexture bgTexture(loader.LoadTexture2D("grassTerrain"));
+	TerrainTexture rTexture(loader.LoadTexture2D("dirtTerrain"));
+	TerrainTexture gTexture(loader.LoadTexture2D("grassFlowersTerrain"));
+	TerrainTexture bTexture(loader.LoadTexture2D("pathTerrain"));
+	TerrainTexturePack texturePack(bgTexture, rTexture, gTexture, bTexture);
+	TerrainTexture blendMap(loader.LoadTexture2D("blendMap"));
+
+	// TERRAIN TEXTURE //
+
 	BaseModel treeModel = OBJFileLoader::LoadObjFile("tree", loader);
 	ModelTexture treeModelTexture = loader.LoadTexture2D("tree");
 	TexturedModel treeTexturedModel(treeModel, treeModelTexture);
@@ -79,8 +90,7 @@ void Engine::Run()
 	}
 
 	Light light(glm::vec3(20000.0f, 20000.0f, 2000.0f), glm::vec3(1.0f));
-	Terrain terrain(0, 0, loader, loader.LoadTexture2D("grassTerrain"));
-	Terrain terrain2(-1, 0, loader, loader.LoadTexture2D("grassTerrain"));
+	Terrain terrain(0, 0, loader, texturePack, blendMap);
 
 	Camera camera;
 	MasterRenderer renderer;
@@ -94,7 +104,6 @@ void Engine::Run()
 		// Update the game
 		camera.Update();
 		renderer.ConstructTerrain(terrain);
-		renderer.ConstructTerrain(terrain2);
 
 		for (auto& entity : entities)
 			renderer.ConstructEntity(entity);

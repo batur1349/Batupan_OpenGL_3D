@@ -4,8 +4,8 @@
 
 Camera::Camera()
 {
-	m_position = glm::vec3(0.0f, 5.0f, 0.0f);
-	m_pitch = 0.0f;
+	m_position = glm::vec3(0.0f, 20.0f, 0.0f);
+	m_pitch = 30.0f;
 	m_yaw = 180.0f;
 	m_roll = 0.0f;
 }

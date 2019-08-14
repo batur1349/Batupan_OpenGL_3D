@@ -2,8 +2,8 @@
 #include "Terrain.hpp"
 
 
-Terrain::Terrain(const int& gridX, const int& gridZ, Loader& loader, const ModelTexture& texture)
-	: m_model(GenerateTerrain(loader)), m_texture(texture)
+Terrain::Terrain(const int& gridX, const int& gridZ, Loader& loader, const TerrainTexturePack& texturePack, const TerrainTexture& blendMap)
+	: m_model(GenerateTerrain(loader)), m_texturePack(texturePack), m_blendMap(blendMap)
 {
 	m_x = gridX * SIZE;
 	m_z = gridZ * SIZE;

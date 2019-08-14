@@ -8,6 +8,7 @@ TerrainRenderer::TerrainRenderer(TerrainShader& shader, const glm::mat4& project
 	// Create the projection matrix using GLM and load it into the shader
 	m_shader.Start();
 	m_shader.LoadProjectionMatrix(projectionMatrix);
+	m_shader.ConnectTextureUnits();
 	m_shader.Stop();
 }
 
@@ -32,12 +33,34 @@ void TerrainRenderer::PrepareTerrain(Terrain& terrain)
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
 	// Load shineDamper and reflectivity from the texture
-	ModelTexture texture = terrain.GetTexture();
-	m_shader.LoadShineVariables(texture.GetShineDamper(), texture.GetReflectivity());
+	BindTextures(terrain);
+	m_shader.LoadShineVariables(1, 0);
+}
+
+void TerrainRenderer::BindTextures(Terrain& terrain)
+{
+	TerrainTexturePack texturePack = terrain.GetTexturePack();
+
 	// Activate an OpenGL texture unit and tell it where the texture is
 	glActiveTexture(GL_TEXTURE0);
 	// Bind the texturedModel's texture
-	glBindTexture(GL_TEXTURE_2D, texture.GetID());
+	glBindTexture(GL_TEXTURE_2D, texturePack.GetBackgroundTexture().GetTextureID());
+	// Activate an OpenGL texture unit and tell it where the texture is
+	glActiveTexture(GL_TEXTURE1);
+	// Bind the texturedModel's texture
+	glBindTexture(GL_TEXTURE_2D, texturePack.GetRedTexture().GetTextureID());
+	// Activate an OpenGL texture unit and tell it where the texture is
+	glActiveTexture(GL_TEXTURE2);
+	// Bind the texturedModel's texture
+	glBindTexture(GL_TEXTURE_2D, texturePack.GetGreenTexture().GetTextureID());
+	// Activate an OpenGL texture unit and tell it where the texture is
+	glActiveTexture(GL_TEXTURE3);
+	// Bind the texturedModel's texture
+	glBindTexture(GL_TEXTURE_2D, texturePack.GetBlueTexture().GetTextureID());
+	// Activate an OpenGL texture unit and tell it where the texture is
+	glActiveTexture(GL_TEXTURE4);
+	// Bind the texturedModel's texture
+	glBindTexture(GL_TEXTURE_2D, terrain.GetBlendMap().GetTextureID());
 }
 
 void TerrainRenderer::UnbindTexturedModel()

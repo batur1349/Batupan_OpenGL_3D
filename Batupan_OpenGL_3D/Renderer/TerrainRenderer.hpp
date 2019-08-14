@@ -16,6 +16,7 @@ public:
 private:
 	// Functions
 	void PrepareTerrain(Terrain& terrain);
+	void BindTextures(Terrain& terrain);
 	void UnbindTexturedModel();
 	void LoadModelMatrix(Terrain& terrain);
 
