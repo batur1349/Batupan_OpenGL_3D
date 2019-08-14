@@ -31,7 +31,6 @@ public:
 	inline void SetReflectivity(const float& reflectivity) { m_texturedModel.SetReflectivity(reflectivity); }
 	inline void SetShineDamper(const float& shineDamper) { m_texturedModel.SetShineDamper(shineDamper); }
 private:
-
 	// Variables
 	TexturedModel m_texturedModel;
 	glm::vec3 m_position;

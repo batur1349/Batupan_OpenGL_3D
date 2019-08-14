@@ -73,6 +73,11 @@ void Engine::Run()
 	grassModelTexture.SetTransparency(true); grassModelTexture.SetFakeLightning(true);
 	TexturedModel grassTexturedModel(grassModel, grassModelTexture);
 
+	BaseModel playerModel = OBJFileLoader::LoadObjFile("player", loader);
+	ModelTexture playerTexture = loader.LoadTexture2D("player");
+	TexturedModel playerTexturedModel(playerModel, playerTexture);
+	Player player(playerTexturedModel, glm::vec3(0.0f), glm::vec3(0.0f), glm::vec3(1.0f));
+
 	std::vector<Entity> entities;
 	float LO = 0, HI = 800;
 	for (size_t i = 0; i < 500; i++)
@@ -103,8 +108,10 @@ void Engine::Run()
 
 		// Update the game
 		camera.Update();
-		renderer.ConstructTerrain(terrain);
+		player.Update(m_deltaTime);
 
+		renderer.ConstructTerrain(terrain);
+		renderer.ConstructEntity(player);
 		for (auto& entity : entities)
 			renderer.ConstructEntity(entity);
 

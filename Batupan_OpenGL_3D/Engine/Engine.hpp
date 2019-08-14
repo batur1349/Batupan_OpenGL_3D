@@ -10,6 +10,7 @@
 #include "../Loader/OBJFileLoader.hpp"
 #include "../Entity/Light.hpp"
 #include "../Renderer/MasterRenderer.hpp"
+#include "../Entity/Player.hpp"
 
 class Engine
 {
