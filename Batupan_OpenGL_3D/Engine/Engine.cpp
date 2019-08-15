@@ -61,43 +61,43 @@ void Engine::Run()
 
 	// TERRAIN TEXTURE //
 
-	BaseModel treeModel = OBJFileLoader::LoadObjFile("tree", loader);
+	BaseModel treeModel = OBJFileLoader::LoadAssimpObjFile("tree", loader);
 	ModelTexture treeModelTexture = loader.LoadTexture2D("tree");
 	TexturedModel treeTexturedModel(treeModel, treeModelTexture);
-	BaseModel fernModel = OBJFileLoader::LoadObjFile("fern", loader);
+	BaseModel fernModel = OBJFileLoader::LoadAssimpObjFile("fern", loader);
 	ModelTexture fernModelTexture = loader.LoadTexture2D("fern");
 	fernModelTexture.SetTransparency(true);
 	TexturedModel fernTexturedModel(fernModel, fernModelTexture);
-	BaseModel grassModel = OBJFileLoader::LoadObjFile("grass", loader);
+	BaseModel grassModel = OBJFileLoader::LoadAssimpObjFile("grass", loader);
 	ModelTexture grassModelTexture = loader.LoadTexture2D("grass");
 	grassModelTexture.SetTransparency(true); grassModelTexture.SetFakeLightning(true);
 	TexturedModel grassTexturedModel(grassModel, grassModelTexture);
 
-	BaseModel playerModel = OBJFileLoader::LoadObjFile("player", loader);
+	BaseModel playerModel = OBJFileLoader::LoadAssimpObjFile("player", loader);
 	ModelTexture playerTexture = loader.LoadTexture2D("player");
 	TexturedModel playerTexturedModel(playerModel, playerTexture);
-	Player player(playerTexturedModel, glm::vec3(0.0f), glm::vec3(0.0f), glm::vec3(1.0f));
+	Player player(playerTexturedModel, glm::vec3(0.0f), glm::vec3(0.0f, 180.0f, 0.0f), glm::vec3(0.75f));
 
 	std::vector<Entity> entities;
 	float LO = 0, HI = 800;
-	for (size_t i = 0; i < 500; i++)
+	for (size_t i = 0; i < 200; i++)
 	{
 		float rX = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
 		float ry = 0.0f;
 		float rZ = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
-		entities.emplace_back(treeTexturedModel, glm::vec3(rX, ry, rZ), glm::vec3(0.0f), glm::vec3(2.0f));
+		entities.emplace_back(treeTexturedModel, glm::vec3(rX, ry, rZ), glm::vec3(0.0f), glm::vec3(5.0f));
 		rX = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
 		rZ = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
-		entities.emplace_back(fernTexturedModel, glm::vec3(rX, ry, rZ), glm::vec3(0.0f), glm::vec3(0.3f));
+		entities.emplace_back(fernTexturedModel, glm::vec3(rX, ry, rZ), glm::vec3(0.0f), glm::vec3(1.0f));
 		rX = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
 		rZ = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
-		entities.emplace_back(grassTexturedModel, glm::vec3(rX, ry, rZ), glm::vec3(0.0f), glm::vec3(0.75f));
+		entities.emplace_back(grassTexturedModel, glm::vec3(rX, ry, rZ), glm::vec3(0.0f), glm::vec3(1.0f));
 	}
 
 	Light light(glm::vec3(20000.0f, 20000.0f, 2000.0f), glm::vec3(1.0f));
 	Terrain terrain(0, 0, loader, texturePack, blendMap);
 
-	Camera camera;
+	Camera camera(&player);
 	MasterRenderer renderer;
 
 	m_lastFrame = glfwGetTime();

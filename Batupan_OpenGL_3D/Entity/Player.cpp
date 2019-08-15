@@ -42,11 +42,11 @@ const void Player::UpdateInput(const float& dt)
 {
 	if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_W))
 	{
-		m_currentSpeed = RUN_SPEED;
+		m_currentSpeed = -RUN_SPEED;
 	}
 	else if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_S))
 	{
-		m_currentSpeed = -RUN_SPEED;
+		m_currentSpeed = RUN_SPEED;
 	}
 	else
 	{
