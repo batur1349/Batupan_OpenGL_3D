@@ -33,10 +33,6 @@ const void Camera::Update()
 	CalculateZoom();
 	CalculatePitch();
 	CalculateAngleAroundPlayer();
-
-	//float horizontalDistance = CalculateHorizontalDistance();
-	//float verticalDistance = CalculateVerticalDistance();
-
 	CalculateCameraPosition(CalculateHorizontalDistance(), CalculateVerticalDistance());
 
 	m_yaw = 180.0f - (m_player->GetRotation().y + m_angleAroundThePlayer);
@@ -51,6 +47,15 @@ const void Camera::UpdateInput()
 		m_angleAroundThePlayer = 180.0f;
 		m_pitch = 20.0f;
 		m_distanceFromPlayer = 50.0;
+	}
+
+	if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_F6))
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	}
+	else if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_F7))
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 }
 

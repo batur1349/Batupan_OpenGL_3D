@@ -9,7 +9,7 @@ public:
 	Player(const TexturedModel& model, const glm::vec3& position, const glm::vec3& rotation, const glm::vec3& scale);
 
 	// Functions
-	const void Update(const float& dt);
+	const void Update(const float& dt, class Terrain& terrain);
 private:
 	const void UpdateInput(const float& dt);
 

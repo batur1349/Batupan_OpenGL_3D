@@ -103,6 +103,15 @@ glm::vec4 Maths::TransformMatrix(const glm::mat4& matrix, const glm::vec4& vecto
 	return glm::vec4(x, y, z, w);
 }
 
+float Maths::BarryCentric(const glm::vec3& p1, const glm::vec3& p2, const glm::vec3& p3, const glm::vec2& position)
+{
+	float det = (p2.z - p3.z) * (p1.x - p3.x) + (p3.x - p2.x) * (p1.z - p3.z);
+	float l1 = ((p2.z - p3.z) * (position.x - p3.x) + (p3.x - p2.x) * (position.y - p3.z)) / det;
+	float l2 = ((p3.z - p1.z) * (position.x - p3.x) + (p1.x - p3.x) * (position.y - p3.z)) / det;
+	float l3 = 1.0f - l1 - l2;
+	return l1 * p1.y + l2 * p2.y + l3 * p3.y;
+}
+
 float Maths::Determinant(const glm::mat4& matrix)
 {
 	float f =

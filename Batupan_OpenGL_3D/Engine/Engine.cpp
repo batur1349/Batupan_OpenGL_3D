@@ -78,27 +78,28 @@ void Engine::Run()
 	TexturedModel playerTexturedModel(playerModel, playerTexture);
 	Player player(playerTexturedModel, glm::vec3(0.0f), glm::vec3(0.0f, 180.0f, 0.0f), glm::vec3(0.75f));
 
+	Terrain terrain(0, 0, loader, "heightMap", texturePack, blendMap);
+	Light light(glm::vec3(20000.0f, 20000.0f, 2000.0f), glm::vec3(1.0f));
+	Camera camera(&player);
+	MasterRenderer renderer;
+
 	std::vector<Entity> entities;
 	float LO = 0, HI = 800;
 	for (size_t i = 0; i < 200; i++)
 	{
 		float rX = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
-		float ry = 0.0f;
 		float rZ = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
+		float ry = terrain.GetHeightOfTerrain(rX, rZ);
 		entities.emplace_back(treeTexturedModel, glm::vec3(rX, ry, rZ), glm::vec3(0.0f), glm::vec3(5.0f));
 		rX = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
 		rZ = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
+		ry = terrain.GetHeightOfTerrain(rX, rZ);
 		entities.emplace_back(fernTexturedModel, glm::vec3(rX, ry, rZ), glm::vec3(0.0f), glm::vec3(1.0f));
 		rX = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
 		rZ = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
+		ry = terrain.GetHeightOfTerrain(rX, rZ);
 		entities.emplace_back(grassTexturedModel, glm::vec3(rX, ry, rZ), glm::vec3(0.0f), glm::vec3(1.0f));
 	}
-
-	Light light(glm::vec3(20000.0f, 20000.0f, 2000.0f), glm::vec3(1.0f));
-	Terrain terrain(0, 0, loader, texturePack, blendMap);
-
-	Camera camera(&player);
-	MasterRenderer renderer;
 
 	m_lastFrame = glfwGetTime();
 	while (m_window->IsOpen())
@@ -108,7 +109,7 @@ void Engine::Run()
 
 		// Update the game
 		camera.Update();
-		player.Update(m_deltaTime);
+		player.Update(m_deltaTime, terrain);
 
 		renderer.ConstructTerrain(terrain);
 		renderer.ConstructEntity(player);

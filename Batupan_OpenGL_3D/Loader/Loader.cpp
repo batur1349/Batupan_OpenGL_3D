@@ -78,7 +78,7 @@ GLuint Loader::LoadTexture2D(const std::string& fileName)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
 	// If value is became lower than quality will be high
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, -0.4f);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, -0.2f);
 
 	// Unbind the texture
 	glBindTexture(GL_TEXTURE_2D, 0);

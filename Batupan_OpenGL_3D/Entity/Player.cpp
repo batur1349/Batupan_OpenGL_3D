@@ -1,5 +1,6 @@
 #include "../pch.h"
 #include "Player.hpp"
+#include "../Terrain/Terrain.hpp"
 
 const float Player::RUN_SPEED = 20.0f;
 const float Player::TURN_SPEED = 160.0f;
@@ -12,7 +13,7 @@ Player::Player(const TexturedModel& model, const glm::vec3& position, const glm:
 {
 }
 
-const void Player::Update(const float& dt)
+const void Player::Update(const float& dt, Terrain& terrain)
 {
 	// Update the keyboard of player
 	UpdateInput(dt);
@@ -24,17 +25,17 @@ const void Player::Update(const float& dt)
 	float distance = m_currentSpeed * dt;
 	float dx = distance * std::sin(GetRotation().y * static_cast<float>(static_cast<float>(3.1415) / static_cast <float>(180)));
 	float dz = distance * std::cos(GetRotation().y * static_cast<float>(static_cast<float>(3.1415) / static_cast <float>(180)));
-	Move(glm::vec3(dx, 0, dz));
 
 	// Check the jump
 	m_upwardsSpeed += GRAVITY * dt;
-	Move(glm::vec3(0, m_upwardsSpeed * dt, 0));
+	Move(glm::vec3(dx, m_upwardsSpeed * dt, dz));
 
-	if (GetPosition().y < TERRAIN_HEIGHT)
+	float terrainHeight = terrain.GetHeightOfTerrain(GetPosition().x, GetPosition().z);
+	if (GetPosition().y < terrainHeight)
 	{
 		m_upwardsSpeed = 0.0f;
-		SetPosition(glm::vec3(GetPosition().x, TERRAIN_HEIGHT, GetPosition().z));
 		m_jumped = false;
+		SetPosition(glm::vec3(GetPosition().x, terrainHeight, GetPosition().z));
 	}
 }
 
