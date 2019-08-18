@@ -40,6 +40,8 @@ const void EntityRenderer::BindTexturedModel(TexturedModel& texturedModel)
 	glEnableVertexAttribArray(2);
 	// Load shineDamper and reflectivity from the texture
 	ModelTexture texture = texturedModel.GetModelTexture();
+	// Load the texture atlas position
+	m_shader.LoadNumberOfRows(texture.GetNumberOfRows());
 	// Chack if texture has transparency
 	if (texture.GetTransparency())
 		MasterRenderer::DisableCulling();
@@ -64,6 +66,8 @@ const void EntityRenderer::RenderEntity(Entity& entity)
 {
 	// Load the transformation matrix into the shader
 	m_shader.LoadTransformationMatrix(Maths::CreateTransformationMatrix(entity.GetPosition(), entity.GetRotation(), entity.GetScale()));
+	// Load the entity's offset value
+	m_shader.LoadOffset(glm::vec2(entity.GetTextureXOffset(), entity.GetTextureYOffset()));
 	// Draw the model
 	glDrawElements(GL_TRIANGLES, entity.GetTexturedModel().GetBaseModel().GetVertexCount(), GL_UNSIGNED_INT, 0);
 }

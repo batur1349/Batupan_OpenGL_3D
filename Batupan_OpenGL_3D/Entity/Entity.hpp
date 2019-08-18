@@ -9,6 +9,7 @@ class Entity
 public:
 	Entity(const std::string& entityName, Loader& loader, const float& shineDamper = 1.0f, const float& reflectivity = 0.0f, const glm::vec3 & position = glm::vec3(0.0f), const glm::vec3 & rotation = glm::vec3(0.0f), const glm::vec3 & scale = glm::vec3(1.0f));
 	Entity(const TexturedModel& model, const glm::vec3& position, const glm::vec3& rotation, const glm::vec3& scale);
+	Entity(const TexturedModel& model, const int& textureIndex, const glm::vec3& position, const glm::vec3& rotation, const glm::vec3& scale);
 
 	// Methods
 	const void Move(glm::vec3 moveVector);
@@ -23,6 +24,8 @@ public:
 	inline glm::vec3& GetScale() { return m_scale; }
 	inline float& GetReflectivity() { return m_texturedModel.GetReflectivity(); }
 	inline float& GetShineDamper() { return m_texturedModel.GetShineDamper(); }
+	const float GetTextureXOffset();
+	const float GetTextureYOffset();
 
 	// Setters
 	inline void SetPosition(glm::vec3 position) { m_position = position; }
@@ -36,6 +39,7 @@ private:
 	glm::vec3 m_position;
 	glm::vec3 m_rotation;
 	glm::vec3 m_scale;
+	int m_textureIndex = 0;
 };
 
 #endif // !ENTITY_HPP

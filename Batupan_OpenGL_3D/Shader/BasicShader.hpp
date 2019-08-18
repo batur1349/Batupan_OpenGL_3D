@@ -20,6 +20,8 @@ public:
 	const void LoadShineVariables(const float& shineDamper, const float& reflectivity);
 	const void LoadFakeLightning(const bool& useFakeLightning);
 	const void LoadSkyColor(const glm::vec3& skyColor);
+	const void LoadNumberOfRows(const int& nrOfRows);
+	const void LoadOffset(const glm::vec2& offset);
 protected:
 	void BindAttributes();
 	void GetAllUniformLocations();
@@ -28,6 +30,7 @@ private:
 	GLuint m_location_lightColor, m_location_lightPosition, m_location_shineDamper, m_location_reflectivity;
 	GLuint m_location_fakeLightning;
 	GLuint m_location_skyColor;
+	GLuint m_location_numberOfRows, m_location_offset;
 };
 
 #endif // !BASICSHADER_HPP

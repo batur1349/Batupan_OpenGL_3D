@@ -65,9 +65,10 @@ void Engine::Run()
 	ModelTexture treeModelTexture = loader.LoadTexture2D("tree");
 	TexturedModel treeTexturedModel(treeModel, treeModelTexture);
 	BaseModel fernModel = OBJFileLoader::LoadAssimpObjFile("fern", loader);
-	ModelTexture fernModelTexture = loader.LoadTexture2D("fern");
-	fernModelTexture.SetTransparency(true);
-	TexturedModel fernTexturedModel(fernModel, fernModelTexture);
+	ModelTexture fernTextureAtlas = loader.LoadTexture2D("fernAtlas");
+	fernTextureAtlas.SetTransparency(true);
+	fernTextureAtlas.SetNumberOfRows(2);
+	TexturedModel fernTexturedModel(fernModel, fernTextureAtlas);
 	BaseModel grassModel = OBJFileLoader::LoadAssimpObjFile("grass", loader);
 	ModelTexture grassModelTexture = loader.LoadTexture2D("grass");
 	grassModelTexture.SetTransparency(true); grassModelTexture.SetFakeLightning(true);
@@ -85,16 +86,17 @@ void Engine::Run()
 
 	std::vector<Entity> entities;
 	float LO = 0, HI = 800;
-	for (size_t i = 0; i < 200; i++)
+	for (size_t i = 0; i < 2000; i++)
 	{
 		float rX = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
 		float rZ = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
 		float ry = terrain.GetHeightOfTerrain(rX, rZ);
+		int randomIndex = rand() % 4;
 		entities.emplace_back(treeTexturedModel, glm::vec3(rX, ry, rZ), glm::vec3(0.0f), glm::vec3(5.0f));
 		rX = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
 		rZ = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
 		ry = terrain.GetHeightOfTerrain(rX, rZ);
-		entities.emplace_back(fernTexturedModel, glm::vec3(rX, ry, rZ), glm::vec3(0.0f), glm::vec3(1.0f));
+		entities.emplace_back(fernTexturedModel, randomIndex, glm::vec3(rX, ry, rZ), glm::vec3(0.0f), glm::vec3(1.0f));
 		rX = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
 		rZ = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
 		ry = terrain.GetHeightOfTerrain(rX, rZ);

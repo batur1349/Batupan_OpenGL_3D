@@ -50,6 +50,16 @@ const void BasicShader::LoadSkyColor(const glm::vec3& skyColor)
 	LoadVector3F(m_location_skyColor, skyColor);
 }
 
+const void BasicShader::LoadNumberOfRows(const int& nrOfRows)
+{
+	LoadFloat(m_location_numberOfRows, nrOfRows);
+}
+
+const void BasicShader::LoadOffset(const glm::vec2& offset)
+{
+	LoadVector2f(m_location_offset, offset);
+}
+
 void BasicShader::BindAttributes()
 {
 	BindAttribute(0, "position");
@@ -70,4 +80,7 @@ void BasicShader::GetAllUniformLocations()
 
 	m_location_fakeLightning = GetUniformLocation("useFakeLightning");
 	m_location_skyColor = GetUniformLocation("skyColor");
+
+	m_location_numberOfRows = GetUniformLocation("numberOfRows");
+	m_location_offset = GetUniformLocation("offset");
 }

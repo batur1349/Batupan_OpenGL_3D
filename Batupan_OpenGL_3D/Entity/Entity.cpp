@@ -21,6 +21,15 @@ Entity::Entity(const TexturedModel& model, const glm::vec3& position, const glm:
 	m_scale = scale;
 }
 
+Entity::Entity(const TexturedModel& model, const int& textureIndex, const glm::vec3& position, const glm::vec3& rotation, const glm::vec3& scale)
+	: m_texturedModel(model)
+{
+	m_position = position;
+	m_rotation = rotation;
+	m_scale = scale;
+	m_textureIndex = textureIndex;
+}
+
 const void Entity::Move(glm::vec3 moveVector)
 {
 	m_position += moveVector;
@@ -39,4 +48,18 @@ const void Entity::Rotate(glm::vec3 rotateVector)
 const void Entity::Rotate(float rx, float ry, float rz)
 {
 	m_rotation += glm::vec3(rx, ry, rz);
+}
+
+const float Entity::GetTextureXOffset()
+{
+	int rows = m_texturedModel.GetModelTexture().GetNumberOfRows();
+	int column = m_textureIndex % rows;
+	return (float)column / (float)rows;
+}
+
+const float Entity::GetTextureYOffset()
+{
+	int rows = m_texturedModel.GetModelTexture().GetNumberOfRows();
+	int row = m_textureIndex / rows;
+	return (float)row / (float)rows;
 }
