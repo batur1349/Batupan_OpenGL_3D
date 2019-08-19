@@ -1,5 +1,7 @@
 #include "../pch.h"
 #include "Engine.hpp"
+#include "../Gui/GuiTexture.hpp"
+#include "../Gui/GuiRenderer.hpp"
 
 
 Engine::Engine()
@@ -84,9 +86,20 @@ void Engine::Run()
 	Camera camera(&player);
 	MasterRenderer renderer;
 
+	std::vector<GuiTexture> guis;
+	guis.push_back(GuiTexture(loader.LoadTexture2D("socuwan"), glm::vec2(0.5f), glm::vec2(0.25f)));
+	GuiRenderer guiRenderer(loader);
+
 	std::vector<Entity> entities;
 	float LO = 0, HI = 800;
-	for (size_t i = 0; i < 2000; i++)
+	int count;
+#ifdef _DEBUG
+	count = 50;
+#else
+	count = 200;
+#endif // _DEBUG
+
+	for (size_t i = 0; i < count; i++)
 	{
 		float rX = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
 		float rZ = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
@@ -119,7 +132,7 @@ void Engine::Run()
 			renderer.ConstructEntity(entity);
 
 		renderer.Render(light, camera);
-
+		guiRenderer.Render(guis);
 		// RenderEntities the game
 
 		// Update the window

@@ -10,6 +10,7 @@ public:
 	~Loader();
 
 	BaseModel LoadToVAO(const std::vector<glm::vec3>& vertices, const std::vector<glm::vec2>& uvs, const std::vector<glm::vec3>& normals, const std::vector<int>& indices);
+	BaseModel LoadToVAOGui(const std::vector<glm::vec2>& vertices);
 	GLuint LoadTexture2D(const std::string& fileName);
 private:
 	GLuint CreateVAOID();

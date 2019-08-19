@@ -1,6 +1,14 @@
 #include "../pch.h"
 #include "Maths.hpp"
 
+glm::mat4 Maths::CreateTransformationMatrix(const glm::vec2& translation, const glm::vec2& scale)
+{
+	glm::mat4 matrix;
+	matrix = glm::translate(matrix, glm::vec3(translation, 0.0f));
+	matrix = glm::scale(matrix, glm::vec3(scale, 1.0f));
+	return matrix;
+}
+
 glm::mat4 Maths::CreateTransformationMatrix(const glm::vec3& translation, const glm::vec3& rotation, const glm::vec3& scale)
 {
 	// Create the matrix

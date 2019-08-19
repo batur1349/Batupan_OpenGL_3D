@@ -178,6 +178,18 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../pch.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="Gui\GuiRenderer.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="Gui\GuiShader.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="Gui\GuiTexture.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../pch.h</PrecompiledHeaderFile>
+    </ClCompile>
     <ClCompile Include="Loader\Loader.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../pch.h</PrecompiledHeaderFile>
@@ -255,6 +267,9 @@
     <ClInclude Include="Entity\Entity.hpp" />
     <ClInclude Include="Entity\Light.hpp" />
     <ClInclude Include="Entity\Player.hpp" />
+    <ClInclude Include="Gui\GuiRenderer.hpp" />
+    <ClInclude Include="Gui\GuiShader.hpp" />
+    <ClInclude Include="Gui\GuiTexture.hpp" />
     <ClInclude Include="Loader\Loader.hpp" />
     <ClInclude Include="Loader\OBJFileLoader.hpp" />
     <ClInclude Include="Model\BaseModel.hpp" />
@@ -274,6 +289,8 @@
     <ClInclude Include="Window\Window.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Gui\guiShader.frag" />
+    <None Include="Gui\guiShader.vert" />
     <None Include="Shader\basicShader.frag" />
     <None Include="Shader\basicShader.vert" />
     <None Include="Shader\terrainShader.frag" />

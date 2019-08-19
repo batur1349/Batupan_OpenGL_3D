@@ -46,6 +46,15 @@ BaseModel Loader::LoadToVAO(const std::vector<glm::vec3>& vertices, const std::v
 	return BaseModel(vaoID, indicesSize);
 }
 
+BaseModel Loader::LoadToVAOGui(const std::vector<glm::vec2>& vertices)
+{
+	GLuint vaoid = CreateVAOID();
+	LoadDataToAttributeList(0, 2, vertices.data(), sizeof(glm::vec2) * vertices.size());
+	UnbindVAO();
+
+	return BaseModel(vaoid, vertices.size());
+}
+
 GLuint Loader::LoadTexture2D(const std::string& fileName)
 {
 	GLuint texture;
