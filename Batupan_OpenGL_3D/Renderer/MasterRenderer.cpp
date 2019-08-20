@@ -35,7 +35,7 @@ const void MasterRenderer::DisableCulling()
 	glDisable(GL_CULL_FACE);
 }
 
-void MasterRenderer::Render(Light& light, Camera& camera)
+void MasterRenderer::Render(const std::vector<Light>& lights, Camera& camera)
 {
 	// Prepare the screen
 	Prepare();
@@ -47,7 +47,7 @@ void MasterRenderer::Render(Light& light, Camera& camera)
 	// Load the skyColor
 	m_entityShader.LoadSkyColor(glm::vec3(RED, GREEN, BLUE));
 	// Load shader parameters
-	m_entityShader.LoadLight(light);
+	m_entityShader.LoadLights(lights);
 	m_entityShader.LoadViewMatrix(&camera);
 	// Render all of the entities
 	m_entityRenderer.RenderEntities(m_entities);
@@ -64,7 +64,7 @@ void MasterRenderer::Render(Light& light, Camera& camera)
 	// Load the skyColor
 	m_terrainShader.LoadSkyColor(glm::vec3(RED, GREEN, BLUE));
 	// Load terrain shader parameters
-	m_terrainShader.LoadLight(light);
+	m_terrainShader.LoadLight(lights);
 	m_terrainShader.LoadViewMatrix(camera);
 	// Render all of the terrains
 	m_terrainRenderer.Render(m_terrains);

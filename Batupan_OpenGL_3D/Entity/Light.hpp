@@ -7,8 +7,8 @@ public:
 	Light(const glm::vec3& position, const glm::vec3& color);
 
 	// Getters
-	inline const glm::vec3& GetPosition() { return m_position; }
-	inline const glm::vec3& GetColor() { return m_color; }
+	inline const glm::vec3& GetPosition() const { return m_position; }
+	inline const glm::vec3& GetColor() const { return m_color; }
 
 	// Setters
 	inline const void SetColor(const glm::vec3& color);

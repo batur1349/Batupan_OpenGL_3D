@@ -14,7 +14,7 @@ public:
 	inline const static void EnableCulling();
 	const static void DisableCulling();
 
-	void Render(Light& light, Camera& camera);
+	void Render(const std::vector<Light>& lights, Camera& camera);
 	void ConstructEntity(Entity& entity);
 	inline const void ConstructTerrain(Terrain& terrain) { m_terrains.push_back(terrain); }
 

@@ -42,6 +42,7 @@ const void EntityRenderer::BindTexturedModel(TexturedModel& texturedModel)
 	ModelTexture texture = texturedModel.GetModelTexture();
 	// Load the texture atlas position
 	m_shader.LoadNumberOfRows(texture.GetNumberOfRows());
+	m_shader.LoadNumberOfColumns(texture.GetNumberOfColumns());
 	// Chack if texture has transparency
 	if (texture.GetTransparency())
 		MasterRenderer::DisableCulling();

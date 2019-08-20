@@ -25,10 +25,21 @@ const void BasicShader::LoadViewMatrix(Camera* camera)
 	LoadMatrix4f(m_location_viewMatrix, viewMatrix);
 }
 
-const void BasicShader::LoadLight(Light& light)
+const void BasicShader::LoadLights(const std::vector<Light>& lights)
 {
-	LoadVector3F(m_location_lightColor, light.GetColor());
-	LoadVector3F(m_location_lightPosition, light.GetPosition());
+	for (size_t i = 0; i < MAX_LIGHTS; i++)
+	{
+		if (i < lights.size())
+		{
+			LoadVector3F(m_location_lightColor[i], lights.at(i).GetColor());
+			LoadVector3F(m_location_lightPosition[i], lights.at(i).GetPosition());
+		}
+		else
+		{
+			LoadVector3F(m_location_lightColor[i], glm::vec3(0.0f));
+			LoadVector3F(m_location_lightPosition[i], glm::vec3(0.0f));
+		}
+	}
 }
 
 const void BasicShader::LoadShineVariables(const float& shineDamper, const float& reflectivity)
@@ -55,6 +66,11 @@ const void BasicShader::LoadNumberOfRows(const int& nrOfRows)
 	LoadFloat(m_location_numberOfRows, nrOfRows);
 }
 
+const void BasicShader::LoadNumberOfColumns(const int& nrOfCols)
+{
+	LoadFloat(m_location_numberOfColumns, nrOfCols);
+}
+
 const void BasicShader::LoadOffset(const glm::vec2& offset)
 {
 	LoadVector2f(m_location_offset, offset);
@@ -73,8 +89,11 @@ void BasicShader::GetAllUniformLocations()
 	m_location_projectionMatrix = GetUniformLocation("projectionMatrix");
 	m_location_viewMatrix = GetUniformLocation("viewMatrix");
 
-	m_location_lightPosition = GetUniformLocation("lightPosition");
-	m_location_lightColor = GetUniformLocation("lightColor");
+	for (size_t i = 0; i < MAX_LIGHTS; i++)
+	{
+		m_location_lightPosition[i] = GetUniformLocation("lightPosition[" + std::to_string(i) + "]");
+		m_location_lightColor[i] = GetUniformLocation("lightColor[" + std::to_string(i) + "]");
+	}
 	m_location_shineDamper = GetUniformLocation("shineDamper");
 	m_location_reflectivity = GetUniformLocation("reflectivity");
 
@@ -82,5 +101,6 @@ void BasicShader::GetAllUniformLocations()
 	m_location_skyColor = GetUniformLocation("skyColor");
 
 	m_location_numberOfRows = GetUniformLocation("numberOfRows");
+	m_location_numberOfColumns = GetUniformLocation("numberOfColumns");
 	m_location_offset = GetUniformLocation("offset");
 }

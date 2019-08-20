@@ -71,10 +71,14 @@ void Engine::Run()
 	fernTextureAtlas.SetTransparency(true);
 	fernTextureAtlas.SetNumberOfRows(2);
 	TexturedModel fernTexturedModel(fernModel, fernTextureAtlas);
-	BaseModel grassModel = OBJFileLoader::LoadAssimpObjFile("grass", loader);
-	ModelTexture grassModelTexture = loader.LoadTexture2D("grass");
-	grassModelTexture.SetTransparency(true); grassModelTexture.SetFakeLightning(true);
-	TexturedModel grassTexturedModel(grassModel, grassModelTexture);
+
+	BaseModel grassModel = OBJFileLoader::LoadAssimpObjFile("oneGrass", loader);
+	ModelTexture grassTextureAtlas = loader.LoadTexture2D("flowersAtlas");
+	grassTextureAtlas.SetTransparency(true);
+	grassTextureAtlas.SetFakeLightning(true);
+	grassTextureAtlas.SetNumberOfColumns(4);
+	grassTextureAtlas.SetNumberOfRows(2);
+	TexturedModel grassTexturedModel(grassModel, grassTextureAtlas);
 
 	BaseModel playerModel = OBJFileLoader::LoadAssimpObjFile("player", loader);
 	ModelTexture playerTexture = loader.LoadTexture2D("player");
@@ -82,12 +86,13 @@ void Engine::Run()
 	Player player(playerTexturedModel, glm::vec3(0.0f), glm::vec3(0.0f, 180.0f, 0.0f), glm::vec3(0.75f));
 
 	Terrain terrain(0, 0, loader, "heightMap", texturePack, blendMap);
-	Light light(glm::vec3(20000.0f, 20000.0f, 2000.0f), glm::vec3(1.0f));
+	std::vector<Light> lights;
+	lights.push_back(Light(glm::vec3(20000.0f, 20000.0f, 2000.0f), glm::vec3(1.0f)));
 	Camera camera(&player);
 	MasterRenderer renderer;
 
 	std::vector<GuiTexture> guis;
-	guis.push_back(GuiTexture(loader.LoadTexture2D("socuwan"), glm::vec2(0.5f), glm::vec2(0.25f)));
+	guis.push_back(GuiTexture(loader.LoadTexture2D("baturpanLogo"), glm::vec2(0.75f, 0.75f), glm::vec2(0.25f)));
 	GuiRenderer guiRenderer(loader);
 
 	std::vector<Entity> entities;
@@ -96,24 +101,25 @@ void Engine::Run()
 #ifdef _DEBUG
 	count = 50;
 #else
-	count = 200;
+	count = 600;
 #endif // _DEBUG
 
 	for (size_t i = 0; i < count; i++)
 	{
 		float rX = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
 		float rZ = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
-		float ry = terrain.GetHeightOfTerrain(rX, rZ);
+		float rY = terrain.GetHeightOfTerrain(rX, rZ);
 		int randomIndex = rand() % 4;
-		entities.emplace_back(treeTexturedModel, glm::vec3(rX, ry, rZ), glm::vec3(0.0f), glm::vec3(5.0f));
+		int randomFlower = rand() % 8;
+		entities.emplace_back(treeTexturedModel, glm::vec3(rX, rY, rZ), glm::vec3(0.0f), glm::vec3(5.0f));
 		rX = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
 		rZ = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
-		ry = terrain.GetHeightOfTerrain(rX, rZ);
-		entities.emplace_back(fernTexturedModel, randomIndex, glm::vec3(rX, ry, rZ), glm::vec3(0.0f), glm::vec3(1.0f));
+		rY = terrain.GetHeightOfTerrain(rX, rZ);
+		entities.emplace_back(fernTexturedModel, randomIndex, glm::vec3(rX, rY, rZ), glm::vec3(0.0f), glm::vec3(1.0f));
 		rX = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
 		rZ = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
-		ry = terrain.GetHeightOfTerrain(rX, rZ);
-		entities.emplace_back(grassTexturedModel, glm::vec3(rX, ry, rZ), glm::vec3(0.0f), glm::vec3(1.0f));
+		rY = terrain.GetHeightOfTerrain(rX, rZ);
+		entities.emplace_back(grassTexturedModel, randomFlower, glm::vec3(rX, rY, rZ), glm::vec3(0.0f), glm::vec3(2.0f));
 	}
 
 	m_lastFrame = glfwGetTime();
@@ -131,7 +137,7 @@ void Engine::Run()
 		for (auto& entity : entities)
 			renderer.ConstructEntity(entity);
 
-		renderer.Render(light, camera);
+		renderer.Render(lights, camera);
 		guiRenderer.Render(guis);
 		// RenderEntities the game
 

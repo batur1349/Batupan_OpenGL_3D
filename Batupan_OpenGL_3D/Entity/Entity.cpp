@@ -52,14 +52,15 @@ const void Entity::Rotate(float rx, float ry, float rz)
 
 const float Entity::GetTextureXOffset()
 {
-	int rows = m_texturedModel.GetModelTexture().GetNumberOfRows();
-	int column = m_textureIndex % rows;
-	return (float)column / (float)rows;
+	int cols = m_texturedModel.GetModelTexture().GetNumberOfColumns();
+	int column = m_textureIndex % cols;
+	return (float)column / (float)cols;
 }
 
 const float Entity::GetTextureYOffset()
 {
 	int rows = m_texturedModel.GetModelTexture().GetNumberOfRows();
-	int row = m_textureIndex / rows;
+	int cols = m_texturedModel.GetModelTexture().GetNumberOfColumns();
+	int row = m_textureIndex / cols;
 	return (float)row / (float)rows;
 }
