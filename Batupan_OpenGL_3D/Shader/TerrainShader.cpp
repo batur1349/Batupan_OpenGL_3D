@@ -35,11 +35,13 @@ const void TerrainShader::LoadLight(const std::vector<Light>& lights)
 		{
 			LoadVector3F(m_location_lightColor[i], lights.at(i).GetColor());
 			LoadVector3F(m_location_lightPosition[i], lights.at(i).GetPosition());
+			LoadVector3F(m_location_attenuation[i], lights.at(i).GetAttenuation());
 		}
 		else
 		{
 			LoadVector3F(m_location_lightColor[i], glm::vec3(0.0f));
 			LoadVector3F(m_location_lightPosition[i], glm::vec3(0.0f));
+			LoadVector3F(m_location_attenuation[i], glm::vec3(1.0f, 0.0f, 0.0f));
 		}
 	}
 }
@@ -80,6 +82,7 @@ void TerrainShader::GetAllUniformLocations()
 	{
 		m_location_lightPosition[i] = GetUniformLocation("lightPosition[" + std::to_string(i) + "]");
 		m_location_lightColor[i] = GetUniformLocation("lightColor[" + std::to_string(i) + "]");
+		m_location_attenuation[i] = GetUniformLocation("attenuation[" + std::to_string(i) + "]");
 	}
 	m_location_shineDamper = GetUniformLocation("shineDamper");
 	m_location_reflectivity = GetUniformLocation("reflectivity");

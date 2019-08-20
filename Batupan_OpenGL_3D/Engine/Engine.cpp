@@ -83,11 +83,9 @@ void Engine::Run()
 	BaseModel playerModel = OBJFileLoader::LoadAssimpObjFile("player", loader);
 	ModelTexture playerTexture = loader.LoadTexture2D("player");
 	TexturedModel playerTexturedModel(playerModel, playerTexture);
-	Player player(playerTexturedModel, glm::vec3(0.0f), glm::vec3(0.0f, 180.0f, 0.0f), glm::vec3(0.75f));
+	Player player(playerTexturedModel, glm::vec3(247.0f, 8.58f, 259.0f), glm::vec3(0.0f, 180.0f, 0.0f), glm::vec3(0.75f));
 
 	Terrain terrain(0, 0, loader, "heightMap", texturePack, blendMap);
-	std::vector<Light> lights;
-	lights.push_back(Light(glm::vec3(20000.0f, 20000.0f, 2000.0f), glm::vec3(1.0f)));
 	Camera camera(&player);
 	MasterRenderer renderer;
 
@@ -122,6 +120,15 @@ void Engine::Run()
 		entities.emplace_back(grassTexturedModel, randomFlower, glm::vec3(rX, rY, rZ), glm::vec3(0.0f), glm::vec3(2.0f));
 	}
 
+	std::vector<Light> lights;
+	lights.push_back(Light(glm::vec3(247.0f, 22.5f, 249.0f), glm::vec3(1.0f), glm::vec3(0.5f, 0.003f, 0.0004f)));
+	BaseModel lampModel = OBJFileLoader::LoadAssimpObjFile("lamp", loader);
+	ModelTexture lampTexture = loader.LoadTexture2D("lamp");
+	lampTexture.SetFakeLightning(true);
+	TexturedModel lampTexturedModel(lampModel, lampTexture);
+	float pY = terrain.GetHeightOfTerrain(247.0f, 249.0f);
+	entities.push_back(Entity(lampTexturedModel, glm::vec3(247.0f, pY, 249.0f), glm::vec3(0.0f), glm::vec3(1.0f)));
+
 	m_lastFrame = glfwGetTime();
 	while (m_window->IsOpen())
 	{
@@ -131,6 +138,11 @@ void Engine::Run()
 		// Update the game
 		camera.Update();
 		player.Update(m_deltaTime, terrain);
+
+		if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_E))
+		{
+			std::cout << "PX :" << player.GetPosition().x << "PY :" << player.GetPosition().y << ", PZ :" << player.GetPosition().z << "\n";
+		}
 
 		renderer.ConstructTerrain(terrain);
 		renderer.ConstructEntity(player);
