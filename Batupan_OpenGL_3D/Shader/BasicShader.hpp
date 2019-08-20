@@ -29,7 +29,7 @@ protected:
 private:
 	static const int MAX_LIGHTS = 4;
 	GLuint m_location_transformationMatrix, m_location_projectionMatrix, m_location_viewMatrix;
-	GLuint m_location_lightColor[MAX_LIGHTS], m_location_lightPosition[MAX_LIGHTS], m_location_shineDamper, m_location_reflectivity;
+	GLuint m_location_lightColor[MAX_LIGHTS], m_location_lightPosition[MAX_LIGHTS], m_location_attenuation[MAX_LIGHTS], m_location_shineDamper, m_location_reflectivity;
 	GLuint m_location_fakeLightning;
 	GLuint m_location_skyColor;
 	GLuint m_location_numberOfRows, m_location_numberOfColumns, m_location_offset;
