@@ -4,6 +4,7 @@
 #include "../Shader/BasicShader.hpp"
 #include "EntityRenderer.hpp"
 #include "TerrainRenderer.hpp"
+#include "../Entity/Lamp.hpp"
 
 class MasterRenderer
 {
@@ -14,9 +15,10 @@ public:
 	inline const static void EnableCulling();
 	const static void DisableCulling();
 
-	void Render(const std::vector<Light>& lights, Camera& camera);
-	void ConstructEntity(Entity& entity);
+	const void Render(const std::vector<Light>& lights, Camera& camera);
+	inline const void ConstructEntity(Entity& entity);
 	inline const void ConstructTerrain(Terrain& terrain) { m_terrains.push_back(terrain); }
+	const void RenderLamps(std::vector<Lamp>& lamps, Camera& camera);
 
 	inline glm::mat4& GetProjectionMatrix() { return m_projectionMatrix; }
 	static void WindowResizeEvent(GLFWwindow* window, int width, int height);

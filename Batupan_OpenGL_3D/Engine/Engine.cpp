@@ -3,7 +3,6 @@
 #include "../Gui/GuiTexture.hpp"
 #include "../Gui/GuiRenderer.hpp"
 
-
 Engine::Engine()
 {
 	// Initialized GLFW
@@ -120,14 +119,18 @@ void Engine::Run()
 		entities.emplace_back(grassTexturedModel, randomFlower, glm::vec3(rX, rY, rZ), glm::vec3(0.0f), glm::vec3(2.0f));
 	}
 
-	std::vector<Light> lights;
-	lights.push_back(Light(glm::vec3(247.0f, 22.5f, 249.0f), glm::vec3(1.0f), glm::vec3(0.5f, 0.003f, 0.0004f)));
 	BaseModel lampModel = OBJFileLoader::LoadAssimpObjFile("lamp", loader);
 	ModelTexture lampTexture = loader.LoadTexture2D("lamp");
 	lampTexture.SetFakeLightning(true);
 	TexturedModel lampTexturedModel(lampModel, lampTexture);
+	std::vector<Lamp> lamps;
 	float pY = terrain.GetHeightOfTerrain(247.0f, 249.0f);
-	entities.push_back(Entity(lampTexturedModel, glm::vec3(247.0f, pY, 249.0f), glm::vec3(0.0f), glm::vec3(1.0f)));
+	lamps.push_back(Lamp(lampTexturedModel, glm::vec3(247.0f, pY, 249.0f), glm::vec3(1.0f), glm::vec3(0.75f, 0.005f, 0.0008f)));
+	pY = terrain.GetHeightOfTerrain(207.0f, 364.0f);
+	lamps.push_back(Lamp(lampTexturedModel, glm::vec3(207.0f, pY, 364.0f), glm::vec3(1.0f), glm::vec3(0.75f, 0.005f, 0.0008f)));
+	pY = terrain.GetHeightOfTerrain(217.0f, 536.0f);
+	lamps.push_back(Lamp(lampTexturedModel, glm::vec3(217.0f, pY, 536.0f), glm::vec3(1.0f), glm::vec3(0.75f, 0.005f, 0.0008f)));
+
 
 	m_lastFrame = glfwGetTime();
 	while (m_window->IsOpen())
@@ -139,12 +142,17 @@ void Engine::Run()
 		camera.Update();
 		player.Update(m_deltaTime, terrain);
 
+		if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_E))
+		{
+			std::cout << "X :" << player.GetPosition().x << ", Y :" << player.GetPosition().y << ", Z :" << player.GetPosition().z << "\n";
+		}
+
 		renderer.ConstructTerrain(terrain);
 		renderer.ConstructEntity(player);
 		for (auto& entity : entities)
 			renderer.ConstructEntity(entity);
 
-		renderer.Render(lights, camera);
+		renderer.RenderLamps(lamps, camera);
 		guiRenderer.Render(guis);
 		// RenderEntities the game
 

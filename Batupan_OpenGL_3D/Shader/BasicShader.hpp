@@ -15,7 +15,7 @@ public:
 
 	const void LoadTransformationMatrix(const glm::mat4& matrix);
 	const void LoadProjectionMatrix(const glm::mat4& matrix);
-	const void LoadViewMatrix(Camera* camera);
+	const void LoadViewMatrix(Camera& camera);
 	const void LoadLights(const std::vector<Light>& lights);
 	const void LoadShineVariables(const float& shineDamper, const float& reflectivity);
 	const void LoadFakeLightning(const bool& useFakeLightning);

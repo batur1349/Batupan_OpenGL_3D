@@ -19,9 +19,9 @@ const void BasicShader::LoadProjectionMatrix(const glm::mat4& matrix)
 	LoadMatrix4f(m_location_projectionMatrix, matrix);
 }
 
-const void BasicShader::LoadViewMatrix(Camera* camera)
+const void BasicShader::LoadViewMatrix(Camera& camera)
 {
-	glm::mat4 viewMatrix = Maths::CreateViewMatrix(*camera);
+	glm::mat4 viewMatrix = Maths::CreateViewMatrix(camera);
 	LoadMatrix4f(m_location_viewMatrix, viewMatrix);
 }
 

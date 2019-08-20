@@ -5,9 +5,9 @@ const float MasterRenderer::FOV = 60.0f;
 const float MasterRenderer::NEAR_PLANE = 0.1f;
 const float MasterRenderer::FAR_PLANE = 1000.0f;
 
-const float MasterRenderer::RED = 0.5f;
-const float MasterRenderer::GREEN = 0.5f;
-const float MasterRenderer::BLUE = 0.5f;
+const float MasterRenderer::RED = 0.1f;
+const float MasterRenderer::GREEN = 0.1f;
+const float MasterRenderer::BLUE = 0.1f;
 
 bool MasterRenderer::m_projectionMatrix_Changed = false;
 
@@ -35,7 +35,7 @@ const void MasterRenderer::DisableCulling()
 	glDisable(GL_CULL_FACE);
 }
 
-void MasterRenderer::Render(const std::vector<Light>& lights, Camera& camera)
+const void MasterRenderer::Render(const std::vector<Light>& lights, Camera& camera)
 {
 	// Prepare the screen
 	Prepare();
@@ -48,7 +48,7 @@ void MasterRenderer::Render(const std::vector<Light>& lights, Camera& camera)
 	m_entityShader.LoadSkyColor(glm::vec3(RED, GREEN, BLUE));
 	// Load shader parameters
 	m_entityShader.LoadLights(lights);
-	m_entityShader.LoadViewMatrix(&camera);
+	m_entityShader.LoadViewMatrix(camera);
 	// Render all of the entities
 	m_entityRenderer.RenderEntities(m_entities);
 	// Deactivate shader and clear entities
@@ -76,7 +76,7 @@ void MasterRenderer::Render(const std::vector<Light>& lights, Camera& camera)
 	m_entities.clear();
 }
 
-void MasterRenderer::ConstructEntity(Entity& entity)
+inline const void MasterRenderer::ConstructEntity(Entity& entity)
 {
 	// Get the textured model
 	TexturedModel& texturedModel = entity.GetTexturedModel();
@@ -85,6 +85,55 @@ void MasterRenderer::ConstructEntity(Entity& entity)
 	m_entities.insert(std::make_pair(texturedModel, std::vector<Entity>()));
 	// Add the entity to the entities list
 	m_entities.find(texturedModel)->second.push_back(entity);
+}
+
+const void MasterRenderer::RenderLamps(std::vector<Lamp>& lamps, Camera& camera)
+{
+	std::vector<Light> lights;
+	for (auto lamp : lamps)
+	{
+		lights.push_back(lamp.GetLight());
+		Entity temp = lamp.GetEntity();
+		ConstructEntity(temp);
+	}
+
+	// Prepare the screen
+	Prepare();
+	// Activate the shader
+	m_entityShader.Start();
+	// Check if projection matrix has changed and then load 
+	if (m_projectionMatrix_Changed)
+		m_entityShader.LoadProjectionMatrix(CreateProjectionMatrix());
+	// Load the skyColor
+	m_entityShader.LoadSkyColor(glm::vec3(RED, GREEN, BLUE));
+	// Load shader parameters
+	m_entityShader.LoadLights(lights);
+	m_entityShader.LoadViewMatrix(camera);
+	// Render all of the entities
+	m_entityRenderer.RenderEntities(m_entities);
+	// Deactivate shader and clear entities
+	m_entityShader.Stop();
+	// Start the terrain shader
+	m_terrainShader.Start();
+	// Check if projection matrix has changed and then load
+	if (m_projectionMatrix_Changed)
+	{
+		m_terrainShader.LoadProjectionMatrix(m_projectionMatrix);
+		m_projectionMatrix_Changed = false;
+	}
+	// Load the skyColor
+	m_terrainShader.LoadSkyColor(glm::vec3(RED, GREEN, BLUE));
+	// Load terrain shader parameters
+	m_terrainShader.LoadLight(lights);
+	m_terrainShader.LoadViewMatrix(camera);
+	// Render all of the terrains
+	m_terrainRenderer.Render(m_terrains);
+	// Stop terrain shader and clear terrains
+	m_terrainShader.Stop();
+	// Clear the terrains batch, for the memory management
+	m_terrains.clear();
+	// Clear the entities batch, for the memory management
+	m_entities.clear();
 }
 
 const glm::mat4& MasterRenderer::CreateProjectionMatrix()
