@@ -22,7 +22,7 @@ uniform float numberOfColumns;
 uniform vec2 offset;
 
 const float density = 0.0025f;
-const float gradient = 3.5f;
+const float gradient = 10.0f;
 
 void main() 
 {

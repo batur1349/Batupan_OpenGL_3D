@@ -139,11 +139,6 @@ void Engine::Run()
 		camera.Update();
 		player.Update(m_deltaTime, terrain);
 
-		if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_E))
-		{
-			std::cout << "PX :" << player.GetPosition().x << "PY :" << player.GetPosition().y << ", PZ :" << player.GetPosition().z << "\n";
-		}
-
 		renderer.ConstructTerrain(terrain);
 		renderer.ConstructEntity(player);
 		for (auto& entity : entities)
