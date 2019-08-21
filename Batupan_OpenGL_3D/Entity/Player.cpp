@@ -13,7 +13,7 @@ Player::Player(const TexturedModel& model, const glm::vec3& position, const glm:
 {
 }
 
-const void Player::Update(const float& dt, Terrain& terrain)
+const void Player::Update(const float& dt, std::vector<Terrain>& terrains)
 {
 	// Update the keyboard of player
 	UpdateInput(dt);
@@ -30,7 +30,7 @@ const void Player::Update(const float& dt, Terrain& terrain)
 	m_upwardsSpeed += GRAVITY * dt;
 	Move(glm::vec3(dx, m_upwardsSpeed * dt, dz));
 
-	float terrainHeight = terrain.GetHeightOfTerrain(GetPosition().x, GetPosition().z);
+	float terrainHeight = terrains.at(0).GetHeightOfTerrain(GetPosition().x, GetPosition().z);
 	if (GetPosition().y < terrainHeight)
 	{
 		m_upwardsSpeed = 0.0f;

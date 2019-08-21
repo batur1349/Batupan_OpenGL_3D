@@ -64,7 +64,7 @@ const void MasterRenderer::Render(const std::vector<Light>& lights, Camera& came
 	// Load the skyColor
 	m_terrainShader.LoadSkyColor(glm::vec3(RED, GREEN, BLUE));
 	// Load terrain shader parameters
-	m_terrainShader.LoadLight(lights);
+	m_terrainShader.LoadLights(lights);
 	m_terrainShader.LoadViewMatrix(camera);
 	// Render all of the terrains
 	m_terrainRenderer.Render(m_terrains);
@@ -124,7 +124,64 @@ const void MasterRenderer::RenderLamps(std::vector<Lamp>& lamps, Camera& camera)
 	// Load the skyColor
 	m_terrainShader.LoadSkyColor(glm::vec3(RED, GREEN, BLUE));
 	// Load terrain shader parameters
-	m_terrainShader.LoadLight(lights);
+	m_terrainShader.LoadLights(lights);
+	m_terrainShader.LoadViewMatrix(camera);
+	// Render all of the terrains
+	m_terrainRenderer.Render(m_terrains);
+	// Stop terrain shader and clear terrains
+	m_terrainShader.Stop();
+	// Clear the terrains batch, for the memory management
+	m_terrains.clear();
+	// Clear the entities batch, for the memory management
+	m_entities.clear();
+}
+
+const void MasterRenderer::RenderScene(const std::vector<Entity>& entities, const std::vector<Terrain>& terrains, const std::vector<Lamp>& lamps, Camera& camera)
+{
+	for (auto entity : entities)
+	{
+		ConstructEntity(entity);
+	}
+
+	for (auto terrain : terrains)
+	{
+		ConstructTerrain(terrain);
+	}
+
+	for (auto lamp : lamps)
+	{
+		Entity temp = lamp.GetEntity();
+		ConstructEntity(temp);
+	}
+
+	// Prepare the screen
+	Prepare();
+	// Activate the shader
+	m_entityShader.Start();
+	// Check if projection matrix has changed and then load 
+	if (m_projectionMatrix_Changed)
+		m_entityShader.LoadProjectionMatrix(CreateProjectionMatrix());
+	// Load the skyColor
+	m_entityShader.LoadSkyColor(glm::vec3(RED, GREEN, BLUE));
+	// Load shader parameters
+	m_entityShader.LoadLamps(lamps);
+	m_entityShader.LoadViewMatrix(camera);
+	// Render all of the entities
+	m_entityRenderer.RenderEntities(m_entities);
+	// Deactivate shader and clear entities
+	m_entityShader.Stop();
+	// Start the terrain shader
+	m_terrainShader.Start();
+	// Check if projection matrix has changed and then load
+	if (m_projectionMatrix_Changed)
+	{
+		m_terrainShader.LoadProjectionMatrix(m_projectionMatrix);
+		m_projectionMatrix_Changed = false;
+	}
+	// Load the skyColor
+	m_terrainShader.LoadSkyColor(glm::vec3(RED, GREEN, BLUE));
+	// Load terrain shader parameters
+	m_terrainShader.LoadLamps(lamps);
 	m_terrainShader.LoadViewMatrix(camera);
 	// Render all of the terrains
 	m_terrainRenderer.Render(m_terrains);

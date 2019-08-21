@@ -9,7 +9,7 @@ public:
 	Player(const TexturedModel& model, const glm::vec3& position, const glm::vec3& rotation, const glm::vec3& scale);
 
 	// Functions
-	const void Update(const float& dt, class Terrain& terrain);
+	const void Update(const float& dt, std::vector<class Terrain>& terrains);
 private:
 	const void UpdateInput(const float& dt);
 

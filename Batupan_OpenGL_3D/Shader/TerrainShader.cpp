@@ -27,7 +27,7 @@ const void TerrainShader::LoadViewMatrix(Camera& camera)
 	LoadMatrix4f(m_location_viewMatrix, viewMatrix);
 }
 
-const void TerrainShader::LoadLight(const std::vector<Light>& lights)
+const void TerrainShader::LoadLights(const std::vector<Light>& lights)
 {
 	for (size_t i = 0; i < MAX_LIGHTS; i++)
 	{
@@ -36,6 +36,25 @@ const void TerrainShader::LoadLight(const std::vector<Light>& lights)
 			LoadVector3F(m_location_lightColor[i], lights.at(i).GetColor());
 			LoadVector3F(m_location_lightPosition[i], lights.at(i).GetPosition());
 			LoadVector3F(m_location_attenuation[i], lights.at(i).GetAttenuation());
+		}
+		else
+		{
+			LoadVector3F(m_location_lightColor[i], glm::vec3(0.0f));
+			LoadVector3F(m_location_lightPosition[i], glm::vec3(0.0f));
+			LoadVector3F(m_location_attenuation[i], glm::vec3(1.0f, 0.0f, 0.0f));
+		}
+	}
+}
+
+const void TerrainShader::LoadLamps(const std::vector<Lamp>& lamps)
+{
+	for (size_t i = 0; i < MAX_LIGHTS; i++)
+	{
+		if (i < lamps.size())
+		{
+			LoadVector3F(m_location_lightColor[i], lamps.at(i).GetLight().GetColor());
+			LoadVector3F(m_location_lightPosition[i], lamps.at(i).GetLight().GetPosition());
+			LoadVector3F(m_location_attenuation[i], lamps.at(i).GetLight().GetAttenuation());
 		}
 		else
 		{

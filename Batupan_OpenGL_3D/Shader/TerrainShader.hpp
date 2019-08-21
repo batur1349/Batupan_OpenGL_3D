@@ -5,6 +5,7 @@
 #include "../Entity/Light.hpp"
 #include "../Entity/Camera.hpp"
 #include "../Toolbox/Maths.hpp"
+#include "../Entity/Lamp.hpp"
 static const std::string TERRAIN_SHADER_FILE = "Shader/terrainShader";
 
 class TerrainShader : public ShaderProgram
@@ -17,7 +18,8 @@ public:
 	const void LoadTransformationMatrix(const glm::mat4& matrix);
 	const void LoadProjectionMatrix(const glm::mat4& matrix);
 	const void LoadViewMatrix(Camera& camera);
-	const void LoadLight(const std::vector<Light>& lights);
+	const void LoadLights(const std::vector<Light>& lights);
+	const void LoadLamps(const std::vector<Lamp>& lamps);
 	const void LoadShineVariables(const float& damper, const float& ref);
 	const void LoadSkyColor(const glm::vec3& skyColor);
 	const void ConnectTextureUnits();

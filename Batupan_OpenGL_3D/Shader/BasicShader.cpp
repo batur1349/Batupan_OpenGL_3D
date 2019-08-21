@@ -44,6 +44,25 @@ const void BasicShader::LoadLights(const std::vector<Light>& lights)
 	}
 }
 
+const void BasicShader::LoadLamps(const std::vector<Lamp>& lamps)
+{
+	for (size_t i = 0; i < MAX_LIGHTS; i++)
+	{
+		if (i < lamps.size())
+		{
+			LoadVector3F(m_location_lightColor[i], lamps.at(i).GetLight().GetColor());
+			LoadVector3F(m_location_lightPosition[i], lamps.at(i).GetLight().GetPosition());
+			LoadVector3F(m_location_attenuation[i], lamps.at(i).GetLight().GetAttenuation());
+		}
+		else
+		{
+			LoadVector3F(m_location_lightColor[i], glm::vec3(0.0f));
+			LoadVector3F(m_location_lightPosition[i], glm::vec3(0.0f));
+			LoadVector3F(m_location_attenuation[i], glm::vec3(1.0f, 0.0f, 0.0f));
+		}
+	}
+}
+
 const void BasicShader::LoadShineVariables(const float& shineDamper, const float& reflectivity)
 {
 	LoadFloat(m_location_shineDamper, shineDamper);

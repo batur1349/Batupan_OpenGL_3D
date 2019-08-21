@@ -84,7 +84,8 @@ void Engine::Run()
 	TexturedModel playerTexturedModel(playerModel, playerTexture);
 	Player player(playerTexturedModel, glm::vec3(247.0f, 8.58f, 259.0f), glm::vec3(0.0f, 180.0f, 0.0f), glm::vec3(0.75f));
 
-	Terrain terrain(0, 0, loader, "heightMap", texturePack, blendMap);
+	std::vector<Terrain> terrains;
+	terrains.push_back(Terrain(0, 0, loader, "heightMap", texturePack, blendMap));
 	Camera camera(&player);
 	MasterRenderer renderer;
 
@@ -105,17 +106,17 @@ void Engine::Run()
 	{
 		float rX = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
 		float rZ = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
-		float rY = terrain.GetHeightOfTerrain(rX, rZ);
+		float rY = terrains.at(0).GetHeightOfTerrain(rX, rZ);
 		int randomIndex = rand() % 4;
 		int randomFlower = rand() % 8;
 		entities.emplace_back(treeTexturedModel, glm::vec3(rX, rY, rZ), glm::vec3(0.0f), glm::vec3(5.0f));
 		rX = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
 		rZ = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
-		rY = terrain.GetHeightOfTerrain(rX, rZ);
+		rY = terrains.at(0).GetHeightOfTerrain(rX, rZ);
 		entities.emplace_back(fernTexturedModel, randomIndex, glm::vec3(rX, rY, rZ), glm::vec3(0.0f), glm::vec3(1.0f));
 		rX = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
 		rZ = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
-		rY = terrain.GetHeightOfTerrain(rX, rZ);
+		rY = terrains.at(0).GetHeightOfTerrain(rX, rZ);
 		entities.emplace_back(grassTexturedModel, randomFlower, glm::vec3(rX, rY, rZ), glm::vec3(0.0f), glm::vec3(2.0f));
 	}
 
@@ -124,13 +125,12 @@ void Engine::Run()
 	lampTexture.SetFakeLightning(true);
 	TexturedModel lampTexturedModel(lampModel, lampTexture);
 	std::vector<Lamp> lamps;
-	float pY = terrain.GetHeightOfTerrain(247.0f, 249.0f);
+	float pY = terrains.at(0).GetHeightOfTerrain(247.0f, 249.0f);
 	lamps.push_back(Lamp(lampTexturedModel, glm::vec3(247.0f, pY, 249.0f), glm::vec3(1.0f), glm::vec3(0.75f, 0.005f, 0.0008f)));
-	pY = terrain.GetHeightOfTerrain(207.0f, 364.0f);
+	pY = terrains.at(0).GetHeightOfTerrain(207.0f, 364.0f);
 	lamps.push_back(Lamp(lampTexturedModel, glm::vec3(207.0f, pY, 364.0f), glm::vec3(1.0f), glm::vec3(0.75f, 0.005f, 0.0008f)));
-	pY = terrain.GetHeightOfTerrain(217.0f, 536.0f);
+	pY = terrains.at(0).GetHeightOfTerrain(217.0f, 536.0f);
 	lamps.push_back(Lamp(lampTexturedModel, glm::vec3(217.0f, pY, 536.0f), glm::vec3(1.0f), glm::vec3(0.75f, 0.005f, 0.0008f)));
-
 
 	m_lastFrame = glfwGetTime();
 	while (m_window->IsOpen())
@@ -140,19 +140,20 @@ void Engine::Run()
 
 		// Update the game
 		camera.Update();
-		player.Update(m_deltaTime, terrain);
+		player.Update(m_deltaTime, terrains);
 
 		if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_E))
 		{
 			std::cout << "X :" << player.GetPosition().x << ", Y :" << player.GetPosition().y << ", Z :" << player.GetPosition().z << "\n";
 		}
 
-		renderer.ConstructTerrain(terrain);
-		renderer.ConstructEntity(player);
+		/*renderer.ConstructTerrain(terrain);
 		for (auto& entity : entities)
 			renderer.ConstructEntity(entity);
 
-		renderer.RenderLamps(lamps, camera);
+		renderer.RenderLamps(lamps, camera);*/
+		renderer.ConstructEntity(player);
+		renderer.RenderScene(entities, terrains, lamps, camera);
 		guiRenderer.Render(guis);
 		// RenderEntities the game
 

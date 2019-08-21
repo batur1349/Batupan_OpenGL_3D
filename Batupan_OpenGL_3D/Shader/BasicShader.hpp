@@ -5,7 +5,7 @@
 #include "../Entity/Camera.hpp"
 #include "../Toolbox/Maths.hpp"
 #include "../Entity/Light.hpp"
-
+#include "../Entity/Lamp.hpp"
 static const std::string BASIC_SHADER_FILE = "Shader/basicShader";
 
 class BasicShader : public ShaderProgram
@@ -17,6 +17,7 @@ public:
 	const void LoadProjectionMatrix(const glm::mat4& matrix);
 	const void LoadViewMatrix(Camera& camera);
 	const void LoadLights(const std::vector<Light>& lights);
+	const void LoadLamps(const std::vector<Lamp>& lamps);
 	const void LoadShineVariables(const float& shineDamper, const float& reflectivity);
 	const void LoadFakeLightning(const bool& useFakeLightning);
 	const void LoadSkyColor(const glm::vec3& skyColor);
