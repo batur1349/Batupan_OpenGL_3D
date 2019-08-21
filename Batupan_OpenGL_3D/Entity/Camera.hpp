@@ -16,6 +16,7 @@ public:
 	inline float& GetPitch() { return m_pitch; }
 	inline float& GetYaw() { return m_yaw; }
 	inline float& GetRoll() { return m_roll; }
+	const glm::mat4 GetViewMatrix();
 private:
 	Player* m_player;
 	glm::vec3 m_position, m_worldUP, m_front;

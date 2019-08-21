@@ -216,6 +216,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Renderer\Frustum.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../pch.h</PrecompiledHeaderFile>
+    </ClCompile>
     <ClCompile Include="Renderer\MasterRenderer.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../pch.h</PrecompiledHeaderFile>
@@ -280,6 +284,7 @@
     <ClInclude Include="Model\BaseModel.hpp" />
     <ClInclude Include="Model\TexturedModel.hpp" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Renderer\Frustum.hpp" />
     <ClInclude Include="Renderer\MasterRenderer.hpp" />
     <ClInclude Include="Renderer\EntityRenderer.hpp" />
     <ClInclude Include="Renderer\TerrainRenderer.hpp" />

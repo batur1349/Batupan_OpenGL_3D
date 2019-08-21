@@ -1,6 +1,31 @@
 #include "../pch.h"
 #include "Maths.hpp"
 
+glm::mat4 Maths::CreateProjectionMatrix(const float& fov, const float& near, const float& far)
+{
+	int sizeX, sizeY;
+	glfwGetWindowSize(glfwGetCurrentContext(), &sizeX, &sizeY);
+
+	float aspectRatio = (float)((float)sizeX / (float)sizeY);
+	float angle = fov / 2.0f;
+	float radAngle = glm::radians(angle);
+	float tanAngle = tanf(radAngle);
+	float y_scale = (GLfloat)(1.0f / tanAngle) * aspectRatio;
+	float x_scale = y_scale / aspectRatio;
+	float frustum_length = far - near;
+
+	glm::mat4 projectionMatrix = glm::mat4(1.0f);
+
+	projectionMatrix[0][0] = x_scale;
+	projectionMatrix[1][1] = y_scale;
+	projectionMatrix[2][2] = -((far + near) / frustum_length);
+	projectionMatrix[2][3] = -1;
+	projectionMatrix[3][2] = -(2 * near * far) / frustum_length;
+	projectionMatrix[3][3] = 0;
+
+	return projectionMatrix;
+}
+
 glm::mat4 Maths::CreateTransformationMatrix(const glm::vec2& translation, const glm::vec2& scale)
 {
 	glm::mat4 matrix;

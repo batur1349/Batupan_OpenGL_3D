@@ -40,6 +40,23 @@ const void Camera::Update()
 	glfwGetCursorPos(glfwGetCurrentContext(), &m_lastMouseX, &m_lastMouseY);
 }
 
+const glm::mat4 Camera::GetViewMatrix()
+{
+	// Reset the viewMatrix
+	glm::mat4 viewMatrix = glm::mat4(1.0f);
+
+	// Rotate X Coordinate Based
+	viewMatrix = glm::rotate(viewMatrix, glm::radians(GetPitch()), glm::vec3(1.0f, 0.0f, 0.0f));
+
+	// Rotate Y Coordinate Based
+	viewMatrix = glm::rotate(viewMatrix, glm::radians(GetYaw()), glm::vec3(0.0f, 1.0f, 0.0f));
+
+	// Translate the Camera Position
+	viewMatrix = glm::translate(viewMatrix, -(m_position));
+
+	return viewMatrix;
+}
+
 const void Camera::UpdateInput()
 {
 	if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_R))

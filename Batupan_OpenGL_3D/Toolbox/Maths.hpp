@@ -6,6 +6,7 @@
 class Maths
 {
 public:
+	static glm::mat4 CreateProjectionMatrix(const float& fov, const float& near, const float& far);
 	static glm::mat4 CreateTransformationMatrix(const glm::vec2& translation, const glm::vec2& scale); // TODO ROTATION
 	static glm::mat4 CreateTransformationMatrix(const glm::vec3& translation, const glm::vec3& rotation, const glm::vec3& scale);
 	static glm::mat4 CreateViewMatrix(Camera& camera);

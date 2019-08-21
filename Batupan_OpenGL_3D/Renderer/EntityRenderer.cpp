@@ -28,6 +28,26 @@ void EntityRenderer::RenderEntities(std::map<TexturedModel, std::vector<Entity>,
 	}
 }
 
+const void EntityRenderer::RenderEntities(std::map<TexturedModel, std::vector<Entity>, TextureModelCompare>& entities, Frustum& frustum)
+{
+	// Loop through the mapObjects
+	for (auto& mapObject : entities)
+	{
+		// key.first = TexturedModel, key.second = std::vector<Entity>
+		// Bind the texturedModel's texture
+		TexturedModel texturedModel = mapObject.first;
+		BindTexturedModel(texturedModel);
+		// RenderEntities all of the entities in the container
+		for (Entity& entity : mapObject.second)
+		{
+			if (frustum.SphereInFrustum(entity.GetPosition(), 25.0f))
+				RenderEntity(entity);
+		}
+		// Unbind the texturedModel
+		UnbindTexturedModel();
+	}
+}
+
 const void EntityRenderer::BindTexturedModel(TexturedModel& texturedModel)
 {
 	// Get the BaseModel from the TexturedModel

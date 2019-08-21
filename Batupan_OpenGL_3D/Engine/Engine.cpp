@@ -62,8 +62,8 @@ void Engine::Run()
 
 	// TERRAIN TEXTURE //
 
-	BaseModel treeModel = OBJFileLoader::LoadAssimpObjFile("tree", loader);
-	ModelTexture treeModelTexture = loader.LoadTexture2D("tree");
+	BaseModel treeModel = OBJFileLoader::LoadAssimpObjFile("lowPolyTree", loader);
+	ModelTexture treeModelTexture = loader.LoadTexture2D("lowPolyTree");
 	TexturedModel treeTexturedModel(treeModel, treeModelTexture);
 	BaseModel fernModel = OBJFileLoader::LoadAssimpObjFile("fern", loader);
 	ModelTexture fernTextureAtlas = loader.LoadTexture2D("fernAtlas");
@@ -109,7 +109,7 @@ void Engine::Run()
 		float rY = terrains.at(0).GetHeightOfTerrain(rX, rZ);
 		int randomIndex = rand() % 4;
 		int randomFlower = rand() % 8;
-		entities.emplace_back(treeTexturedModel, glm::vec3(rX, rY, rZ), glm::vec3(0.0f), glm::vec3(5.0f));
+		entities.emplace_back(treeTexturedModel, glm::vec3(rX, rY, rZ), glm::vec3(0.0f), glm::vec3(0.75f));
 		rX = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
 		rZ = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
 		rY = terrains.at(0).GetHeightOfTerrain(rX, rZ);
@@ -147,11 +147,6 @@ void Engine::Run()
 			std::cout << "X :" << player.GetPosition().x << ", Y :" << player.GetPosition().y << ", Z :" << player.GetPosition().z << "\n";
 		}
 
-		/*renderer.ConstructTerrain(terrain);
-		for (auto& entity : entities)
-			renderer.ConstructEntity(entity);
-
-		renderer.RenderLamps(lamps, camera);*/
 		renderer.ConstructEntity(player);
 		renderer.RenderScene(entities, terrains, lamps, camera);
 		guiRenderer.Render(guis);

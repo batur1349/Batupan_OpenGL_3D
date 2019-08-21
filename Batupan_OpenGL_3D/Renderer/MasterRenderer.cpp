@@ -156,6 +156,8 @@ const void MasterRenderer::RenderScene(const std::vector<Entity>& entities, cons
 
 	// Prepare the screen
 	Prepare();
+	// Update the frustum
+	m_frustum.CalculateFrustumPlanes(camera.GetViewMatrix());
 	// Activate the shader
 	m_entityShader.Start();
 	// Check if projection matrix has changed and then load 
@@ -167,7 +169,7 @@ const void MasterRenderer::RenderScene(const std::vector<Entity>& entities, cons
 	m_entityShader.LoadLamps(lamps);
 	m_entityShader.LoadViewMatrix(camera);
 	// Render all of the entities
-	m_entityRenderer.RenderEntities(m_entities);
+	m_entityRenderer.RenderEntities(m_entities, m_frustum);
 	// Deactivate shader and clear entities
 	m_entityShader.Stop();
 	// Start the terrain shader

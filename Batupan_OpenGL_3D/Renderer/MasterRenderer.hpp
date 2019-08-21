@@ -23,15 +23,18 @@ public:
 
 	inline glm::mat4& GetProjectionMatrix() { return m_projectionMatrix; }
 	static void WindowResizeEvent(GLFWwindow* window, int width, int height);
+
+	const static float FOV, NEAR_PLANE, FAR_PLANE; glm::mat4 m_projectionMatrix;
+	const static float RED, GREEN, BLUE;
 private:
 	const glm::mat4& CreateProjectionMatrix();
 
+	Frustum m_frustum;
 	BasicShader m_entityShader; TerrainShader m_terrainShader;
 	EntityRenderer m_entityRenderer; TerrainRenderer m_terrainRenderer;
-	const static float FOV, NEAR_PLANE, FAR_PLANE; glm::mat4 m_projectionMatrix;
-	const static float RED, GREEN, BLUE;
 	static bool m_projectionMatrix_Changed;
-	// Container
+
+	// Containers
 	std::vector<Terrain> m_terrains;
 	std::map<TexturedModel, std::vector<Entity>, TextureModelCompare> m_entities;
 };
