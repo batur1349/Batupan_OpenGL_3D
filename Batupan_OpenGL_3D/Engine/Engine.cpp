@@ -87,7 +87,7 @@ void Engine::Run()
 	std::vector<Terrain> terrains;
 	terrains.push_back(Terrain(0, 0, loader, "heightMap", texturePack, blendMap));
 	Camera camera(&player);
-	MasterRenderer renderer;
+	MasterRenderer renderer(loader);
 
 	std::vector<GuiTexture> guis;
 	guis.push_back(GuiTexture(loader.LoadTexture2D("baturpanLogo"), glm::vec2(0.75f, 0.75f), glm::vec2(0.25f)));

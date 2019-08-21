@@ -99,6 +99,12 @@
     <ClCompile Include="Renderer\Frustum.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Skybox\SkyboxShader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Skybox\SkyboxRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -182,6 +188,15 @@
     <ClInclude Include="Renderer\Frustum.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Texture\TextureData.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Skybox\SkyboxShader.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Skybox\SkyboxRenderer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\basicShader.vert" />
@@ -190,5 +205,7 @@
     <None Include="Shader\terrainShader.frag" />
     <None Include="Gui\guiShader.vert" />
     <None Include="Gui\guiShader.frag" />
+    <None Include="Skybox\skyboxShader.frag" />
+    <None Include="Skybox\skyboxShader.vert" />
   </ItemGroup>
 </Project>

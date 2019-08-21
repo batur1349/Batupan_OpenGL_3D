@@ -55,6 +55,18 @@ BaseModel Loader::LoadToVAOGui(const std::vector<glm::vec2>& vertices)
 	return BaseModel(vaoid, vertices.size());
 }
 
+BaseModel Loader::LoadToVAOSkybox(std::vector<glm::vec3> vertices, int dimension)
+{
+	// Create the vertex array object's id
+	GLuint vaoID = CreateVAOID();
+	// Load positions data to the attribute list 0
+	LoadDataToAttributeList(0, dimension, vertices.data(), sizeof(glm::vec3) * vertices.size());
+	// Unbind the vertex array object
+	UnbindVAO();
+	// Return the raw model
+	return BaseModel(vaoID, vertices.size());
+}
+
 GLuint Loader::LoadTexture2D(const std::string& fileName)
 {
 	GLuint texture;
@@ -94,6 +106,27 @@ GLuint Loader::LoadTexture2D(const std::string& fileName)
 
 	// Return the texture id
 	return texture;
+}
+
+GLuint Loader::LoadCubeMap(const std::vector<std::string>& fileNames)
+{
+	GLuint texID;
+	glGenTextures(1, &texID);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, texID);
+
+	for (int i = 0; i < fileNames.size(); i++)
+	{
+		TextureData data = DecodeTextureFile("../Textures/" + fileNames.at(i) + ".png");
+		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGBA, data.GetWidth(), data.GetHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, data.GetBuffer());
+	}
+
+
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+	m_textures.push_back(texID);
+	return texID;
 }
 
 GLuint Loader::CreateVAOID()
@@ -144,6 +177,21 @@ void Loader::LoadIndicesToGPU(const int indices[], const int& count)
 	m_vbos.push_back(vboID);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vboID);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices) * count, indices, GL_STATIC_DRAW);
+}
+
+TextureData Loader::DecodeTextureFile(const std::string& fileName)
+{
+	int width = 0, height = 0;
+	unsigned char* image = NULL;
+
+	image = SOIL_load_image(fileName.c_str(), &width, &height, 0, SOIL_LOAD_RGBA);
+
+	if (image == 0)
+	{
+		std::cout << "Error :Couldn't load the image." << std::endl;
+	}
+
+	return TextureData(image, width, height);
 }
 
 void Loader::UnbindVAO()

@@ -5,14 +5,15 @@ const float MasterRenderer::FOV = 60.0f;
 const float MasterRenderer::NEAR_PLANE = 0.1f;
 const float MasterRenderer::FAR_PLANE = 1000.0f;
 
-const float MasterRenderer::RED = 0.1f;
-const float MasterRenderer::GREEN = 0.1f;
-const float MasterRenderer::BLUE = 0.1f;
+const float MasterRenderer::RED = 0.5444f;
+const float MasterRenderer::GREEN = 0.62f;
+const float MasterRenderer::BLUE = 0.69f;
 
 bool MasterRenderer::m_projectionMatrix_Changed = false;
 
-MasterRenderer::MasterRenderer()
+MasterRenderer::MasterRenderer(Loader& loader)
 	: m_entityRenderer(m_entityShader, CreateProjectionMatrix()), m_terrainRenderer(m_terrainShader, CreateProjectionMatrix())
+	, m_skyboxRenderer(loader, CreateProjectionMatrix())
 {
 	EnableCulling();
 	glEnable(GL_DEPTH_TEST);
@@ -189,6 +190,8 @@ const void MasterRenderer::RenderScene(const std::vector<Entity>& entities, cons
 	m_terrainRenderer.Render(m_terrains);
 	// Stop terrain shader and clear terrains
 	m_terrainShader.Stop();
+	// Render the skybox
+	m_skyboxRenderer.Render(camera);
 	// Clear the terrains batch, for the memory management
 	m_terrains.clear();
 	// Clear the entities batch, for the memory management

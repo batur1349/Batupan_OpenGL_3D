@@ -5,11 +5,12 @@
 #include "EntityRenderer.hpp"
 #include "TerrainRenderer.hpp"
 #include "../Entity/Lamp.hpp"
+#include "../Skybox/SkyboxRenderer.hpp"
 
 class MasterRenderer
 {
 public:
-	MasterRenderer();
+	MasterRenderer(Loader& loader);
 
 	inline const void Prepare() const;
 	inline const static void EnableCulling();
@@ -32,6 +33,7 @@ private:
 	Frustum m_frustum;
 	BasicShader m_entityShader; TerrainShader m_terrainShader;
 	EntityRenderer m_entityRenderer; TerrainRenderer m_terrainRenderer;
+	SkyboxRenderer m_skyboxRenderer;
 	static bool m_projectionMatrix_Changed;
 
 	// Containers
