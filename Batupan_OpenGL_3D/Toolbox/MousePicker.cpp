@@ -3,15 +3,14 @@
 
 
 MousePicker::MousePicker(Camera* camera, const glm::mat4& projectionMatrix, const std::vector<Terrain>& terrains)
-	: _camera(camera), m_projectionMatrix(projectionMatrix), _terrains(terrains)
+	: m_camera(camera), m_projectionMatrix(projectionMatrix), m_terrains(terrains)
 {
 	m_viewMatrix = Maths::CreateViewMatrix(*camera);
 }
 
 const void MousePicker::Update()
 {
-	m_viewMatrix = _camera->GetViewMatrix();
-
+	m_viewMatrix = m_camera->GetViewMatrix();
 	m_currentRay = CalculateMouseRay();
 
 	if (IntersectionInRange(0, RAY_RANGE, m_currentRay))
@@ -26,7 +25,7 @@ const void MousePicker::Update()
 
 const glm::vec3 MousePicker::CalculateMouseRay()
 {
-	static double mouseX, mouseY;
+	double mouseX, mouseY;
 	glfwGetCursorPos(glfwGetCurrentContext(), &mouseX, &mouseY);
 
 	glm::vec2 normalizedCoords = GetNormalizedDeviceCoordinates(mouseX, mouseY);
@@ -39,7 +38,7 @@ const glm::vec3 MousePicker::CalculateMouseRay()
 
 const glm::vec2 MousePicker::GetNormalizedDeviceCoordinates(const float& mouseX, const float& mouseY)
 {
-	static int sizex, sizey;
+	int sizex, sizey;
 	glfwGetWindowSize(glfwGetCurrentContext(), &sizex, &sizey);
 
 	float x = (2.f * mouseX) / sizex - 1;
@@ -68,7 +67,7 @@ const glm::vec3 MousePicker::ToWorldCoords(const glm::vec4& eyeCoords)
 
 const glm::vec3 MousePicker::GetPointOnRay(const glm::vec3& ray, const float& distance)
 {
-	glm::vec3 camPos = _camera->GetPosition();
+	glm::vec3 camPos = m_camera->GetPosition();
 	glm::vec3 start = glm::vec3(camPos.x, camPos.y, camPos.z);
 	glm::vec3 scaledRay(ray.x * distance, ray.y * distance, ray.z * distance);
 
@@ -82,18 +81,7 @@ const glm::vec3 MousePicker::BinarySearch(const int& count, const float& start, 
 	if (count >= RECURSION_COUNT)
 	{
 		glm::vec3 endPoint = GetPointOnRay(ray, half);
-		//Terrain* terrain = GetTerrain(endPoint.x, endPoint.z);
-		//Terrain terrain = GetTerrain(endPoint.x, endPoint.z);
-
 		return endPoint;
-		//if (terrain != NULL)
-		//{
-		//	return endPoint;
-		//}
-		//else
-		//{
-		//	return glm::vec3(0, 0, 0);
-		//}
 	}
 
 	if (IntersectionInRange(start, half, ray))
@@ -123,37 +111,48 @@ const bool MousePicker::IntersectionInRange(const float& start, const float& fin
 
 const bool MousePicker::IsUnderGround(const glm::vec3& testPoint)
 {
-	Terrain terrain = GetTerrain(testPoint.x, testPoint.z);
-	float height = 0;
+	float minX = 999999, minZ = 999999, maxX = 0, maxZ = 0, height = 0;
 
-	//if (terrain != NULL)
-	//{
-	//	height = terrain->GetHeightOfTerrain(testPoint.x, testPoint.z);
-	//}
-	height = terrain.GetHeightOfTerrain(testPoint.x, testPoint.z);
-
-	if (testPoint.y < height)
+	for (int i = 0; i < m_terrains.size(); i++)
 	{
-		return true;
+		if (m_terrains.at(i).GetStartX() < minX)
+			minX = m_terrains.at(i).GetStartX();
+		if (m_terrains.at(i).GetStartZ() < minZ)
+			minZ = m_terrains.at(i).GetStartZ();
+		if (m_terrains.at(i).GetEndX() > maxX)
+			maxX = m_terrains.at(i).GetEndX();
+		if (m_terrains.at(i).GetEndZ() > maxZ)
+			maxZ = m_terrains.at(i).GetEndZ();
+	}
+
+	if (testPoint.x > minX && testPoint.x < maxX && testPoint.z > minZ && testPoint.z < maxZ)
+	{
+		Terrain terrain = GetTerrain(testPoint.x, testPoint.z);
+		height = terrain.GetHeightOfTerrain(testPoint.x, testPoint.z);
+
+		if (testPoint.y < height)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 	else
 	{
-		return false;
+		return true;
 	}
 }
 
 const Terrain& MousePicker::GetTerrain(float worldX, float worldZ)
 {
-	for (int i = 0; i < _terrains.size(); i++)
+	for (int i = 0; i < m_terrains.size(); i++)
 	{
-		if (_terrains.at(i).GetStartX() < worldX && _terrains.at(i).GetEndX() > worldX &&
-			_terrains.at(i).GetStartZ() < worldZ && _terrains.at(i).GetEndZ() > worldZ)
+		if (m_terrains.at(i).GetStartX() < worldX && m_terrains.at(i).GetEndX() > worldX &&
+			m_terrains.at(i).GetStartZ() < worldZ && m_terrains.at(i).GetEndZ() > worldZ)
 		{
-			return _terrains.at(i);
+			return m_terrains.at(i);
 		}
-		//else
-		//{
-		//	//return nullptr;
-		//}
 	}
 }

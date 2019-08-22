@@ -21,10 +21,10 @@ private:
 	glm::vec3 m_currentRay;
 	glm::mat4 m_projectionMatrix;
 	glm::mat4 m_viewMatrix;
-	Camera* _camera;
-	const int RECURSION_COUNT = 50; //200
-	const float RAY_RANGE = 300; // 600
-	std::vector<Terrain> _terrains;
+	Camera* m_camera;
+	const int RECURSION_COUNT = 10; //200
+	const float RAY_RANGE = 200; // 600
+	std::vector<Terrain> m_terrains;
 	glm::vec3 m_currentTerrainPoint;
 
 	// Functions

@@ -24,7 +24,7 @@ BaseModel OBJFileLoader::LoadAssimpObjFile(const std::string& fileName, Loader& 
 	// Actual path
 	std::string path = "../Models/" + fileName + ".obj";
 
-	const aiScene* scene = importer.ReadFile(path, aiProcess_JoinIdenticalVertices | aiProcess_SortByPType | aiProcess_ConvertToLeftHanded);
+	const aiScene* scene = importer.ReadFile(path, aiProcess_JoinIdenticalVertices | aiProcess_Triangulate | aiProcess_SortByPType | aiProcess_ConvertToLeftHanded);
 	if (!scene)
 	{
 		fprintf(stderr, importer.GetErrorString());
