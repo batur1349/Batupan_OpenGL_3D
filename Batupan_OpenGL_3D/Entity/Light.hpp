@@ -13,9 +13,9 @@ public:
 	inline const glm::vec3& GetAttenuation() const { return m_attenuation; }
 
 	// Setters
-	inline const void SetColor(const glm::vec3& color);
-	inline const void SetPosition(const glm::vec3& position);
-	inline const void SetAttenuation(const glm::vec3& attenuation);
+	const void SetColor(const glm::vec3& color);
+	const void SetPosition(const glm::vec3& position);
+	const void SetAttenuation(const glm::vec3& attenuation);
 private:
 	glm::vec3 m_position, m_color, m_attenuation;
 };

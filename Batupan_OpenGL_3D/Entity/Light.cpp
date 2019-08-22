@@ -16,17 +16,17 @@ Light::Light(const glm::vec3& position, const glm::vec3& color, const glm::vec3&
 	m_attenuation = attenuation;
 }
 
-inline const void Light::SetColor(const glm::vec3& color)
+const void Light::SetColor(const glm::vec3& color)
 {
 	m_color = color;
 }
 
-inline const void Light::SetPosition(const glm::vec3& position)
+const void Light::SetPosition(const glm::vec3& position)
 {
 	m_position = position;
 }
 
-inline const void Light::SetAttenuation(const glm::vec3& attenuation)
+const void Light::SetAttenuation(const glm::vec3& attenuation)
 {
 	m_attenuation = attenuation;
 }

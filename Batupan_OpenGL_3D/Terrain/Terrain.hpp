@@ -73,6 +73,10 @@ public:
 	inline TerrainTexturePack& GetTexturePack() { return m_texturePack; }
 	inline float& GetX() { return m_x; }
 	inline float& GetZ() { return m_z; }
+	inline float& GetStartX() { return m_startX; }
+	inline float& GetStartZ() { return m_startZ; }
+	inline float& GetEndX() { return m_endX; }
+	inline float& GetEndZ() { return m_endZ; }
 
 	const float GetHeightOfTerrain(float worldX, float worldZ);
 private:

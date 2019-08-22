@@ -17,7 +17,7 @@ public:
 	inline const glm::vec3& GetLightPosition() const { return m_lightPosition; }
 
 	// Setters
-	inline const void SetPosition(const glm::vec3& entityPosition) { m_entityPosition = entityPosition; m_lightPosition = entityPosition + glm::vec3(0.0f, 13.5f, 0.0f); }
+	inline const void SetPosition(const glm::vec3& entityPosition) { m_entityPosition = entityPosition; m_lightPosition = entityPosition + glm::vec3(0.0f, 13.5f, 0.0f); m_entity.SetPosition(m_entityPosition); m_light.SetPosition(m_lightPosition); }
 	inline const void SetRotation(const glm::vec3& entityRotation) { m_entity.SetRotation(entityRotation); }
 	inline const void SetScale(const glm::vec3& entityScale) { m_entity.SetScale(entityScale); }
 private:
