@@ -80,8 +80,8 @@ const void Camera::CalculateZoom()
 {
 	m_distanceFromPlayer -= m_scrollY;
 
-	if (m_distanceFromPlayer > 50.0f)
-		m_distanceFromPlayer = 50.0f;
+	if (m_distanceFromPlayer > 100.0f)
+		m_distanceFromPlayer = 100.0f;
 	else if (m_distanceFromPlayer < 20.0f)
 		m_distanceFromPlayer = 20.0f;
 

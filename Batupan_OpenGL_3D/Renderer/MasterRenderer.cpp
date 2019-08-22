@@ -137,7 +137,8 @@ const void MasterRenderer::RenderLamps(std::vector<Lamp>& lamps, Camera& camera)
 	m_entities.clear();
 }
 
-const void MasterRenderer::RenderScene(const std::vector<Entity>& entities, const std::vector<Terrain>& terrains, const std::vector<Lamp>& lamps, Camera& camera)
+const void MasterRenderer::RenderScene(const std::vector<Entity>& entities, const std::vector<Terrain>& terrains,
+	const std::vector<Lamp>& lamps, Camera& camera, const float& dt)
 {
 	for (auto entity : entities)
 	{
@@ -191,7 +192,7 @@ const void MasterRenderer::RenderScene(const std::vector<Entity>& entities, cons
 	// Stop terrain shader and clear terrains
 	m_terrainShader.Stop();
 	// Render the skybox
-	m_skyboxRenderer.Render(camera);
+	m_skyboxRenderer.Render(camera, glm::vec3(RED, GREEN, BLUE), dt);
 	// Clear the terrains batch, for the memory management
 	m_terrains.clear();
 	// Clear the entities batch, for the memory management

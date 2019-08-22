@@ -127,10 +127,10 @@ void Engine::Run()
 	std::vector<Lamp> lamps;
 	float pY = terrains.at(0).GetHeightOfTerrain(247.0f, 249.0f);
 	lamps.push_back(Lamp(lampTexturedModel, glm::vec3(247.0f, pY, 249.0f), glm::vec3(1.0f), glm::vec3(0.75f, 0.005f, 0.0008f)));
-	pY = terrains.at(0).GetHeightOfTerrain(207.0f, 364.0f);
-	lamps.push_back(Lamp(lampTexturedModel, glm::vec3(207.0f, pY, 364.0f), glm::vec3(1.0f), glm::vec3(0.75f, 0.005f, 0.0008f)));
-	pY = terrains.at(0).GetHeightOfTerrain(217.0f, 536.0f);
-	lamps.push_back(Lamp(lampTexturedModel, glm::vec3(217.0f, pY, 536.0f), glm::vec3(1.0f), glm::vec3(0.75f, 0.005f, 0.0008f)));
+	//pY = terrains.at(0).GetHeightOfTerrain(207.0f, 364.0f);
+	//lamps.push_back(Lamp(lampTexturedModel, glm::vec3(207.0f, pY, 364.0f), glm::vec3(1.0f), glm::vec3(0.75f, 0.005f, 0.0008f)));
+	//pY = terrains.at(0).GetHeightOfTerrain(217.0f, 536.0f);
+	//lamps.push_back(Lamp(lampTexturedModel, glm::vec3(217.0f, pY, 536.0f), glm::vec3(1.0f), glm::vec3(0.75f, 0.005f, 0.0008f)));
 
 	m_lastFrame = glfwGetTime();
 	while (m_window->IsOpen())
@@ -148,7 +148,7 @@ void Engine::Run()
 		}
 
 		renderer.ConstructEntity(player);
-		renderer.RenderScene(entities, terrains, lamps, camera);
+		renderer.RenderScene(entities, terrains, lamps, camera, m_deltaTime);
 		guiRenderer.Render(guis);
 		// RenderEntities the game
 

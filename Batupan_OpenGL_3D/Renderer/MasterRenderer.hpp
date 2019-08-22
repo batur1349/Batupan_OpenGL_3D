@@ -20,7 +20,8 @@ public:
 	inline const void ConstructEntity(Entity& entity);
 	inline const void ConstructTerrain(Terrain& terrain) { m_terrains.push_back(terrain); }
 	const void RenderLamps(std::vector<Lamp>& lamps, Camera& camera);
-	const void RenderScene(const std::vector<Entity>& entities, const std::vector<Terrain>& terrains, const std::vector<Lamp>& lamps, Camera& camera);
+	const void RenderScene(const std::vector<Entity>& entities, const std::vector<Terrain>& terrains,
+		const std::vector<Lamp>& lamps, Camera& camera, const float& dt);
 
 	inline glm::mat4& GetProjectionMatrix() { return m_projectionMatrix; }
 	static void WindowResizeEvent(GLFWwindow* window, int width, int height);
