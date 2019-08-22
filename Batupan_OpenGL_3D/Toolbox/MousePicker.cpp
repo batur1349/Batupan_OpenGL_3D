@@ -25,8 +25,8 @@ const void MousePicker::Update()
 
 const glm::vec3 MousePicker::CalculateMouseRay()
 {
-	double mouseX, mouseY;
-	glfwGetCursorPos(glfwGetCurrentContext(), &mouseX, &mouseY);
+	double mouseX = 400, mouseY = 300;
+	//glfwGetCursorPos(glfwGetCurrentContext(), &mouseX, &mouseY);
 
 	glm::vec2 normalizedCoords = GetNormalizedDeviceCoordinates(mouseX, mouseY);
 	glm::vec4 clipCoords(normalizedCoords.x, normalizedCoords.y, -1.0f, 1.0f);
@@ -38,8 +38,8 @@ const glm::vec3 MousePicker::CalculateMouseRay()
 
 const glm::vec2 MousePicker::GetNormalizedDeviceCoordinates(const float& mouseX, const float& mouseY)
 {
-	int sizex, sizey;
-	glfwGetWindowSize(glfwGetCurrentContext(), &sizex, &sizey);
+	int sizex = 960, sizey = 540;
+	//glfwGetWindowSize(glfwGetCurrentContext(), &sizex, &sizey);
 
 	float x = (2.f * mouseX) / sizex - 1;
 	float y = (2.f * mouseY) / sizey - 1;
@@ -49,9 +49,7 @@ const glm::vec2 MousePicker::GetNormalizedDeviceCoordinates(const float& mouseX,
 
 const glm::vec4 MousePicker::ToEyeCoords(const glm::vec4& clipCoords)
 {
-	glm::mat4 invertedProjectionMatrix = Maths::InvertMatrix(m_projectionMatrix);
-	glm::vec4 eyeCoords = Maths::TransformMatrix(invertedProjectionMatrix, clipCoords);
-
+	glm::vec4 eyeCoords = Maths::TransformMatrix(Maths::InvertMatrix(m_projectionMatrix), clipCoords);
 	return glm::vec4(eyeCoords.x, eyeCoords.y, -1.0f, 0.f);
 }
 
@@ -60,18 +58,16 @@ const glm::vec3 MousePicker::ToWorldCoords(const glm::vec4& eyeCoords)
 	glm::mat4 invertedView = Maths::InvertMatrix(m_viewMatrix);
 	glm::vec4 rayWorld = Maths::TransformMatrix(invertedView, eyeCoords);
 	glm::vec3 mouseRay(rayWorld.x, rayWorld.y, rayWorld.z);
-	mouseRay = glm::normalize(mouseRay);
 
-	return mouseRay;
+	return glm::normalize(mouseRay);
 }
 
 const glm::vec3 MousePicker::GetPointOnRay(const glm::vec3& ray, const float& distance)
 {
 	glm::vec3 camPos = m_camera->GetPosition();
-	glm::vec3 start = glm::vec3(camPos.x, camPos.y, camPos.z);
 	glm::vec3 scaledRay(ray.x * distance, ray.y * distance, ray.z * distance);
 
-	return glm::vec3(start.x + scaledRay.x, start.y + scaledRay.y, start.z + scaledRay.z);
+	return glm::vec3(camPos.x + scaledRay.x, camPos.y + scaledRay.y, camPos.z + scaledRay.z);
 }
 
 const glm::vec3 MousePicker::BinarySearch(const int& count, const float& start, const float& finish, const glm::vec3& ray)

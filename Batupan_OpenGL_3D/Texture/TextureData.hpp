@@ -13,6 +13,11 @@ public:
 		_height = height;
 	}
 
+	~TextureData()
+	{
+		delete _buffer;
+	}
+
 	inline int GetWidth() { return _width; }
 	inline int GetHeight() { return _height; }
 	unsigned char* GetBuffer() { return _buffer; }

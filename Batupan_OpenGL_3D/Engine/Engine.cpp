@@ -53,14 +53,12 @@ void Engine::Run()
 	Loader loader;
 
 	// TERRAIN TEXTURE //
-
 	TerrainTexture bgTexture(loader.LoadTexture2D("grassTerrain"));
 	TerrainTexture rTexture(loader.LoadTexture2D("dirtTerrain"));
 	TerrainTexture gTexture(loader.LoadTexture2D("grassFlowersTerrain"));
 	TerrainTexture bTexture(loader.LoadTexture2D("pathTerrain"));
 	TerrainTexturePack texturePack(bgTexture, rTexture, gTexture, bTexture);
 	TerrainTexture blendMap(loader.LoadTexture2D("blendMap"));
-
 	// TERRAIN TEXTURE //
 
 	BaseModel treeModel = OBJFileLoader::LoadAssimpObjFile("lowPolyTree", loader);
@@ -133,6 +131,7 @@ void Engine::Run()
 	pY = terrains.at(0).GetHeightOfTerrain(217.0f, 536.0f);
 	lamps.push_back(Lamp(lampTexturedModel, glm::vec3(217.0f, pY, 536.0f), glm::vec3(1.0f), glm::vec3(0.75f, 0.005f, 0.0008f)));
 
+	glm::vec3 terrainPoint;
 	MousePicker picker(&camera, renderer.GetProjectionMatrix(), terrains);
 
 	m_lastFrame = glfwGetTime();
@@ -145,11 +144,11 @@ void Engine::Run()
 		camera.Update();
 		player.Update(m_deltaTime, terrains);
 		picker.Update();
-		glm::vec3 terrainPoint = picker.GetCurrentTerrainPoint();
-		if (terrainPoint != glm::vec3(0, 0, 0))
-		{
-			lamps.at(0).SetPosition(terrainPoint);
-		}
+		//glm::vec3 terrainPoint = picker.GetCurrentTerrainPoint();
+		//if (terrainPoint != glm::vec3(0, 0, 0))
+		//{
+		//	lamps.at(0).SetPosition(terrainPoint);
+		//}
 
 		if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_E))
 		{
