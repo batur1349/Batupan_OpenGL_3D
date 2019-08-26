@@ -134,40 +134,59 @@ void Engine::Run()
 	glm::vec3 terrainPoint;
 	MousePicker picker(&camera, renderer.GetProjectionMatrix(), terrains);
 
+	static double limitFPS = 1.0 / 60.0;
+	double lastTime = glfwGetTime(), timer = lastTime;
+	double deltaTime = 0, nowTime = 0;
+	int frames = 0, updates = 0;
+
 	m_lastFrame = glfwGetTime();
 	while (m_window->IsOpen())
 	{
-		// Update the deltaTime 
-		UpdateDeltatime();
+		// - Measure time
+		nowTime = glfwGetTime();
+		deltaTime += (nowTime - lastTime) / limitFPS;
+		lastTime = nowTime;
 
-		// Update the game
-		camera.Update();
-		player.Update(m_deltaTime, terrains);
-		if (glfwGetMouseButton(glfwGetCurrentContext(), GLFW_MOUSE_BUTTON_LEFT))
+		// - Only update at 60 frames / s
+		while (deltaTime >= 1.0)
 		{
-			picker.Update();
-			glm::vec3 terrainPoint = picker.GetCurrentTerrainPoint();
-			if (terrainPoint != glm::vec3(0, 0, 0))
+			// Update Game Logic
+			UpdateDeltatime();
+			camera.Update();
+			player.Update(m_deltaTime, terrains);
+			if (glfwGetMouseButton(glfwGetCurrentContext(), GLFW_MOUSE_BUTTON_LEFT))
 			{
-				lamps.at(0).SetPosition(terrainPoint);
+				picker.Update();
+				glm::vec3 terrainPoint = picker.GetCurrentTerrainPoint();
+				if (terrainPoint != glm::vec3(0, 0, 0))
+				{
+					lamps.at(0).SetPosition(terrainPoint);
+				}
 			}
+
+			updates++;
+			deltaTime--;
 		}
 
-		if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_E))
-		{
-			std::cout << "X :" << player.GetPosition().x << ", Y :" << player.GetPosition().y << ", Z :" << player.GetPosition().z << "\n";
-		}
-
+		// Render Game
 		renderer.ConstructEntity(player);
 		renderer.RenderScene(entities, terrains, lamps, camera, m_deltaTime);
 		guiRenderer.Render(guis);
-		// RenderEntities the game
+		frames++;
 
 		// Update the window
 		m_window->Update();
 
 		if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_ESCAPE) == GLFW_PRESS)
 			m_window->Close();
+
+		// - Reset after one second
+		if (glfwGetTime() - timer > 1.0)
+		{
+			timer++;
+			std::cout << "FPS: " << frames << " Updates:" << updates << std::endl;
+			updates = 0, frames = 0;
+		}
 	}
 }
 

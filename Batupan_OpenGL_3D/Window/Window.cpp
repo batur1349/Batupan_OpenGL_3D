@@ -68,7 +68,7 @@ void Window::Close()
 void Window::Update()
 {
 	// Update the FPS counter
-	ShowFps();
+	//ShowFps();
 
 	// Tell GLFW to swap buffers so the old frame will be removed and new frame will be displayed
 	glfwSwapBuffers(m_window);
