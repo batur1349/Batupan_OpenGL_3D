@@ -25,8 +25,8 @@ const void MousePicker::Update()
 
 const glm::vec3 MousePicker::CalculateMouseRay()
 {
-	double mouseX = 400, mouseY = 300;
-	//glfwGetCursorPos(glfwGetCurrentContext(), &mouseX, &mouseY);
+	double mouseX, mouseY;
+	glfwGetCursorPos(glfwGetCurrentContext(), &mouseX, &mouseY);
 
 	glm::vec2 normalizedCoords = GetNormalizedDeviceCoordinates(mouseX, mouseY);
 	glm::vec4 clipCoords(normalizedCoords.x, normalizedCoords.y, -1.0f, 1.0f);
@@ -38,8 +38,8 @@ const glm::vec3 MousePicker::CalculateMouseRay()
 
 const glm::vec2 MousePicker::GetNormalizedDeviceCoordinates(const float& mouseX, const float& mouseY)
 {
-	int sizex = 960, sizey = 540;
-	//glfwGetWindowSize(glfwGetCurrentContext(), &sizex, &sizey);
+	int sizex, sizey;
+	glfwGetWindowSize(glfwGetCurrentContext(), &sizex, &sizey);
 
 	float x = (2.f * mouseX) / sizex - 1;
 	float y = (2.f * mouseY) / sizey - 1;

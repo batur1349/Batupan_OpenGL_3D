@@ -143,12 +143,15 @@ void Engine::Run()
 		// Update the game
 		camera.Update();
 		player.Update(m_deltaTime, terrains);
-		picker.Update();
-		//glm::vec3 terrainPoint = picker.GetCurrentTerrainPoint();
-		//if (terrainPoint != glm::vec3(0, 0, 0))
-		//{
-		//	lamps.at(0).SetPosition(terrainPoint);
-		//}
+		if (glfwGetMouseButton(glfwGetCurrentContext(), GLFW_MOUSE_BUTTON_LEFT))
+		{
+			picker.Update();
+			glm::vec3 terrainPoint = picker.GetCurrentTerrainPoint();
+			if (terrainPoint != glm::vec3(0, 0, 0))
+			{
+				lamps.at(0).SetPosition(terrainPoint);
+			}
+		}
 
 		if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_E))
 		{
