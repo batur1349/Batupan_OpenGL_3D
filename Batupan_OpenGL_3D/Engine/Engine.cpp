@@ -3,6 +3,8 @@
 #include "../Gui/GuiTexture.hpp"
 #include "../Gui/GuiRenderer.hpp"
 #include "../Toolbox/MousePicker.hpp"
+#include "../Water/WaterShader.hpp"
+#include "../Water/WaterRenderer.hpp"
 
 Engine::Engine()
 {
@@ -131,6 +133,11 @@ void Engine::Run()
 	pY = terrains.at(0).GetHeightOfTerrain(217.0f, 536.0f);
 	lamps.push_back(Lamp(lampTexturedModel, glm::vec3(217.0f, pY, 536.0f), glm::vec3(1.0f), glm::vec3(0.75f, 0.005f, 0.0008f)));
 
+	WaterShader waterShader;
+	WaterRenderer waterRenderer(loader, waterShader, renderer.GetProjectionMatrix());
+	std::vector<WaterTile> waters;
+	waters.push_back(WaterTile(247, 259, 10, 6000));
+
 	glm::vec3 terrainPoint;
 	MousePicker picker(&camera, renderer.GetProjectionMatrix(), terrains);
 
@@ -171,14 +178,12 @@ void Engine::Run()
 		// Render Game
 		renderer.ConstructEntity(player);
 		renderer.RenderScene(entities, terrains, lamps, camera, m_deltaTime);
+		waterRenderer.Render(waters, camera);
 		guiRenderer.Render(guis);
 		frames++;
 
 		// Update the window
 		m_window->Update();
-
-		if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_ESCAPE) == GLFW_PRESS)
-			m_window->Close();
 
 		// - Reset after one second
 		if (glfwGetTime() - timer > 1.0)
@@ -187,6 +192,9 @@ void Engine::Run()
 			std::cout << "FPS: " << frames << " Updates:" << updates << std::endl;
 			updates = 0, frames = 0;
 		}
+
+		if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_ESCAPE) == GLFW_PRESS)
+			m_window->Close();
 	}
 }
 

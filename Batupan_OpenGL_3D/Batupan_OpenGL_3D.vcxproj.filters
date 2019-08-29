@@ -108,6 +108,15 @@
     <ClCompile Include="Toolbox\MousePicker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Water\WaterTile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Water\WaterShader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Water\WaterRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -203,6 +212,15 @@
     <ClInclude Include="Toolbox\MousePicker.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Water\WaterTile.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Water\WaterShader.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Water\WaterRenderer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\basicShader.vert" />
@@ -213,5 +231,7 @@
     <None Include="Gui\guiShader.frag" />
     <None Include="Skybox\skyboxShader.frag" />
     <None Include="Skybox\skyboxShader.vert" />
+    <None Include="Water\waterShader.frag" />
+    <None Include="Water\waterShader.vert" />
   </ItemGroup>
 </Project>

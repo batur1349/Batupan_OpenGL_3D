@@ -6,8 +6,13 @@
 #include "../Texture/TerrainTexturePack.hpp"
 #include "../Toolbox/Maths.hpp"
 
-constexpr int VERTEX_COUNT = 128;
+#ifdef _DEBUG
+constexpr float SIZE = 50;
+constexpr int VERTEX_COUNT = 16;
+#else
 constexpr float SIZE = 800;
+constexpr int VERTEX_COUNT = 128;
+#endif // _DEBUG
 constexpr float MAX_HEIGHT = 60;
 constexpr float MAX_PIXEL_COLOR = 256 * 256 * 256;
 
