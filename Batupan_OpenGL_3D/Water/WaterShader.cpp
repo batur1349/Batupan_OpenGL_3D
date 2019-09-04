@@ -19,6 +19,9 @@ void WaterShader::GetAllUniformLocations()
 	m_location_modelMatrix = GetUniformLocation("modelMatrix");
 	m_location_viewMatrix = GetUniformLocation("viewMatrix");
 	m_location_projectionMatrix = GetUniformLocation("projectionMatrix");
+
+	m_location_reflectionTexture = GetUniformLocation("reflectionTexture");
+	m_location_refractionTexture = GetUniformLocation("refractionTexture");
 }
 
 void WaterShader::LoadProjectionMatrix(const glm::mat4& projectionMatrix)
@@ -36,4 +39,10 @@ void WaterShader::LoadViewMatrix(Camera& camera)
 void WaterShader::LoadModelMatrix(const glm::mat4& modelMatrix)
 {
 	LoadMatrix4f(m_location_modelMatrix, modelMatrix);
+}
+
+void WaterShader::ConnectTextureUnits()
+{
+	LoadInt(m_location_reflectionTexture, 0);
+	LoadInt(m_location_refractionTexture, 1);
 }

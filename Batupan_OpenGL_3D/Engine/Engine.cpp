@@ -134,16 +134,11 @@ void Engine::Run()
 	pY = terrains.at(0).GetHeightOfTerrain(217.0f, 536.0f);
 	lamps.push_back(Lamp(lampTexturedModel, glm::vec3(217.0f, pY, 536.0f), glm::vec3(1.0f), glm::vec3(0.75f, 0.005f, 0.0008f)));
 
-	WaterShader waterShader;
-	WaterRenderer waterRenderer(loader, waterShader, renderer.GetProjectionMatrix());
-	std::vector<WaterTile> waters;
-	waters.push_back(WaterTile(247, 259, 10, 6000));
-
 	WaterFrameBuffers fbos;
-	GuiTexture refraction(fbos.GetRefractionTexture(), glm::vec2(0.5f), glm::vec2(0.25f));
-	GuiTexture reflection(fbos.GetReflectionTexture(), glm::vec2(-0.5f, 0.5f), glm::vec2(0.25f));
-	guis.push_back(reflection);
-	guis.push_back(refraction);
+	WaterShader waterShader;
+	WaterRenderer waterRenderer(loader, waterShader, renderer.GetProjectionMatrix(), fbos);
+	std::vector<WaterTile> waters;
+	waters.push_back(WaterTile(247, 259, 10));
 
 	glm::vec3 terrainPoint;
 	MousePicker picker(&camera, renderer.GetProjectionMatrix(), terrains);

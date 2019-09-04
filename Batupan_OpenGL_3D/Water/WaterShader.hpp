@@ -17,8 +17,10 @@ public:
 	void LoadProjectionMatrix(const glm::mat4& projectionMatrix);
 	void LoadViewMatrix(Camera& camera);
 	void LoadModelMatrix(const glm::mat4& modelMatrix);
+	void ConnectTextureUnits();
 private:
 	GLuint m_location_modelMatrix, m_location_viewMatrix, m_location_projectionMatrix;
+	GLuint m_location_reflectionTexture, m_location_refractionTexture;
 };
 
 #endif // !WATERSHADER_HPP

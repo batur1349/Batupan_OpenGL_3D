@@ -2,10 +2,11 @@
 #include "WaterRenderer.hpp"
 
 
-WaterRenderer::WaterRenderer(Loader& loader, WaterShader& shader, const glm::mat4& projectionMatrix)
-	: m_shader(shader), m_quad(SetupVAO(loader))
+WaterRenderer::WaterRenderer(Loader& loader, WaterShader& shader, const glm::mat4& projectionMatrix, const WaterFrameBuffers& fbos)
+	: m_shader(shader), m_quad(SetupVAO(loader)), m_fbos(fbos)
 {
 	m_shader.Start();
+	m_shader.ConnectTextureUnits();
 	m_shader.LoadProjectionMatrix(projectionMatrix);
 	m_shader.Stop();
 }
@@ -29,6 +30,10 @@ void WaterRenderer::PrepareRender(Camera& camera)
 	m_shader.LoadViewMatrix(camera);
 	glBindVertexArray(m_quad.GetVaoID());
 	glEnableVertexAttribArray(0);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, m_fbos.GetReflectionTexture());
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, m_fbos.GetRefractionTexture());
 }
 
 void WaterRenderer::Unbind()

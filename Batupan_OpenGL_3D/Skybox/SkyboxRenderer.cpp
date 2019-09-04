@@ -21,7 +21,7 @@ void SkyboxRenderer::Render(Camera& camera, const glm::vec3& color, const float&
 	m_shader.LoadFogColor(color);
 	glBindVertexArray(_cube.GetVaoID());
 	glEnableVertexAttribArray(0);
-	BindTextures(dt);
+	//BindTextures(dt);
 	glDrawArrays(GL_TRIANGLES, 0, _cube.GetVertexCount());
 	glDisableVertexAttribArray(0);
 	glBindVertexArray(0);
