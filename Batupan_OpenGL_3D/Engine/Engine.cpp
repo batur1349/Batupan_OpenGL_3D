@@ -5,6 +5,7 @@
 #include "../Toolbox/MousePicker.hpp"
 #include "../Water/WaterShader.hpp"
 #include "../Water/WaterRenderer.hpp"
+#include "../Water/WaterFrameBuffers.hpp"
 
 Engine::Engine()
 {
@@ -138,6 +139,12 @@ void Engine::Run()
 	std::vector<WaterTile> waters;
 	waters.push_back(WaterTile(247, 259, 10, 6000));
 
+	WaterFrameBuffers fbos;
+	GuiTexture refraction(fbos.GetRefractionTexture(), glm::vec2(0.5f), glm::vec2(0.25f));
+	GuiTexture reflection(fbos.GetReflectionTexture(), glm::vec2(-0.5f, 0.5f), glm::vec2(0.25f));
+	guis.push_back(reflection);
+	guis.push_back(refraction);
+
 	glm::vec3 terrainPoint;
 	MousePicker picker(&camera, renderer.GetProjectionMatrix(), terrains);
 
@@ -176,8 +183,26 @@ void Engine::Run()
 		}
 
 		// Render Game
+		glEnable(GL_CLIP_DISTANCE0);
+
+		// Render reflection texture
+		fbos.BindReflectionFrameBuffer();
+		float distance = 2 * (camera.GetPosition().y - waters.at(0).GetHeight());
+		camera.SetPosition(glm::vec3(camera.GetPosition().x, camera.GetPosition().y - distance, camera.GetPosition().z));
+		camera.InvertPitch();
+		renderer.RenderScene(entities, terrains, lamps, camera, m_deltaTime, glm::vec4(0, 1, 0, -waters.at(0).GetHeight()));
+		camera.SetPosition(glm::vec3(camera.GetPosition().x, camera.GetPosition().y + distance, camera.GetPosition().z));
+		camera.InvertPitch();
+
+		// Render refraction texture
+		fbos.BindRefractionFrameBuffer();
+		renderer.RenderScene(entities, terrains, lamps, camera, m_deltaTime, glm::vec4(0, -1, 0, waters.at(0).GetHeight()));
+
+		// Render screen
+		glDisable(GL_CLIP_DISTANCE0);
+		fbos.UnbindCurrentFrameBuffer();
 		renderer.ConstructEntity(player);
-		renderer.RenderScene(entities, terrains, lamps, camera, m_deltaTime);
+		renderer.RenderScene(entities, terrains, lamps, camera, m_deltaTime, glm::vec4(0, -1, 0, 15.0f));
 		waterRenderer.Render(waters, camera);
 		guiRenderer.Render(guis);
 		frames++;

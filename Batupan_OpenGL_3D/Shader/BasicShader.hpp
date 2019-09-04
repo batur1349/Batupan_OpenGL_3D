@@ -24,6 +24,7 @@ public:
 	const void LoadNumberOfRows(const int& nrOfRows);
 	const void LoadNumberOfColumns(const int& nrOfCols);
 	const void LoadOffset(const glm::vec2& offset);
+	const void LoadPlane(const glm::vec4& plane);
 protected:
 	void BindAttributes();
 	void GetAllUniformLocations();
@@ -34,6 +35,7 @@ private:
 	GLuint m_location_fakeLightning;
 	GLuint m_location_skyColor;
 	GLuint m_location_numberOfRows, m_location_numberOfColumns, m_location_offset;
+	GLuint m_location_plane;
 };
 
 #endif // !BASICSHADER_HPP

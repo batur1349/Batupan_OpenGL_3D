@@ -276,6 +276,10 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../pch.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="Water\WaterFrameBuffers.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../pch.h</PrecompiledHeaderFile>
+    </ClCompile>
     <ClCompile Include="Water\WaterRenderer.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../pch.h</PrecompiledHeaderFile>
@@ -324,6 +328,7 @@
     <ClInclude Include="Texture\TextureData.hpp" />
     <ClInclude Include="Toolbox\Maths.hpp" />
     <ClInclude Include="Toolbox\MousePicker.hpp" />
+    <ClInclude Include="Water\WaterFrameBuffers.hpp" />
     <ClInclude Include="Water\WaterRenderer.hpp" />
     <ClInclude Include="Water\WaterShader.hpp" />
     <ClInclude Include="Water\WaterTile.hpp" />

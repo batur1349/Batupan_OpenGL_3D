@@ -23,7 +23,7 @@ protected:
 	void LoadMatrix4f(GLuint location, const glm::mat4& matrix, const bool& transpose = false);
 	void LoadInt(GLuint location, const int& value);
 	void LoadVector2f(GLuint location, const glm::vec2& vector);
-	void LoadVector4f(GLuint location, const glm::vec4& vector);
+	void LoadVector4F(GLuint location, const glm::vec4& vector);
 private:
 	GLuint m_programID, m_vertexShaderID, m_fragmentShaderID;
 

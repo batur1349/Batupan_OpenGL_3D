@@ -76,6 +76,11 @@ const void TerrainShader::LoadSkyColor(const glm::vec3& skyColor)
 	LoadVector3F(m_location_skyColor, skyColor);
 }
 
+const void TerrainShader::LoadPlane(const glm::vec4& plane)
+{
+	LoadVector4F(m_location_plane, plane);
+}
+
 const void TerrainShader::ConnectTextureUnits()
 {
 	LoadInt(m_location_backgroundTexture, 0);
@@ -113,4 +118,6 @@ void TerrainShader::GetAllUniformLocations()
 	m_location_gTexture = GetUniformLocation("gTexture");
 	m_location_bTexture = GetUniformLocation("bTexture");
 	m_location_blendMap = GetUniformLocation("blendTexture");
+
+	m_location_plane = GetUniformLocation("plane");
 }

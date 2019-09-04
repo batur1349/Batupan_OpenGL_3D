@@ -22,6 +22,7 @@ public:
 	const void LoadLamps(const std::vector<Lamp>& lamps);
 	const void LoadShineVariables(const float& damper, const float& ref);
 	const void LoadSkyColor(const glm::vec3& skyColor);
+	const void LoadPlane(const glm::vec4& plane);
 	const void ConnectTextureUnits();
 protected:
 	// Functions
@@ -35,5 +36,6 @@ private:
 	GLuint m_location_shineDamper, m_location_reflectivity;
 	GLuint m_location_skyColor;
 	GLuint m_location_backgroundTexture, m_location_rTexture, m_location_gTexture, m_location_bTexture, m_location_blendMap;
+	GLuint m_location_plane;
 };
 #endif // !TERRAINSHADER_HPP

@@ -24,9 +24,14 @@ uniform vec2 offset;
 const float density = 0.0025f;
 const float gradient = 10.0f;
 
+uniform vec4 plane;
+
 void main() 
 {
 	vec4 worldPosition = transformationMatrix * vec4(position, 1.0f);
+
+	gl_ClipDistance[0] = dot(worldPosition, plane);
+
 	vec4 positionRelativeToCamera = viewMatrix * worldPosition;
 	gl_Position = projectionMatrix * positionRelativeToCamera;
 	passedTextureCoords.x = (textureCoords.x / numberOfColumns) + offset.x;

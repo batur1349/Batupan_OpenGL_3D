@@ -97,6 +97,11 @@ const void BasicShader::LoadOffset(const glm::vec2& offset)
 	LoadVector2f(m_location_offset, offset);
 }
 
+const void BasicShader::LoadPlane(const glm::vec4& plane)
+{
+	LoadVector4F(m_location_plane, plane);
+}
+
 void BasicShader::BindAttributes()
 {
 	BindAttribute(0, "position");
@@ -125,4 +130,6 @@ void BasicShader::GetAllUniformLocations()
 	m_location_numberOfRows = GetUniformLocation("numberOfRows");
 	m_location_numberOfColumns = GetUniformLocation("numberOfColumns");
 	m_location_offset = GetUniformLocation("offset");
+
+	m_location_plane = GetUniformLocation("plane");
 }

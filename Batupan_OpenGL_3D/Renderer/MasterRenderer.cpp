@@ -138,7 +138,7 @@ const void MasterRenderer::RenderLamps(std::vector<Lamp>& lamps, Camera& camera)
 }
 
 const void MasterRenderer::RenderScene(const std::vector<Entity>& entities, const std::vector<Terrain>& terrains,
-	const std::vector<Lamp>& lamps, Camera& camera, const float& dt)
+	const std::vector<Lamp>& lamps, Camera& camera, const float& dt, const glm::vec4& clipPlane)
 {
 	for (auto entity : entities)
 	{
@@ -162,6 +162,8 @@ const void MasterRenderer::RenderScene(const std::vector<Entity>& entities, cons
 	m_frustum.CalculateFrustumPlanes(camera.GetViewMatrix());
 	// Activate the shader
 	m_entityShader.Start();
+	// Load the clipping plane
+	m_entityShader.LoadPlane(clipPlane);
 	// Check if projection matrix has changed and then load 
 	if (m_projectionMatrix_Changed)
 		m_entityShader.LoadProjectionMatrix(CreateProjectionMatrix());
@@ -176,6 +178,8 @@ const void MasterRenderer::RenderScene(const std::vector<Entity>& entities, cons
 	m_entityShader.Stop();
 	// Start the terrain shader
 	m_terrainShader.Start();
+	// Load the clip plane
+	m_terrainShader.LoadPlane(clipPlane);
 	// Check if projection matrix has changed and then load
 	if (m_projectionMatrix_Changed)
 	{
