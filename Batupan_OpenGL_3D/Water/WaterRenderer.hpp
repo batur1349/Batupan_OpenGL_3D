@@ -11,15 +11,18 @@ class WaterRenderer
 public:
 	WaterRenderer(Loader& loader, WaterShader& shader, const glm::mat4& projectionMatrix, const WaterFrameBuffers& fbos);
 
-	void Render(const std::vector<WaterTile>& water, Camera& camera);
+	void Render(const std::vector<WaterTile>& water, Camera& camera, const float& deltaTime);
 private:
-	void PrepareRender(Camera& camera);
+	void PrepareRender(Camera& camera, const float& deltaTime);
 	void Unbind();
 	BaseModel SetupVAO(Loader& loader);
 
 	BaseModel m_quad;
 	WaterShader m_shader;
 	WaterFrameBuffers m_fbos;
+	GLuint m_dudvId;
+	float WAVE_SPEED = 0.03f;
+	float m_moveFactor = 0.0f;
 };
 
 #endif // !WATERRENDERER_HPP

@@ -5,7 +5,7 @@
 #include "../Shader/ShaderProgram.hpp"
 #include "../Entity/Camera.hpp"
 static const std::string SKYBOX_SHADER_FILE = "Skybox/skyboxShader";
-static const float ROTATE_SPEED = 1.0f;
+static const float ROTATE_SPEED = 0.2f;
 
 class SkyboxShader : public ShaderProgram
 {

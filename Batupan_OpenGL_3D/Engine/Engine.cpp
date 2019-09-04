@@ -111,15 +111,18 @@ void Engine::Run()
 		float rY = terrains.at(0).GetHeightOfTerrain(rX, rZ);
 		int randomIndex = rand() % 4;
 		int randomFlower = rand() % 8;
-		entities.emplace_back(treeTexturedModel, glm::vec3(rX, rY, rZ), glm::vec3(0.0f), glm::vec3(0.75f));
+		if (rY > 0.0f)
+			entities.emplace_back(treeTexturedModel, glm::vec3(rX, rY, rZ), glm::vec3(0.0f), glm::vec3(0.75f));
 		rX = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
 		rZ = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
 		rY = terrains.at(0).GetHeightOfTerrain(rX, rZ);
-		entities.emplace_back(fernTexturedModel, randomIndex, glm::vec3(rX, rY, rZ), glm::vec3(0.0f), glm::vec3(1.0f));
+		if (rY > 0.0f)
+			entities.emplace_back(fernTexturedModel, randomIndex, glm::vec3(rX, rY, rZ), glm::vec3(0.0f), glm::vec3(1.0f));
 		rX = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
 		rZ = LO + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (HI - LO)));
 		rY = terrains.at(0).GetHeightOfTerrain(rX, rZ);
-		entities.emplace_back(grassTexturedModel, randomFlower, glm::vec3(rX, rY, rZ), glm::vec3(0.0f), glm::vec3(2.0f));
+		if (rY > 0.0f)
+			entities.emplace_back(grassTexturedModel, randomFlower, glm::vec3(rX, rY, rZ), glm::vec3(0.0f), glm::vec3(2.0f));
 	}
 
 	BaseModel lampModel = OBJFileLoader::LoadAssimpObjFile("lamp", loader);
@@ -128,17 +131,20 @@ void Engine::Run()
 	TexturedModel lampTexturedModel(lampModel, lampTexture);
 	std::vector<Lamp> lamps;
 	float pY = terrains.at(0).GetHeightOfTerrain(247.0f, 249.0f);
-	lamps.push_back(Lamp(lampTexturedModel, glm::vec3(247.0f, pY, 249.0f), glm::vec3(1.0f), glm::vec3(0.75f, 0.005f, 0.0008f)));
+	if (pY > 0.0f)
+		lamps.push_back(Lamp(lampTexturedModel, glm::vec3(247.0f, pY, 249.0f), glm::vec3(1.0f), glm::vec3(0.75f, 0.005f, 0.0008f)));
 	pY = terrains.at(0).GetHeightOfTerrain(207.0f, 364.0f);
-	lamps.push_back(Lamp(lampTexturedModel, glm::vec3(207.0f, pY, 364.0f), glm::vec3(1.0f), glm::vec3(0.75f, 0.005f, 0.0008f)));
+	if (pY > 0.0f)
+		lamps.push_back(Lamp(lampTexturedModel, glm::vec3(207.0f, pY, 364.0f), glm::vec3(1.0f), glm::vec3(0.75f, 0.005f, 0.0008f)));
 	pY = terrains.at(0).GetHeightOfTerrain(217.0f, 536.0f);
-	lamps.push_back(Lamp(lampTexturedModel, glm::vec3(217.0f, pY, 536.0f), glm::vec3(1.0f), glm::vec3(0.75f, 0.005f, 0.0008f)));
+	if (pY > 0.0f)
+		lamps.push_back(Lamp(lampTexturedModel, glm::vec3(217.0f, pY, 536.0f), glm::vec3(1.0f), glm::vec3(0.75f, 0.005f, 0.0008f)));
 
 	WaterFrameBuffers fbos;
 	WaterShader waterShader;
 	WaterRenderer waterRenderer(loader, waterShader, renderer.GetProjectionMatrix(), fbos);
 	std::vector<WaterTile> waters;
-	waters.push_back(WaterTile(247, 259, 10));
+	waters.push_back(WaterTile(400, 400, 0, 400));
 
 	glm::vec3 terrainPoint;
 	MousePicker picker(&camera, renderer.GetProjectionMatrix(), terrains);
@@ -198,7 +204,7 @@ void Engine::Run()
 		fbos.UnbindCurrentFrameBuffer();
 		renderer.ConstructEntity(player);
 		renderer.RenderScene(entities, terrains, lamps, camera, m_deltaTime, glm::vec4(0, -1, 0, 15.0f));
-		waterRenderer.Render(waters, camera);
+		waterRenderer.Render(waters, camera, m_deltaTime);
 		guiRenderer.Render(guis);
 		frames++;
 

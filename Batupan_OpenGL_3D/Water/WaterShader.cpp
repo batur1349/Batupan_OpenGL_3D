@@ -22,6 +22,9 @@ void WaterShader::GetAllUniformLocations()
 
 	m_location_reflectionTexture = GetUniformLocation("reflectionTexture");
 	m_location_refractionTexture = GetUniformLocation("refractionTexture");
+
+	m_location_dudvMap = GetUniformLocation("dudvMap");
+	m_location_moveFactor = GetUniformLocation("moveFactor");
 }
 
 void WaterShader::LoadProjectionMatrix(const glm::mat4& projectionMatrix)
@@ -41,8 +44,14 @@ void WaterShader::LoadModelMatrix(const glm::mat4& modelMatrix)
 	LoadMatrix4f(m_location_modelMatrix, modelMatrix);
 }
 
+void WaterShader::LoadMoveFactor(const float& factor)
+{
+	LoadFloat(m_location_moveFactor, factor);
+}
+
 void WaterShader::ConnectTextureUnits()
 {
 	LoadInt(m_location_reflectionTexture, 0);
 	LoadInt(m_location_refractionTexture, 1);
+	LoadInt(m_location_dudvMap, 2);
 }

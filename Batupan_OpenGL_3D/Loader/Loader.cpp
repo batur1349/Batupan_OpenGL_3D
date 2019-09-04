@@ -77,6 +77,12 @@ GLuint Loader::LoadTexture2D(const std::string& fileName)
 	unsigned char* image;
 	image = SOIL_load_image(("../Textures/" + fileName + ".png").c_str(), &width, &height, 0, SOIL_LOAD_RGBA);
 
+	if (image == NULL)
+	{
+		std::cout << "Couldn't load the texture named " << fileName << "\n";
+		exit(-1);
+	}
+
 	// Bind the texture data
 	glBindTexture(GL_TEXTURE_2D, texture);
 

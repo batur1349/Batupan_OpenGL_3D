@@ -6,14 +6,15 @@ WaterRenderer::WaterRenderer(Loader& loader, WaterShader& shader, const glm::mat
 	: m_shader(shader), m_quad(SetupVAO(loader)), m_fbos(fbos)
 {
 	m_shader.Start();
+	m_dudvId = loader.LoadTexture2D("waterDUDV");
 	m_shader.ConnectTextureUnits();
 	m_shader.LoadProjectionMatrix(projectionMatrix);
 	m_shader.Stop();
 }
 
-void WaterRenderer::Render(const std::vector<WaterTile>& water, Camera& camera)
+void WaterRenderer::Render(const std::vector<WaterTile>& water, Camera& camera, const float& deltaTime)
 {
-	PrepareRender(camera);
+	PrepareRender(camera, deltaTime);
 
 	for (auto& tile : water)
 	{
@@ -24,16 +25,24 @@ void WaterRenderer::Render(const std::vector<WaterTile>& water, Camera& camera)
 	}
 }
 
-void WaterRenderer::PrepareRender(Camera& camera)
+void WaterRenderer::PrepareRender(Camera& camera, const float& deltaTime)
 {
 	m_shader.Start();
 	m_shader.LoadViewMatrix(camera);
+	m_moveFactor += WAVE_SPEED * deltaTime;
+	if (m_moveFactor >= 1.0f)
+	{
+		m_moveFactor = 0.0f;
+	}
+	m_shader.LoadMoveFactor(m_moveFactor);
 	glBindVertexArray(m_quad.GetVaoID());
 	glEnableVertexAttribArray(0);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m_fbos.GetReflectionTexture());
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, m_fbos.GetRefractionTexture());
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_2D, m_dudvId);
 }
 
 void WaterRenderer::Unbind()

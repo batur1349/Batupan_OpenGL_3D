@@ -21,7 +21,7 @@ void SkyboxRenderer::Render(Camera& camera, const glm::vec3& color, const float&
 	m_shader.LoadFogColor(color);
 	glBindVertexArray(_cube.GetVaoID());
 	glEnableVertexAttribArray(0);
-	//BindTextures(dt);
+	BindTextures(dt);
 	glDrawArrays(GL_TRIANGLES, 0, _cube.GetVertexCount());
 	glDisableVertexAttribArray(0);
 	glBindVertexArray(0);
@@ -30,7 +30,7 @@ void SkyboxRenderer::Render(Camera& camera, const glm::vec3& color, const float&
 
 void SkyboxRenderer::BindTextures(const float& dt)
 {
-	float blendFactor;
+	/*float blendFactor;
 	int texture1, texture2;
 
 	m_time += dt * 1000;
@@ -64,5 +64,8 @@ void SkyboxRenderer::BindTextures(const float& dt)
 	glBindTexture(GL_TEXTURE_CUBE_MAP, m_texture);
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, m_nightTexture);
-	m_shader.LoadBlendFactor(blendFactor);
+	m_shader.LoadBlendFactor(blendFactor);*/
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, m_texture);
+	m_shader.LoadBlendFactor(0.0f);
 }
