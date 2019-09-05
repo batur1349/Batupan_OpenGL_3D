@@ -27,6 +27,7 @@ private:
 	GLuint m_location_dudvMap, m_location_moveFactor;
 	GLuint m_location_cameraPosition;
 	GLuint m_location_normalMap, m_location_lightPosition, m_location_lightColor;
+	GLuint m_location_depthMap;
 };
 
 #endif // !WATERSHADER_HPP

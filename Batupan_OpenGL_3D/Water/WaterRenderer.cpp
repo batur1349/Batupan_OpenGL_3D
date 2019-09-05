@@ -47,10 +47,16 @@ void WaterRenderer::PrepareRender(Camera& camera, const Lamp& lamp, const float&
 	glBindTexture(GL_TEXTURE_2D, m_dudvTexture);
 	glActiveTexture(GL_TEXTURE3);
 	glBindTexture(GL_TEXTURE_2D, m_normalMapTexture);
+	glActiveTexture(GL_TEXTURE4);
+	glBindTexture(GL_TEXTURE_2D, m_fbos.GetRefractionDepthTexture());
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 void WaterRenderer::Unbind()
 {
+	glDisable(GL_BLEND);
 	glDisableVertexAttribArray(0);
 	glBindVertexArray(0);
 	m_shader.Stop();

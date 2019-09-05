@@ -191,13 +191,13 @@ void Engine::Run()
 		float distance = 2 * (camera.GetPosition().y - waters.at(0).GetHeight());
 		camera.SetPosition(glm::vec3(camera.GetPosition().x, camera.GetPosition().y - distance, camera.GetPosition().z));
 		camera.InvertPitch();
-		renderer.RenderScene(entities, terrains, lamps, camera, m_deltaTime, glm::vec4(0, 1, 0, -waters.at(0).GetHeight()));
+		renderer.RenderScene(entities, terrains, lamps, camera, m_deltaTime, glm::vec4(0, 1, 0, -waters.at(0).GetHeight() + 0.2f));
 		camera.SetPosition(glm::vec3(camera.GetPosition().x, camera.GetPosition().y + distance, camera.GetPosition().z));
 		camera.InvertPitch();
 
 		// Render refraction texture
 		fbos.BindRefractionFrameBuffer();
-		renderer.RenderScene(entities, terrains, lamps, camera, m_deltaTime, glm::vec4(0, -1, 0, waters.at(0).GetHeight()));
+		renderer.RenderScene(entities, terrains, lamps, camera, m_deltaTime, glm::vec4(0, -1, 0, waters.at(0).GetHeight() + 0.2f));
 
 		// Render screen
 		glDisable(GL_CLIP_DISTANCE0);

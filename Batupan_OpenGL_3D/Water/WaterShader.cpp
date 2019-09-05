@@ -31,6 +31,8 @@ void WaterShader::GetAllUniformLocations()
 	m_location_normalMap = GetUniformLocation("normalMap");
 	m_location_lightPosition = GetUniformLocation("lightPosition");
 	m_location_lightColor = GetUniformLocation("lightColor");
+
+	m_location_depthMap = GetUniformLocation("depthMap");
 }
 
 void WaterShader::LoadProjectionMatrix(const glm::mat4& projectionMatrix)
@@ -68,4 +70,5 @@ void WaterShader::ConnectTextureUnits()
 	LoadInt(m_location_refractionTexture, 1);
 	LoadInt(m_location_dudvMap, 2);
 	LoadInt(m_location_normalMap, 3);
+	LoadInt(m_location_depthMap, 4);
 }
