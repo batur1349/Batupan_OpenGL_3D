@@ -23,6 +23,7 @@ private:
 	GLuint m_location_modelMatrix, m_location_viewMatrix, m_location_projectionMatrix;
 	GLuint m_location_reflectionTexture, m_location_refractionTexture;
 	GLuint m_location_dudvMap, m_location_moveFactor;
+	GLuint m_location_cameraPosition;
 };
 
 #endif // !WATERSHADER_HPP

@@ -25,6 +25,8 @@ void WaterShader::GetAllUniformLocations()
 
 	m_location_dudvMap = GetUniformLocation("dudvMap");
 	m_location_moveFactor = GetUniformLocation("moveFactor");
+
+	m_location_cameraPosition = GetUniformLocation("cameraPosition");
 }
 
 void WaterShader::LoadProjectionMatrix(const glm::mat4& projectionMatrix)
@@ -37,6 +39,7 @@ void WaterShader::LoadViewMatrix(Camera& camera)
 	glm::mat4 viewMatrix = Maths::CreateViewMatrix(camera);
 
 	LoadMatrix4f(m_location_viewMatrix, viewMatrix);
+	LoadVector3F(m_location_cameraPosition, camera.GetPosition());
 }
 
 void WaterShader::LoadModelMatrix(const glm::mat4& modelMatrix)
