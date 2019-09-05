@@ -27,6 +27,10 @@ void WaterShader::GetAllUniformLocations()
 	m_location_moveFactor = GetUniformLocation("moveFactor");
 
 	m_location_cameraPosition = GetUniformLocation("cameraPosition");
+
+	m_location_normalMap = GetUniformLocation("normalMap");
+	m_location_lightPosition = GetUniformLocation("lightPosition");
+	m_location_lightColor = GetUniformLocation("lightColor");
 }
 
 void WaterShader::LoadProjectionMatrix(const glm::mat4& projectionMatrix)
@@ -52,9 +56,16 @@ void WaterShader::LoadMoveFactor(const float& factor)
 	LoadFloat(m_location_moveFactor, factor);
 }
 
+void WaterShader::LoadLight(const Lamp& lamp)
+{
+	LoadVector3F(m_location_lightPosition, lamp.GetLightPosition());
+	LoadVector3F(m_location_lightColor, lamp.GetLight().GetColor());
+}
+
 void WaterShader::ConnectTextureUnits()
 {
 	LoadInt(m_location_reflectionTexture, 0);
 	LoadInt(m_location_refractionTexture, 1);
 	LoadInt(m_location_dudvMap, 2);
+	LoadInt(m_location_normalMap, 3);
 }

@@ -204,7 +204,7 @@ void Engine::Run()
 		fbos.UnbindCurrentFrameBuffer();
 		renderer.ConstructEntity(player);
 		renderer.RenderScene(entities, terrains, lamps, camera, m_deltaTime, glm::vec4(0, -1, 0, 15.0f));
-		waterRenderer.Render(waters, camera, m_deltaTime);
+		waterRenderer.Render(waters, camera, lamps.at(0), m_deltaTime);
 		guiRenderer.Render(guis);
 		frames++;
 
