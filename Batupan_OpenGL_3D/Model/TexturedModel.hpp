@@ -15,9 +15,20 @@ public:
 
 	const void SetReflectivity(const float& reflectivity) { m_texture.SetReflectivity(reflectivity); }
 	const void SetShineDamper(const float& shineDamper) { m_texture.SetShineDamper(shineDamper); }
+	const void SetNormalMap(const int& normalMap) { m_texture.SetNormalMap(normalMap); }
 private:
 	BaseModel m_baseModel;
 	ModelTexture m_texture;
+};
+
+struct TextureModelCompare
+{
+public:
+	bool operator() (TexturedModel t1, TexturedModel t2) const
+	{
+		return ((t1.GetBaseModel().GetVaoID() < t2.GetBaseModel().GetVaoID()) ||
+			(t1.GetModelTexture().GetID() < t2.GetModelTexture().GetID()));
+	}
 };
 
 #endif // !TEXTUREDMODEL_HPP

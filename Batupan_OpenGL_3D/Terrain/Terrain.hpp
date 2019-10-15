@@ -7,7 +7,7 @@
 #include "../Toolbox/Maths.hpp"
 
 #ifdef _DEBUG
-constexpr float SIZE = 50;
+constexpr float SIZE = 800;
 constexpr int VERTEX_COUNT = 16;
 #else
 constexpr float SIZE = 800;

@@ -8,16 +8,6 @@
 #include "../Toolbox/Maths.hpp"
 #include "Frustum.hpp"
 
-struct TextureModelCompare
-{
-public:
-	bool operator() (TexturedModel t1, TexturedModel t2) const
-	{
-		return ((t1.GetBaseModel().GetVaoID() < t2.GetBaseModel().GetVaoID()) ||
-			(t1.GetModelTexture().GetID() < t2.GetModelTexture().GetID()));
-	}
-};
-
 class EntityRenderer
 {
 public:

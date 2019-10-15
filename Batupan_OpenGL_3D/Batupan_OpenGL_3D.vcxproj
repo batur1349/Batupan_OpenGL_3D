@@ -198,7 +198,15 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../pch.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="Loader\NormalMappedOBJLoader.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../pch.h</PrecompiledHeaderFile>
+    </ClCompile>
     <ClCompile Include="Loader\OBJFileLoader.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="Loader\Vertex.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../pch.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -228,11 +236,19 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../pch.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="Renderer\NormalMappingRenderer.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../pch.h</PrecompiledHeaderFile>
+    </ClCompile>
     <ClCompile Include="Renderer\TerrainRenderer.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="Shader\BasicShader.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="Shader\NormalMappingShader.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../pch.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -308,15 +324,19 @@
     <ClInclude Include="Gui\GuiShader.hpp" />
     <ClInclude Include="Gui\GuiTexture.hpp" />
     <ClInclude Include="Loader\Loader.hpp" />
+    <ClInclude Include="Loader\NormalMappedOBJLoader.hpp" />
     <ClInclude Include="Loader\OBJFileLoader.hpp" />
+    <ClInclude Include="Loader\Vertex.h" />
     <ClInclude Include="Model\BaseModel.hpp" />
     <ClInclude Include="Model\TexturedModel.hpp" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Renderer\Frustum.hpp" />
     <ClInclude Include="Renderer\MasterRenderer.hpp" />
     <ClInclude Include="Renderer\EntityRenderer.hpp" />
+    <ClInclude Include="Renderer\NormalMappingRenderer.hpp" />
     <ClInclude Include="Renderer\TerrainRenderer.hpp" />
     <ClInclude Include="Shader\BasicShader.hpp" />
+    <ClInclude Include="Shader\NormalMappingShader.hpp" />
     <ClInclude Include="Shader\ShaderProgram.hpp" />
     <ClInclude Include="Shader\TerrainShader.hpp" />
     <ClInclude Include="Skybox\SkyboxRenderer.hpp" />
@@ -339,6 +359,8 @@
     <None Include="Gui\guiShader.vert" />
     <None Include="Shader\basicShader.frag" />
     <None Include="Shader\basicShader.vert" />
+    <None Include="Shader\normalMappingShader.frag" />
+    <None Include="Shader\normalMappingShader.vert" />
     <None Include="Shader\terrainShader.frag" />
     <None Include="Shader\terrainShader.vert" />
     <None Include="Skybox\skyboxShader.frag" />

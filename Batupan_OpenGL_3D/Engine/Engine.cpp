@@ -6,6 +6,7 @@
 #include "../Water/WaterShader.hpp"
 #include "../Water/WaterRenderer.hpp"
 #include "../Water/WaterFrameBuffers.hpp"
+#include "../Loader/NormalMappedOBJLoader.hpp"
 
 Engine::Engine()
 {
@@ -99,9 +100,9 @@ void Engine::Run()
 	float LO = 0, HI = 800;
 	int count;
 #ifdef _DEBUG
-	count = 50;
+	count = 500;
 #else
-	count = 600;
+	count = 500;
 #endif // _DEBUG
 
 	for (size_t i = 0; i < count; i++)
@@ -154,6 +155,14 @@ void Engine::Run()
 	double deltaTime = 0, nowTime = 0;
 	int frames = 0, updates = 0;
 
+	std::vector<Entity> normalMapEntities;
+	TexturedModel barrelModel(NormalMappedOBJLoader::LoadOBJ("barrel", loader), loader.LoadTexture2D("barrel"));
+	barrelModel.SetShineDamper(10);
+	barrelModel.SetReflectivity(1.0f);
+	barrelModel.SetNormalMap(loader.LoadTexture2D("barrelNormal"));
+	normalMapEntities.emplace_back(barrelModel, glm::vec3(247.0f, 15.0f, 259.0f), glm::vec3(0), glm::vec3(1));
+	normalMapEntities.at(0).SetScale(glm::vec3(0.3f));
+
 	m_lastFrame = glfwGetTime();
 	while (m_window->IsOpen())
 	{
@@ -191,19 +200,19 @@ void Engine::Run()
 		float distance = 2 * (camera.GetPosition().y - waters.at(0).GetHeight());
 		camera.SetPosition(glm::vec3(camera.GetPosition().x, camera.GetPosition().y - distance, camera.GetPosition().z));
 		camera.InvertPitch();
-		renderer.RenderScene(entities, terrains, lamps, camera, m_deltaTime, glm::vec4(0, 1, 0, -waters.at(0).GetHeight() + 0.2f));
+		renderer.RenderScene(entities, normalMapEntities, terrains, lamps, camera, m_deltaTime, glm::vec4(0, 1, 0, -waters.at(0).GetHeight() + 0.2f));
 		camera.SetPosition(glm::vec3(camera.GetPosition().x, camera.GetPosition().y + distance, camera.GetPosition().z));
 		camera.InvertPitch();
 
 		// Render refraction texture
 		fbos.BindRefractionFrameBuffer();
-		renderer.RenderScene(entities, terrains, lamps, camera, m_deltaTime, glm::vec4(0, -1, 0, waters.at(0).GetHeight() + 0.2f));
+		renderer.RenderScene(entities, normalMapEntities, terrains, lamps, camera, m_deltaTime, glm::vec4(0, -1, 0, waters.at(0).GetHeight() + 0.2f));
 
 		// Render screen
 		glDisable(GL_CLIP_DISTANCE0);
 		fbos.UnbindCurrentFrameBuffer();
 		renderer.ConstructEntity(player);
-		renderer.RenderScene(entities, terrains, lamps, camera, m_deltaTime, glm::vec4(0, -1, 0, 15.0f));
+		renderer.RenderScene(entities, normalMapEntities, terrains, lamps, camera, m_deltaTime, glm::vec4(0, -1, 0, 15.0f));
 		waterRenderer.Render(waters, camera, lamps.at(0), m_deltaTime);
 		guiRenderer.Render(guis);
 		frames++;

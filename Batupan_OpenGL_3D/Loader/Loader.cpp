@@ -67,6 +67,47 @@ BaseModel Loader::LoadToVAOSkybox(std::vector<glm::vec3> vertices, int dimension
 	return BaseModel(vaoID, vertices.size());
 }
 
+BaseModel Loader::LoadToVAONormalMap(std::vector<float>& positions, std::vector<float>& textureCoords, std::vector<float>& normals, std::vector<float>& tangents, std::vector<int>& indices)
+{
+	GLuint vaoID = CreateVAOID();
+	// Send indices data to the GPU
+	int indicesSize = indices.size();
+	LoadIndicesToGPU(indices.data(), indicesSize);
+	StoreDataInAttributeList(0, 3, positions);
+	StoreDataInAttributeList(1, 2, textureCoords);
+	StoreDataInAttributeList(2, 3, normals);
+	StoreDataInAttributeList(3, 3, tangents);
+	UnbindVAO();
+	return BaseModel(vaoID, indices.size());
+}
+
+BaseModel Loader::LoadToVAONormal(std::vector<glm::vec3>& vertices, std::vector<glm::vec2>& uv, std::vector<glm::vec3>& norm, std::vector<glm::vec3>& tan, std::vector<int>& indices)
+{
+	// Create the vertex array object's id
+	GLuint vaoID = CreateVAOID();
+
+	// Send indices data to the GPU
+	int indicesSize = indices.size();
+	LoadIndicesToGPU(indices.data(), indicesSize);
+
+	// Load positions data to the attribute list 0
+	LoadDataToAttributeList(0, 3, vertices.data(), sizeof(glm::vec3) * vertices.size());
+
+	// Load the texture coordinates data to the attribute list 1
+	LoadDataToAttributeList(1, 2, uv.data(), sizeof(glm::vec2) * uv.size());
+
+	// Load the normals data to the attribute list 2
+	LoadDataToAttributeList(2, 3, norm.data(), sizeof(glm::vec3) * norm.size());
+
+	LoadDataToAttributeList(3, 3, tan.data(), sizeof(glm::vec3) * tan.size());
+
+	// Unbind the vertex array object
+	UnbindVAO();
+
+	// Return the raw model
+	return BaseModel(vaoID, indicesSize);
+}
+
 GLuint Loader::LoadTexture2D(const std::string& fileName)
 {
 	GLuint texture;
@@ -164,6 +205,17 @@ void Loader::LoadDataToAttributeList(const int& attribNumber, const int& attribS
 	glVertexAttribPointer(attribNumber, attribSize, GL_FLOAT, GL_FALSE, 0, nullptr);
 
 	// Unbind the VBO
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+void Loader::StoreDataInAttributeList(int attributeNumber, int coordinateSize, std::vector<float>& data)
+{
+	GLuint vboID = 0;
+	glGenBuffers(1, &vboID);
+	m_vbos.push_back(vboID);
+	glBindBuffer(GL_ARRAY_BUFFER, vboID);
+	glBufferData(GL_ARRAY_BUFFER, data.size() * sizeof(float), data.data(), GL_STATIC_DRAW);
+	glVertexAttribPointer(attributeNumber, coordinateSize, GL_FLOAT, GL_FALSE, 0, 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 

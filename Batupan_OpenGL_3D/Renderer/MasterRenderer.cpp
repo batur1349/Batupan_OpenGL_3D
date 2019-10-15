@@ -13,7 +13,7 @@ bool MasterRenderer::m_projectionMatrix_Changed = false;
 
 MasterRenderer::MasterRenderer(Loader& loader)
 	: m_entityRenderer(m_entityShader, CreateProjectionMatrix()), m_terrainRenderer(m_terrainShader, CreateProjectionMatrix())
-	, m_skyboxRenderer(loader, CreateProjectionMatrix())
+	, m_skyboxRenderer(loader, CreateProjectionMatrix()), m_normalMapRenderer(CreateProjectionMatrix())
 {
 	EnableCulling();
 	glEnable(GL_DEPTH_TEST);
@@ -88,6 +88,17 @@ inline const void MasterRenderer::ConstructEntity(Entity& entity)
 	m_entities.find(texturedModel)->second.push_back(entity);
 }
 
+inline const void MasterRenderer::ConstructNormalMappedEntity(Entity& entity)
+{
+	// Get the textured model
+	TexturedModel& texturedModel = entity.GetTexturedModel();
+	// If the texturedmodel is in the map this will do nothing
+	// If it is not in the map it will insert it
+	m_normalMapEntities.insert(std::make_pair(texturedModel, std::vector<Entity>()));
+	// Add the entity to the entities list
+	m_normalMapEntities.find(texturedModel)->second.push_back(entity);
+}
+
 const void MasterRenderer::RenderLamps(std::vector<Lamp>& lamps, Camera& camera)
 {
 	std::vector<Light> lights;
@@ -137,12 +148,17 @@ const void MasterRenderer::RenderLamps(std::vector<Lamp>& lamps, Camera& camera)
 	m_entities.clear();
 }
 
-const void MasterRenderer::RenderScene(const std::vector<Entity>& entities, const std::vector<Terrain>& terrains,
+const void MasterRenderer::RenderScene(const std::vector<Entity>& entities, const std::vector<Entity>& normalEntities, const std::vector<Terrain>& terrains,
 	const std::vector<Lamp>& lamps, Camera& camera, const float& dt, const glm::vec4& clipPlane)
 {
 	for (auto entity : entities)
 	{
 		ConstructEntity(entity);
+	}
+
+	for (auto entity : normalEntities)
+	{
+		ConstructNormalMappedEntity(entity);
 	}
 
 	for (auto terrain : terrains)
@@ -176,6 +192,8 @@ const void MasterRenderer::RenderScene(const std::vector<Entity>& entities, cons
 	m_entityRenderer.RenderEntities(m_entities, m_frustum);
 	// Deactivate shader and clear entities
 	m_entityShader.Stop();
+	// Normal mapped entities draw
+	m_normalMapRenderer.RenderEntities(m_normalMapEntities, clipPlane, lamps, camera);
 	// Start the terrain shader
 	m_terrainShader.Start();
 	// Load the clip plane
@@ -201,6 +219,7 @@ const void MasterRenderer::RenderScene(const std::vector<Entity>& entities, cons
 	m_terrains.clear();
 	// Clear the entities batch, for the memory management
 	m_entities.clear();
+	m_normalMapEntities.clear();
 }
 
 const glm::mat4& MasterRenderer::CreateProjectionMatrix()

@@ -120,6 +120,18 @@
     <ClCompile Include="Water\WaterFrameBuffers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Shader\NormalMappingShader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\NormalMappingRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Loader\Vertex.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Loader\NormalMappedOBJLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -227,6 +239,18 @@
     <ClInclude Include="Water\WaterFrameBuffers.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Renderer\NormalMappingRenderer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader\NormalMappingShader.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Loader\NormalMappedOBJLoader.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Loader\Vertex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\basicShader.vert" />
@@ -239,5 +263,7 @@
     <None Include="Skybox\skyboxShader.vert" />
     <None Include="Water\waterShader.frag" />
     <None Include="Water\waterShader.vert" />
+    <None Include="Shader\normalMappingShader.frag" />
+    <None Include="Shader\normalMappingShader.vert" />
   </ItemGroup>
 </Project>
