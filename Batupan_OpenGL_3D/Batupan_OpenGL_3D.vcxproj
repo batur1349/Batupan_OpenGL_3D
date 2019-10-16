@@ -414,6 +414,8 @@
     <None Include="Gui\guiShader.vert" />
     <None Include="Shader\basicShader.frag" />
     <None Include="Shader\basicShader.vert" />
+    <None Include="Shader\fontShader.frag" />
+    <None Include="Shader\fontShader.vert" />
     <None Include="Shader\normalMappingShader.frag" />
     <None Include="Shader\normalMappingShader.vert" />
     <None Include="Shader\terrainShader.frag" />

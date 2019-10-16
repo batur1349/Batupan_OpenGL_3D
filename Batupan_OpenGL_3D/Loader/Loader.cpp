@@ -66,6 +66,53 @@ GLuint Loader::LoadToVAOText(const std::vector<GLfloat> vertices, const std::vec
 	return vaoid;
 }
 
+GLuint Loader::LoadFontTextureAtlas(std::string fileName)
+{
+	GLuint texture;
+	int width, height;
+	glGenTextures(1, &texture);
+
+	// Load image data
+	unsigned char* image;
+	image = SOIL_load_image(("../Fonts/" + fileName + ".png").c_str(), &width, &height, 0, SOIL_LOAD_RGBA);
+
+	if (image == NULL)
+	{
+		std::cout << "Couldn't load the texture named " << fileName << "\n";
+		exit(-1);
+	}
+
+	// Bind the texture data
+	glBindTexture(GL_TEXTURE_2D, texture);
+
+	// Texture the loaded 2D image data
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
+
+	// Add the image to the textures container
+	m_textures.push_back(texture);
+
+	// Clean-up the image data
+	SOIL_free_image_data(image);
+
+	// Generate the mipmap texture
+	glGenerateMipmap(GL_TEXTURE_2D);
+
+	// Texture parameters
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+	// If value is became lower than quality will be high
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, 0.0f);
+
+	// Unbind the texture
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	// Return the texture id
+	return texture;
+}
+
 BaseModel Loader::LoadToVAOGui(const std::vector<glm::vec2>& vertices)
 {
 	GLuint vaoid = CreateVAOID();

@@ -7,6 +7,7 @@
 #include "../Water/WaterRenderer.hpp"
 #include "../Water/WaterFrameBuffers.hpp"
 #include "../Loader/NormalMappedOBJLoader.hpp"
+#include "../FontMeshCreator/TextMaster.hpp"
 
 Engine::Engine()
 {
@@ -47,6 +48,8 @@ Engine::~Engine()
 	// Delete the window 
 	delete m_window;
 
+	m_textMaster.CleanUp();
+
 	// Cleanup the GLFW stuff
 	glfwTerminate();
 }
@@ -55,6 +58,22 @@ void Engine::Run()
 {
 	std::cout << "Engine::Run() loop is now running!" << "\n";
 	Loader loader;
+	m_textMaster.Init(&loader);
+
+	std::string sampleText =
+		"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod "
+		"tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, "
+		"quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo "
+		"consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse "
+		"cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non "
+		"proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+
+	std::string fontFile = "../Fonts/TimesNewRoman.fnt";
+	FontType font(loader.LoadFontTextureAtlas("TimesNewRoman"), fontFile);
+
+	GUIText text(sampleText, 2.8, &font, glm::vec2(0.0f, 0.0f), 0.5f, false);
+	text.SetColor(1.0f, 0.0f, 0.0f);
+
 
 	// TERRAIN TEXTURE //
 	TerrainTexture bgTexture(loader.LoadTexture2D("grassTerrain"));
@@ -215,6 +234,7 @@ void Engine::Run()
 		renderer.RenderScene(entities, normalMapEntities, terrains, lamps, camera, m_deltaTime, glm::vec4(0, -1, 0, 15.0f));
 		waterRenderer.Render(waters, camera, lamps.at(0), m_deltaTime);
 		guiRenderer.Render(guis);
+		m_textMaster.Render();
 		frames++;
 
 		// Update the window

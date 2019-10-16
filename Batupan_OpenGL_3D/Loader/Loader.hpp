@@ -12,6 +12,7 @@ public:
 
 	BaseModel LoadToVAO(const std::vector<glm::vec3>& vertices, const std::vector<glm::vec2>& uvs, const std::vector<glm::vec3>& normals, const std::vector<int>& indices);
 	GLuint LoadToVAOText(const std::vector<GLfloat> vertices, const std::vector<GLfloat> textures);
+	GLuint LoadFontTextureAtlas(std::string fileName);
 	BaseModel LoadToVAOGui(const std::vector<glm::vec2>& vertices);
 	BaseModel LoadToVAOSkybox(std::vector<glm::vec3> vertices, int dimension);
 	BaseModel LoadToVAONormalMap(std::vector<float>& positions, std::vector<float>& textureCoords, std::vector<float>& normals, std::vector<float>& tangents, std::vector<int>& indices);
