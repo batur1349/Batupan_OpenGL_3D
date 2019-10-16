@@ -46,6 +46,26 @@ BaseModel Loader::LoadToVAO(const std::vector<glm::vec3>& vertices, const std::v
 	return BaseModel(vaoID, indicesSize);
 }
 
+GLuint Loader::LoadToVAOText(const std::vector<GLfloat> vertices, const std::vector<GLfloat> textures)
+{
+	std::vector<glm::vec2> vertex, texture;
+	for (int i = 0; i < vertices.size(); i += 2)
+	{
+		vertex.push_back(glm::vec2(vertices.at(i), vertices.at(i + 1)));
+	}
+	for (int i = 0; i < textures.size(); i += 2)
+	{
+		texture.push_back(glm::vec2(textures.at(i), textures.at(i + 1)));
+	}
+
+	GLuint vaoid = CreateVAOID();
+	LoadDataToAttributeList(0, 2, vertex.data(), sizeof(glm::vec2) * vertex.size());
+	LoadDataToAttributeList(1, 2, texture.data(), sizeof(glm::vec2) * texture.size());
+	UnbindVAO();
+
+	return vaoid;
+}
+
 BaseModel Loader::LoadToVAOGui(const std::vector<glm::vec2>& vertices)
 {
 	GLuint vaoid = CreateVAOID();

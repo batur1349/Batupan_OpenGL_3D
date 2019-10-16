@@ -160,7 +160,7 @@ void Engine::Run()
 	barrelModel.SetShineDamper(10);
 	barrelModel.SetReflectivity(1.0f);
 	barrelModel.SetNormalMap(loader.LoadTexture2D("barrelNormal"));
-	normalMapEntities.emplace_back(barrelModel, glm::vec3(247.0f, 15.0f, 259.0f), glm::vec3(0), glm::vec3(1));
+	normalMapEntities.emplace_back(barrelModel, glm::vec3(247.0f, 10.0f, 259.0f), glm::vec3(0), glm::vec3(1));
 	normalMapEntities.at(0).SetScale(glm::vec3(0.3f));
 
 	m_lastFrame = glfwGetTime();
