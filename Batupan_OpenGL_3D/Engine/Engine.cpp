@@ -61,18 +61,14 @@ void Engine::Run()
 	m_textMaster.Init(&loader);
 
 	std::string sampleText =
-		"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod "
-		"tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, "
-		"quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo "
-		"consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse "
-		"cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non "
-		"proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+		"BaturPan Studios "
+		"Deneme Yazisi";
 
-	std::string fontFile = "../Fonts/TimesNewRoman.fnt";
-	FontType font(loader.LoadFontTextureAtlas("TimesNewRoman"), fontFile);
+	std::string fontFile = "../Fonts/candara.fnt";
+	FontType font(loader.LoadFontTextureAtlas("candara"), fontFile);
 
-	GUIText text(sampleText, 2.8, &font, glm::vec2(0.0f, 0.0f), 0.5f, false);
-	text.SetColor(1.0f, 0.0f, 0.0f);
+	GUIText text(sampleText, 3.0f, &font, glm::vec2(0.35f, 0.4f), 0.3f, true);
+	text.SetColor(0.1f, 0.1f, 0.1f);
 
 
 	// TERRAIN TEXTURE //

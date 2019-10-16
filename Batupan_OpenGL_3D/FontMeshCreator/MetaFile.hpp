@@ -26,7 +26,7 @@ private:
 	static constexpr int PAD_BOTTOM = 2;
 	static constexpr int PAD_RIGHT = 3;
 
-	static constexpr int DESIRED_PADDING = 3;
+	static constexpr int DESIRED_PADDING = 8;
 
 	std::string SPLITTER = " ";
 	std::string NUMBER_SEPARATOR = ",";
